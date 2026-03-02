@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\TestCategoryController;
 use App\Http\Controllers\TestGroupController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\LabOrderController;
+use App\Http\Controllers\LabSampleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,6 +53,25 @@ Route::middleware(['auth', 'role:Admin,Receptionist'])
     ->group(function () {
 
         Route::resource('patients', PatientController::class);
+        Route::resource('lab-orders', LabOrderController::class);
+
+      
+
+// Sample management per order
+Route::get('/lab-orders/{labOrder}/samples', [LabSampleController::class, 'index'])
+    ->name('lab-orders.samples.index');
+
+Route::get('/lab-orders/{labOrder}/samples/generate', [LabSampleController::class, 'create'])
+    ->name('lab-orders.samples.create');
+
+Route::post('/lab-orders/{labOrder}/samples/generate', [LabSampleController::class, 'store'])
+    ->name('lab-orders.samples.store');
+
+// Print label per sample
+Route::get('/lab-samples/{labSample}/label', [LabSampleController::class, 'label'])
+    ->name('lab-samples.label');
+
+        
     });
 
 require __DIR__ . '/auth.php';

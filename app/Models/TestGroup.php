@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\Test;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,4 +13,11 @@ class TestGroup extends Model
     {
         return $this->belongsTo(TestCategory::class, 'category_id');
     }
+
+    public function tests()
+    {
+        return $this->belongsToMany(Test::class, 'test_group_tests')->withTimestamps();
+    }
+
+    
 }

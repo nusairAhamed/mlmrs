@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\TestGroup;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Test extends Model
@@ -13,4 +15,9 @@ class Test extends Model
         //return $this->hasMany(TestReferenceRange::class);
         return $this->hasMany(\App\Models\TestReferenceRange::class, 'test_id');
     }
+
+    public function testGroups()
+{
+    return $this->belongsToMany(TestGroup::class, 'test_group_tests')->withTimestamps();
+}
 }

@@ -37,6 +37,10 @@
                         :active="request()->routeIs('tests*')">
                         {{ __('Tests') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('lab-orders.index')" 
+                        :active="request()->routeIs('tests*')">
+                        {{ __('Lab Order') }}
+                    </x-nav-link>
                     
                 </div>
             </div>

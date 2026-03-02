@@ -14,7 +14,17 @@
             </a>
         </div>
 
-           
+        @if(session('success'))
+            <div class="mb-4 p-3 rounded bg-green-100 text-green-800">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="mb-4 p-3 rounded bg-red-100 text-red-800">
+                {{ session('error') }}
+            </div>
+        @endif
 
         {{-- Filter --}}
         @include('pages.test_groups.partials.filter')
@@ -80,7 +90,6 @@
                     { data: 'name', name: 'name', title: 'Name' },
                     { data: 'category_name', name: 'category.name', title: 'Category' },
                     { data: 'price', name: 'price', title: 'Price' },
-                    { data: 'tests_info', name: 'Count', orderable: false, searchable: false, title: 'Test Count' },
                     { data: 'status_badge', name: 'status', orderable: false, searchable: false, title: 'Status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, title: 'Actions' },
                 ],
