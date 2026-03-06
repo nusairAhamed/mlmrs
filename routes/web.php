@@ -9,6 +9,8 @@ use App\Http\Controllers\TestGroupController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\LabOrderController;
 use App\Http\Controllers\LabSampleController;
+use App\Http\Controllers\LabResultController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+ Route::resource('users', UserController::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +46,8 @@ Route::middleware(['auth', 'role:Admin'])
         Route::resource('test-groups', TestGroupController::class);
         Route::resource('tests', TestController::class);
 
+      
+
     });
 
 /*
@@ -49,7 +55,7 @@ Route::middleware(['auth', 'role:Admin'])
 | PATIENTS → Admin + Receptionist
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'role:Admin,Receptionist'])
+Route::middleware(['auth', 'role:Admin|Receptionist'])
     ->group(function () {
 
         Route::resource('patients', PatientController::class);
@@ -67,11 +73,31 @@ Route::get('/lab-orders/{labOrder}/samples/generate', [LabSampleController::clas
 Route::post('/lab-orders/{labOrder}/samples/generate', [LabSampleController::class, 'store'])
     ->name('lab-orders.samples.store');
 
-// Print label per sample
+// Print label per sample 
 Route::get('/lab-samples/{labSample}/label', [LabSampleController::class, 'label'])
     ->name('lab-samples.label');
 
         
     });
+
+
+
+  
+
+Route::middleware(['auth', 'role:Admin|Technician'])->group(function () {
+
+    // Results screen for an order
+    Route::get('/lab-orders/{labOrder}/results', [LabResultController::class, 'index'])
+        ->name('lab-orders.results.index');
+
+    // Save/update a single test result
+    Route::patch('/lab-order-tests/{labOrderTest}/result', [LabResultController::class, 'updateResult'])
+        ->name('lab-order-tests.result.update');
+
+    // Verify a single test result
+    Route::patch('/lab-order-tests/{labOrderTest}/verify', [LabResultController::class, 'verify'])
+        ->name('lab-order-tests.verify');
+
+});
 
 require __DIR__ . '/auth.php';

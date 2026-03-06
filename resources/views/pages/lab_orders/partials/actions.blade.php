@@ -26,4 +26,9 @@
             </button>
         </form>
     @endif
+
+    <a href="{{ route('lab-orders.results.index', $order) }}"
+   class="rounded-lg px-3 py-1.5 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200 hover:bg-emerald-50">
+    Results
+</a>
 </div>

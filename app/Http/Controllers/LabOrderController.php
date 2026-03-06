@@ -7,6 +7,8 @@ use App\Models\LabOrderGroup;
 use App\Models\LabOrderTest;
 use App\Models\Patient;
 use App\Models\TestGroup;
+use App\Models\TestReferenceRange;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -15,6 +17,54 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LabOrderController extends Controller
 {
+    /**
+     * Calculate patient age in years (nullable if DOB missing/invalid).
+     */
+    private function patientAge(Patient $patient): ?int
+    {
+        if (empty($patient->dob)) {
+            return null;
+        }
+
+        try {
+            return Carbon::parse($patient->dob)->age;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Resolve the best reference range for a test based on patient gender + age.
+     * Assumes gender values in DB are 'male'/'female'/'any' (case-insensitive).
+     */
+    private function resolveReferenceRange(int $testId, ?string $gender, ?int $age): ?TestReferenceRange
+    {
+        $gender = strtolower(trim((string) $gender));
+        $gender = in_array($gender, ['male', 'female'], true) ? $gender : 'any';
+
+        $q = TestReferenceRange::query()
+            ->where('test_id', $testId)
+            ->where(function ($x) use ($gender) {
+                $x->where('gender', $gender)->orWhere('gender', 'any');
+            });
+
+        if (!is_null($age)) {
+            $q->where(function ($x) use ($age) {
+                $x->whereNull('age_min')->orWhere('age_min', '<=', $age);
+            })->where(function ($x) use ($age) {
+                $x->whereNull('age_max')->orWhere('age_max', '>=', $age);
+            });
+        } else {
+            // age unknown -> prefer generic rows without age band
+            $q->whereNull('age_min')->whereNull('age_max');
+        }
+
+        return $q->orderByRaw("CASE WHEN gender = ? THEN 0 ELSE 1 END", [$gender]) // exact gender first
+            ->orderByRaw("(COALESCE(age_max, 999) - COALESCE(age_min, 0)) ASC")     // narrower band first
+            ->orderByDesc('id')                                                     // latest wins
+            ->first();
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -52,7 +102,7 @@ class LabOrderController extends Controller
         $patients = Patient::orderBy('full_name')->get(['id', 'full_name', 'patient_code']);
 
         $groups = TestGroup::withCount('tests')
-            ->with(['tests:id,name']) // many-to-many ok
+            ->with(['tests:id,name'])
             ->where('status', 'active')
             ->orderBy('name')
             ->get(['id', 'name', 'price', 'status']);
@@ -85,6 +135,10 @@ class LabOrderController extends Controller
                 'notes' => $data['notes'] ?? null,
             ]);
 
+            $patient = Patient::findOrFail($data['patient_id']);
+            $age = $this->patientAge($patient);
+            $gender = $patient->gender ?? 'any';
+
             // load selected groups + tests
             $groups = TestGroup::with(['tests:id,name,unit'])
                 ->whereIn('id', $data['group_ids'])
@@ -92,8 +146,6 @@ class LabOrderController extends Controller
                 ->get(['id', 'name', 'price']);
 
             $total = 0;
-
-            // overlap handling: skip duplicate tests across groups (first group wins)
             $insertedTestIds = [];
 
             foreach ($groups as $group) {
@@ -110,6 +162,8 @@ class LabOrderController extends Controller
                         continue;
                     }
 
+                    $range = $this->resolveReferenceRange($test->id, $gender, $age);
+
                     LabOrderTest::create([
                         'lab_order_id' => $order->id,
                         'lab_order_group_id' => $orderGroup->id,
@@ -119,16 +173,14 @@ class LabOrderController extends Controller
                         'test_name' => $test->name,
                         'unit' => $test->unit,
 
-                        // range snapshot (fill later)
-                        'test_reference_range_id' => null,
-                        'ref_min' => null,
-                        'ref_max' => null,
+                        // ✅ snapshot range NOW (so abnormal works)
+                        'test_reference_range_id' => $range?->id,
+                        'ref_min' => $range?->ref_min,
+                        'ref_max' => $range?->ref_max,
 
-                        // workflow per test
                         'status' => 'pending',
                         'is_abnormal' => false,
 
-                        // results empty until entry/verification
                         'result_value' => null,
                         'entered_by' => null,
                         'entered_at' => null,
@@ -142,9 +194,6 @@ class LabOrderController extends Controller
 
             $order->update(['total_amount' => $total]);
 
-            // ✅ IMPORTANT: NO lab_samples creation here.
-            // Lab technician will generate samples later.
-
             return redirect()
                 ->route('lab-orders.index')
                 ->with('success', 'Lab Order created successfully.');
@@ -157,7 +206,7 @@ class LabOrderController extends Controller
             'patient',
             'groups.testGroup',
             'tests',
-            'samples', // safe: just display if generated
+            'samples',
         ]);
 
         return view('pages.lab_orders.show', compact('labOrder'));
@@ -171,7 +220,6 @@ class LabOrderController extends Controller
                 ->with('error', 'Only pending orders can be edited.');
         }
 
-        // block panel edits if any result already entered/verified
         $hasAnyProgress = $labOrder->tests()
             ->whereNotNull('result_value')
             ->orWhereNotNull('entered_at')
@@ -217,7 +265,6 @@ class LabOrderController extends Controller
             'status' => ['required', Rule::in(['pending', 'in_progress', 'completed', 'approved'])],
         ];
 
-        // allow panel changes only if no results were entered
         if (!$hasAnyProgress) {
             $rules['group_ids'] = ['required', 'array', 'min:1'];
             $rules['group_ids.*'] = ['integer', 'exists:test_groups,id'];
@@ -229,13 +276,12 @@ class LabOrderController extends Controller
 
             if (!$hasAnyProgress && isset($data['group_ids'])) {
 
-                // delete existing panels/tests
                 $labOrder->tests()->delete();
                 $labOrder->groups()->delete();
 
-                // 🔒 DO NOT delete samples automatically.
-                // If samples already exist, keep them (technician owns them).
-                // If you want to block panel changes once samples exist, add a guard in edit/update.
+                $patient = Patient::findOrFail($data['patient_id']);
+                $age = $this->patientAge($patient);
+                $gender = $patient->gender ?? 'any';
 
                 $groups = TestGroup::with(['tests:id,name,unit'])
                     ->whereIn('id', $data['group_ids'])
@@ -257,6 +303,8 @@ class LabOrderController extends Controller
                     foreach ($group->tests as $test) {
                         if (isset($insertedTestIds[$test->id])) continue;
 
+                        $range = $this->resolveReferenceRange($test->id, $gender, $age);
+
                         LabOrderTest::create([
                             'lab_order_id' => $labOrder->id,
                             'lab_order_group_id' => $orderGroup->id,
@@ -265,9 +313,10 @@ class LabOrderController extends Controller
                             'test_name' => $test->name,
                             'unit' => $test->unit,
 
-                            'test_reference_range_id' => null,
-                            'ref_min' => null,
-                            'ref_max' => null,
+                            // ✅ snapshot range NOW
+                            'test_reference_range_id' => $range?->id,
+                            'ref_min' => $range?->ref_min,
+                            'ref_max' => $range?->ref_max,
 
                             'status' => 'pending',
                             'is_abnormal' => false,
@@ -286,7 +335,6 @@ class LabOrderController extends Controller
                 $labOrder->update(['total_amount' => $total]);
             }
 
-            // always update patient/notes/status
             $labOrder->update([
                 'patient_id' => $data['patient_id'],
                 'notes' => $data['notes'] ?? null,
@@ -306,11 +354,6 @@ class LabOrderController extends Controller
                 ->route('lab-orders.index')
                 ->with('error', 'Only pending orders can be deleted.');
         }
-
-        // optional: also delete child rows if FK cascade not set
-        // $labOrder->tests()->delete();
-        // $labOrder->groups()->delete();
-        // $labOrder->samples()->delete();
 
         $labOrder->delete();
 
