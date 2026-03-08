@@ -56,4 +56,12 @@ class LabOrder extends Model
     {
         return $this->hasMany(\App\Models\LabSample::class);
     }
+    public function qrToken()
+    {
+        return $this->hasOne(QrToken::class);
+    }
+    public function notifications()
+{
+    return $this->hasMany(Notification::class);
+}
 }

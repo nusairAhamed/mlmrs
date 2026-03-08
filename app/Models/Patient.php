@@ -43,4 +43,9 @@ class Patient extends Model
             $patient->patient_code = sprintf('PAT-%s-%05d', $year, $nextNumber);
         });
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

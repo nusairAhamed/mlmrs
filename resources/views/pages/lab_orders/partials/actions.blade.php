@@ -31,4 +31,16 @@
    class="rounded-lg px-3 py-1.5 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200 hover:bg-emerald-50">
     Results
 </a>
+
+@if($order->status === 'approved')
+    <a href="{{ route('lab-reports.show', $order) }}"
+       class="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+        View Report
+    </a>
+@endif
+
+<a href="{{ route('lab-reports.pdf', $order) }}"
+   class="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+    Download PDF
+</a>
 </div>
