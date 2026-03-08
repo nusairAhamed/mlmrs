@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\Notification;
+
+ use App\Models\QrToken;
+
+ use Illuminate\Support\Facades\Mail;
+use App\Mail\ReportReadyMail;
+
 
 class LabOrderController extends Controller
 {
@@ -205,8 +212,11 @@ class LabOrderController extends Controller
         $labOrder->load([
             'patient',
             'groups.testGroup',
-            'tests',
+            'groups.tests.test',
+            'tests.test',
             'samples',
+            'approver',
+            'qrToken',
         ]);
 
         return view('pages.lab_orders.show', compact('labOrder'));
@@ -361,4 +371,109 @@ class LabOrderController extends Controller
             ->route('lab-orders.index')
             ->with('success', 'Lab Order deleted successfully.');
     }
-}
+
+    public function approve(LabOrder $labOrder)
+    {
+        $labOrder->load(['tests', 'patient', 'qrToken']);
+
+        if ($labOrder->status === 'approved') {
+            return redirect()
+                ->route('lab-orders.show', $labOrder)
+                ->with('error', 'This report is already approved.');
+        }
+
+        $hasTests = $labOrder->tests->isNotEmpty();
+        $allVerified = $hasTests && $labOrder->tests->every(fn ($t) => $t->status === 'verified');
+
+        if (!$allVerified || $labOrder->status !== 'completed') {
+            return redirect()
+                ->route('lab-orders.show', $labOrder)
+                ->with('error', 'Only completed orders with all tests verified can be approved.');
+        }
+
+        $labOrder->update([
+            'status' => 'approved',
+            'approved_by' => auth()->id(),
+            'approved_at' => now(),
+        ]);
+
+        $this->ensureQrToken($labOrder);
+
+        $labOrder->load(['qrToken', 'patient']);
+
+        $this->queuePatientNotifications($labOrder);
+
+        return redirect()
+            ->route('lab-orders.show', $labOrder)
+            ->with('success', 'Report approved successfully and notifications were queued.');
+    }
+
+    private function ensureQrToken(LabOrder $labOrder): void
+    {
+        if (!$labOrder->qrToken) {
+            \App\Models\QrToken::create([
+                'lab_order_id' => $labOrder->id,
+                'token' => \Illuminate\Support\Str::random(64),
+                'is_active' => true,
+                'expires_at' => null,
+            ]);
+        }
+    }
+
+    private function queuePatientNotifications(LabOrder $labOrder): void
+    {
+        $patient = $labOrder->patient;
+
+        if (!$patient) {
+            return;
+        }
+
+        $publicUrl = $labOrder->qrToken
+            ? route('public-reports.show', $labOrder->qrToken->token)
+            : null;
+
+        $message = "Your laboratory report (Order {$labOrder->order_number}) is ready. "
+            . ($publicUrl ? "Access it here: {$publicUrl}" : "Please collect it from the laboratory.");
+
+        if (!empty($patient->phone)) {
+            Notification::create([
+                'patient_id' => $patient->id,
+                'lab_order_id' => $labOrder->id,
+                'channel' => 'sms',
+                'status' => 'pending',
+                'message' => $message,
+            ]);
+        }
+
+        if (!empty($patient->email)) {
+            $emailNotification = Notification::create([
+                'patient_id' => $patient->id,
+                'lab_order_id' => $labOrder->id,
+                'channel' => 'email',
+                'status' => 'pending',
+                'message' => $message,
+            ]);
+
+            try {
+                Mail::to($patient->email)->send(
+                    new ReportReadyMail(
+                        $patient,
+                        $labOrder->order_number,
+                        $publicUrl
+                    )
+                );
+
+                $emailNotification->update([
+                    'status' => 'sent',
+                    'sent_at' => now(),
+                    'provider_response' => 'Email sent successfully',
+                ]);
+            } catch (\Exception $e) {
+                $emailNotification->update([
+                    'status' => 'failed',
+                    'provider_response' => $e->getMessage(),
+                ]);
+            }
+        }
+    }
+    }
