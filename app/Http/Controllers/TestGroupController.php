@@ -83,6 +83,13 @@ class TestGroupController extends Controller
             ->with('success', 'Test group created successfully.');
     }
 
+    public function show(TestGroup $testGroup)
+    {
+        $testGroup->load(['category', 'tests' => fn($q) => $q->orderBy('name')]);
+
+        return view('pages.test_groups.show', compact('testGroup'));
+    }
+
     public function edit(TestGroup $testGroup)
     {
         $testGroup->load('tests:id'); // ✅ added

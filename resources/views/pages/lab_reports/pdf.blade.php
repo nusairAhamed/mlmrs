@@ -401,7 +401,7 @@
                                 <div class="report-meta">
                                     <strong>Report No:</strong> {{ $labOrder->order_number }}<br>
                                     <strong>Issued At:</strong>
-                                    {{ $labOrder->approved_at ? $labOrder->approved_at->format('Y-m-d h:i A') : '-' }}<br>
+                                    {{ $labOrder->approved_at ? $labOrder->approved_at->format('d M Y, h:i A') : '-' }}<br>
                                     <strong>Status:</strong> Approved
                                 </div>
                             </td>
@@ -523,7 +523,7 @@
                             <div class="approved-name">{{ $labOrder->approver?->name ?? '-' }}</div>
                             <div class="approved-role">Approved By</div>
                             <div class="approved-date">
-                                {{ $labOrder->approved_at ? $labOrder->approved_at->format('Y-m-d h:i A') : '-' }}
+                                {{ $labOrder->approved_at ? $labOrder->approved_at->format('d M Y, h:i A') : '-' }}
                             </div>
                         </div>
                     </div>
@@ -532,7 +532,7 @@
         </table>
 
         <div class="page-footer">
-            Generated on {{ now()->format('Y-m-d h:i A') }}
+            Generated on {{ now()->format('d M Y, h:i A') }}
         </div>
     </div>
 

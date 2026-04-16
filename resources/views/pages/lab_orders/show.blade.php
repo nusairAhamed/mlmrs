@@ -1,20 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800">Lab Order: {{ $labOrder->order_number }}</h2>
-
-            <div class="flex items-center gap-2">
-                <a href="{{ route('lab-orders.edit', $labOrder) }}"
-                   class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
-                    Edit
-                </a>
-
-                <a href="{{ route('lab-orders.index') }}"
-                   class="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black">
-                    Back
-                </a>
-            </div>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800">Lab Order: {{ $labOrder->order_number }}</h2>
     </x-slot>
 
     @php
@@ -24,7 +10,8 @@
         $abnormalCount = $labOrder->tests->where('is_abnormal', true)->count();
 
         $allVerified = $totalTests > 0 && $verifiedCount === $totalTests;
-        $canApprove = $labOrder->status === 'completed' && $allVerified && is_null($labOrder->approved_at);
+        $canApprove  = in_array($labOrder->status, ['pending_review', 'on_hold']) && $allVerified && is_null($labOrder->approved_at);
+        $canHold     = $labOrder->status === 'pending_review' && $allVerified;
 
         function testStatusBadge($status) {
             return match($status) {
@@ -78,20 +65,66 @@
     <div class="py-6">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
+            {{-- Action buttons --}}
+            <div class="flex items-center justify-end gap-2 mb-4">
+                @if($labOrder->status === 'pending')
+                    <a href="{{ route('lab-orders.edit', $labOrder) }}"
+                       class="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50 transition">
+                        Edit
+                    </a>
+                @endif
+
+                @if(in_array(Auth::user()->role->name ?? '', ['Admin', 'Receptionist']))
+                    <a href="{{ route('lab-orders.samples.index', $labOrder) }}"
+                       class="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50 transition">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15M14.25 3.104c.251.023.501.05.75.082M19.5 7.336A2.25 2.25 0 0121 9.5v9.75A2.25 2.25 0 0118.75 21.5h-13.5A2.25 2.25 0 013 19.25V9.5a2.25 2.25 0 011.5-2.164" />
+                        </svg>
+                        Samples
+                    </a>
+                @endif
+
+                @if($labOrder->status === 'approved')
+                    <a href="{{ route('lab-reports.show', $labOrder) }}"
+                       class="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50 transition">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        View Report
+                    </a>
+                    <a href="{{ route('lab-reports.pdf', $labOrder) }}" target="_blank"
+                       class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                        </svg>
+                        Download PDF
+                    </a>
+                @endif
+
+                <a href="{{ route('lab-orders.index') }}"
+                   class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition">
+                    ← Back
+                </a>
+            </div>
+
             @if(session('success'))
-                <div class="mb-4 rounded-xl bg-green-50 p-4 text-green-700 ring-1 ring-green-200">
+                <div class="mb-4 rounded-lg bg-green-50 p-4 text-green-700 ring-1 ring-green-200">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="mb-4 rounded-xl bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
+                <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
                     {{ session('error') }}
                 </div>
             @endif
 
             {{-- Order Summary --}}
-            <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 mb-6">
+            <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6 mb-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <div class="text-xs text-gray-500">Patient</div>
@@ -131,26 +164,26 @@
             </div>
 
             {{-- Result Summary --}}
-            <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 mb-6">
+            <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6 mb-6">
                 <h3 class="text-sm font-semibold text-gray-900 mb-4">Result Summary</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="rounded-xl border border-gray-200 p-4">
+                    <div class="rounded-lg border border-gray-200 p-4">
                         <div class="text-xs text-gray-500">Total Tests</div>
                         <div class="mt-1 text-lg font-semibold text-gray-900">{{ $totalTests }}</div>
                     </div>
 
-                    <div class="rounded-xl border border-gray-200 p-4">
+                    <div class="rounded-lg border border-gray-200 p-4">
                         <div class="text-xs text-gray-500">Entered</div>
                         <div class="mt-1 text-lg font-semibold text-yellow-600">{{ $enteredCount }}</div>
                     </div>
 
-                    <div class="rounded-xl border border-gray-200 p-4">
+                    <div class="rounded-lg border border-gray-200 p-4">
                         <div class="text-xs text-gray-500">Verified</div>
                         <div class="mt-1 text-lg font-semibold text-green-600">{{ $verifiedCount }}</div>
                     </div>
 
-                    <div class="rounded-xl border border-gray-200 p-4">
+                    <div class="rounded-lg border border-gray-200 p-4">
                         <div class="text-xs text-gray-500">Abnormal Results</div>
                         <div class="mt-1 text-lg font-semibold {{ $abnormalCount > 0 ? 'text-red-600' : 'text-gray-900' }}">
                             {{ $abnormalCount }}
@@ -171,7 +204,7 @@
             </div>
 
             {{-- Approval Section --}}
-            <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 mb-6">
+            <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6 mb-6">
                 <div class="flex items-start justify-between gap-4">
                     <div>
                         <h3 class="text-sm font-semibold text-gray-900">Final Approval</h3>
@@ -188,59 +221,88 @@
                 </div>
 
                 <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="rounded-xl border border-gray-200 p-4">
+                    <div class="rounded-lg border border-gray-200 p-4">
                         <div class="text-xs text-gray-500">Approval Status</div>
                         <div class="mt-1 text-sm font-semibold text-gray-900">
                             {{ $labOrder->approved_at ? 'Approved' : 'Pending Approval' }}
                         </div>
                     </div>
 
-                    <div class="rounded-xl border border-gray-200 p-4">
+                    <div class="rounded-lg border border-gray-200 p-4">
                         <div class="text-xs text-gray-500">Approved By</div>
                         <div class="mt-1 text-sm font-semibold text-gray-900">
                             {{ $labOrder->approver?->name ?? '-' }}
                         </div>
                     </div>
 
-                    <div class="rounded-xl border border-gray-200 p-4">
+                    <div class="rounded-lg border border-gray-200 p-4">
                         <div class="text-xs text-gray-500">Approved At</div>
                         <div class="mt-1 text-sm font-semibold text-gray-900">
-                            {{ $labOrder->approved_at ? $labOrder->approved_at->format('Y-m-d h:i A') : '-' }}
+                            {{ $labOrder->approved_at ? $labOrder->approved_at->format('d M Y, h:i A') : '-' }}
                         </div>
                     </div>
                 </div>
 
                 @if(!$labOrder->approved_at)
-                    <div class="mt-4 flex items-center justify-between rounded-xl border border-dashed border-gray-300 p-4">
-                        <div class="text-sm text-gray-600">
-                            @if($canApprove)
-                                All tests are verified. This report is ready for final approval.
-                            @else
-                                This report cannot be approved yet. Make sure all tests are verified first.
-                            @endif
+                    <div class="mt-4 rounded-lg border border-dashed border-gray-300 p-4">
+
+                        {{-- On Hold notice --}}
+                        @if($labOrder->status === 'on_hold')
+                            <div class="mb-4 rounded-lg bg-purple-50 p-3 text-sm text-purple-700 ring-1 ring-purple-200">
+                                This report is on hold. The patient has <strong>not</strong> been notified. Release it when ready to deliver results in person or send notification.
+                            </div>
+                        @endif
+
+                        <div class="flex items-center justify-between gap-3 flex-wrap">
+                            <div class="text-sm text-gray-600">
+                                @if($labOrder->status === 'on_hold')
+                                    Report is on hold — approve to release and notify the patient.
+                                @elseif($canApprove)
+                                    All tests are verified. This report is ready for final approval.
+                                @else
+                                    All tests must be verified before approving or holding the report.
+                                @endif
+                            </div>
+
+                            <div class="flex items-center gap-2">
+
+                                {{-- Hold button — only from pending_review --}}
+                                @if($canHold)
+                                    <form method="POST" action="{{ route('lab-orders.hold', $labOrder) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                                onclick="return confirm('Place this report on hold? The patient will NOT be notified. Use this for sensitive results requiring in-person counselling.')"
+                                                class="rounded-lg bg-purple-600 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-700">
+                                            Hold Report
+                                        </button>
+                                    </form>
+                                @endif
+
+                                {{-- Approve button --}}
+                                <form method="POST" action="{{ route('lab-orders.approve', $labOrder) }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit"
+                                            class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:pointer-events-none disabled:opacity-50"
+                                            @disabled(!$canApprove)>
+                                        {{ $labOrder->status === 'on_hold' ? 'Release & Notify Patient' : 'Approve & Notify Patient' }}
+                                    </button>
+                                </form>
+
+                            </div>
                         </div>
-
-                        <form method="POST" action="{{ route('lab-orders.approve', $labOrder) }}">
-                            @csrf
-                            @method('PATCH')
-
-                            <button type="submit"
-                                    class="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:pointer-events-none disabled:opacity-50"
-                                    @disabled(!$canApprove)>
-                                Approve Report
-                            </button>
-                        </form>
                     </div>
                 @endif
             </div>
 
             {{-- Selected Panels --}}
-            <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 mb-6">
+            <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6 mb-6">
                 <h3 class="text-sm font-semibold text-gray-900 mb-3">Selected Panels</h3>
 
                 <div class="space-y-2">
                     @forelse($labOrder->groups as $g)
-                        <div class="flex items-center justify-between rounded-xl border border-gray-200 p-3">
+                        <div class="flex items-center justify-between rounded-lg border border-gray-200 p-3">
                             <div class="text-sm font-medium text-gray-900">
                                 {{ $g->testGroup?->name ?? 'Panel' }}
                             </div>
@@ -261,7 +323,7 @@
                         $groupAbnormalCount = $group->tests->where('is_abnormal', true)->count();
                     @endphp
 
-                    <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
+                    <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6">
                         <div class="flex items-start justify-between mb-4">
                             <div>
                                 <h3 class="text-sm font-semibold text-gray-900">
@@ -290,7 +352,7 @@
                                         <th class="py-2 pr-4">Status</th>
                                         <th class="py-2 pr-4">Result</th>
                                         <th class="py-2 pr-4">Abnormal</th>
-                                        <th class="py-2 pr-4">Verified At</th>
+                                        <th class="py-2 pr-4">Verified By</th>
                                     </tr>
                                 </thead>
 
@@ -329,8 +391,13 @@
                                                 </span>
                                             </td>
 
-                                            <td class="py-3 pr-4 text-gray-700 whitespace-nowrap">
-                                                {{ $t->verified_at ? $t->verified_at->format('Y-m-d h:i A') : '-' }}
+                                            <td class="py-3 pr-4 whitespace-nowrap">
+                                                @if($t->verifiedBy)
+                                                    <div class="text-sm font-medium text-gray-800">{{ $t->verifiedBy->name }}</div>
+                                                    <div class="text-xs text-gray-400">{{ $t->verified_at?->format('d M Y, h:i A') }}</div>
+                                                @else
+                                                    <span class="text-gray-400">—</span>
+                                                @endif
                                             </td>
                                         </tr>
                                     @empty
@@ -343,7 +410,7 @@
                         </div>
                     </div>
                 @empty
-                    <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
+                    <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6">
                         <div class="text-sm text-gray-500">No grouped tests found.</div>
                     </div>
                 @endforelse

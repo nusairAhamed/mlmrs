@@ -1,17 +1,19 @@
-<div class="flex gap-2">
+<div class="flex items-center gap-2">
     <a href="{{ route('test-categories.edit', $category) }}"
-       class="px-3 py-1 bg-blue-600 text-white rounded">
-        Edit
+       class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-sm hover:bg-indigo-700 transition"
+       title="Edit">
+        <x-heroicon-s-pencil-square class="w-4 h-4" />
     </a>
 
-    <form method="POST"
-          action="{{ route('test-categories.destroy', $category) }}"
+    <form action="{{ route('test-categories.destroy', $category) }}"
+          method="POST"
           onsubmit="return confirm('Delete this category?')">
         @csrf
         @method('DELETE')
         <button type="submit"
-                class="px-3 py-1 bg-red-600 text-white rounded">
-            Delete
+                class="px-3 py-1.5 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition"
+                title="Delete">
+            <x-heroicon-s-trash class="w-4 h-4" />
         </button>
     </form>
 </div>

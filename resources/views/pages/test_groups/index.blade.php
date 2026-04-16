@@ -9,7 +9,7 @@
 
         <div class="flex items-center justify-end mb-6">
             <a href="{{ route('test-groups.create') }}"
-               class="px-4 py-2 bg-black text-white rounded-lg">
+               class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition">
                 + Create Test Group
             </a>
         </div>
@@ -19,8 +19,8 @@
         {{-- Filter --}}
         @include('pages.test_groups.partials.filter')
 
-        <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
-            <div class="p-4 sm:p-6 relative">
+        <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 overflow-hidden">
+            <div class="p-6 relative">
 
                 <table id="test-groups-table" class="min-w-full text-left"></table>
 

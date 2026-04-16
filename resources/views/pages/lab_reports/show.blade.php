@@ -56,12 +56,12 @@
     <div class="max-w-5xl mx-auto">
         <div class="mb-4 flex items-center justify-between print:hidden">
             <a href="{{ route('lab-orders.show', $labOrder) }}"
-               class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
+               class="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
                 Back to Order
             </a>
 
             <button onclick="window.print()"
-                    class="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black">
+                    class="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black">
                 Print Report
             </button>
         </div>
@@ -81,7 +81,7 @@
                         <p class="text-sm text-gray-600">Report No: {{ $labOrder->order_number }}</p>
                         <p class="text-sm text-gray-600">
                             Issue Date:
-                            {{ $labOrder->approved_at ? $labOrder->approved_at->format('Y-m-d h:i A') : '-' }}
+                            {{ $labOrder->approved_at ? $labOrder->approved_at->format('d M Y, h:i A') : '-' }}
                         </p>
                     </div>
                 </div>
@@ -119,10 +119,10 @@
             {{-- QR / Public Report Section --}}
             @if($publicReportUrl)
                 <div class="border-b border-gray-200 px-8 py-6">
-                    <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+                    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
                         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div class="flex items-center gap-4">
-                                <div class="shrink-0 rounded-xl bg-white p-3 ring-1 ring-gray-200">
+                                <div class="shrink-0 rounded-lg bg-white p-3 ring-1 ring-gray-200">
                                     {!! QrCode::size(110)->margin(1)->generate($publicReportUrl) !!}
                                 </div>
 
@@ -158,7 +158,7 @@
                                 </h4>
                             </div>
 
-                            <div class="overflow-hidden rounded-xl ring-1 ring-gray-200">
+                            <div class="overflow-hidden rounded-lg ring-1 ring-gray-200">
                                 <table class="min-w-full text-sm">
                                     <thead class="bg-gray-50 text-left text-gray-600">
                                         <tr>
@@ -222,7 +222,7 @@
                     <div class="flex items-end gap-6">
                         @if($publicReportUrl)
                             <div class="text-center">
-                                <div class="inline-block rounded-xl bg-white p-2 ring-1 ring-gray-200">
+                                <div class="inline-block rounded-lg bg-white p-2 ring-1 ring-gray-200">
                                     {!! QrCode::size(90)->margin(1)->generate($publicReportUrl) !!}
                                 </div>
                                 <div class="mt-2 text-xs text-gray-500">Scan to verify report</div>
@@ -235,7 +235,7 @@
                                 {{ $labOrder->approver?->name ?? '-' }}
                             </div>
                             <div class="mt-1 text-xs text-gray-500">
-                                {{ $labOrder->approved_at ? $labOrder->approved_at->format('Y-m-d h:i A') : '-' }}
+                                {{ $labOrder->approved_at ? $labOrder->approved_at->format('d M Y, h:i A') : '-' }}
                             </div>
                         </div>
                     </div>

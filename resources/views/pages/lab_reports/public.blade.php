@@ -58,7 +58,7 @@
                     <p class="text-sm text-gray-600">Report No: {{ $labOrder->order_number }}</p>
                     <p class="text-sm text-gray-600">
                         Issue Date:
-                        {{ $labOrder->approved_at ? $labOrder->approved_at->format('Y-m-d h:i A') : '-' }}
+                        {{ $labOrder->approved_at ? $labOrder->approved_at->format('d M Y, h:i A') : '-' }}
                     </p>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                             {{ $group->testGroup?->name ?? 'Panel' }}
                         </h4>
 
-                        <div class="overflow-hidden rounded-xl ring-1 ring-gray-200">
+                        <div class="overflow-hidden rounded-lg ring-1 ring-gray-200">
                             <table class="min-w-full text-sm">
                                 <thead class="bg-gray-50 text-left text-gray-600">
                                     <tr>
@@ -143,7 +143,7 @@
                     <div class="text-sm text-gray-500">Approved By</div>
                     <div class="text-sm font-semibold text-gray-900">{{ $labOrder->approver?->name ?? '-' }}</div>
                     <div class="mt-1 text-xs text-gray-500">
-                        {{ $labOrder->approved_at ? $labOrder->approved_at->format('Y-m-d h:i A') : '-' }}
+                        {{ $labOrder->approved_at ? $labOrder->approved_at->format('d M Y, h:i A') : '-' }}
                     </div>
                 </div>
             </div>

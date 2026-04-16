@@ -1,13 +1,17 @@
 <x-app-layout>
+    @php
+        $canEdit = in_array(Auth::user()->role->name, ['Admin', 'Lab Technician']);
+    @endphp
+
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800">
-                Enter Results — {{ $labOrder->order_number }}
+                {{ $canEdit ? 'Enter Results' : 'View Results' }} — {{ $labOrder->order_number }}
             </h2>
 
             <div class="flex items-center gap-2">
                 <a href="{{ route('lab-orders.show', $labOrder) }}"
-                   class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
+                   class="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
                     Back to Order
                 </a>
             </div>
@@ -72,25 +76,25 @@
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
             @if(session('success'))
-                <div class="mb-4 rounded-xl bg-green-50 p-4 text-green-700 ring-1 ring-green-200">
+                <div class="mb-4 rounded-lg bg-green-50 p-4 text-green-700 ring-1 ring-green-200">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="mb-4 rounded-xl bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
+                <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
                     {{ session('error') }}
                 </div>
             @endif
 
             @if($errors->any())
-                <div class="mb-4 rounded-xl bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
+                <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
                     {{ $errors->first() }}
                 </div>
             @endif
 
             {{-- Summary --}}
-            <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 mb-6">
+            <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6 mb-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <div class="text-xs text-gray-500">Patient</div>
@@ -137,7 +141,7 @@
                         $groupAbnormalCount = $group->tests->where('is_abnormal', true)->count();
                     @endphp
 
-                    <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 mb-6">
+                    <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6 mb-6">
                         <div class="flex items-start justify-between mb-4">
                             <div>
                                 <h3 class="text-sm font-semibold text-gray-900">
@@ -166,7 +170,8 @@
                                         <th class="py-3 pr-4">Result</th>
                                         <th class="py-3 pr-4">Status</th>
                                         <th class="py-3 pr-4">Abnormal</th>
-                                        <th class="py-3 pr-4 text-center">Verify</th>
+                                        <th class="py-3 pr-4">Verified By</th>
+                                        @if($canEdit)<th class="py-3 pr-4 text-center">Verify</th>@endif
                                     </tr>
                                 </thead>
 
@@ -194,27 +199,30 @@
                                             </td>
 
                                             <td class="py-3 pr-4">
-                                                @if($dataType === 'numeric')
-                                                    <input type="number"
-                                                           step="any"
-                                                           name="results[{{ $t->id }}]"
-                                                           value="{{ old('results.' . $t->id, $t->result_value) }}"
-                                                           class="w-36 rounded-lg border {{ $t->is_abnormal ? 'border-red-300 bg-red-50' : 'border-gray-200' }} px-3 py-1.5 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 disabled:bg-gray-100 disabled:text-gray-500"
-                                                           placeholder="Enter result"
-                                                           @disabled($isApproved || $isVerified)>
+                                                @if($canEdit)
+                                                    @if($dataType === 'numeric')
+                                                        <input type="number"
+                                                               step="any"
+                                                               name="results[{{ $t->id }}]"
+                                                               value="{{ old('results.' . $t->id, $t->result_value) }}"
+                                                               class="w-36 rounded-lg border {{ $t->is_abnormal ? 'border-red-300 bg-red-50' : 'border-gray-200' }} px-3 py-1.5 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 disabled:bg-gray-100 disabled:text-gray-500"
+                                                               placeholder="Enter result"
+                                                               @disabled($isApproved || $isVerified)>
+                                                    @else
+                                                        <input type="text"
+                                                               name="results[{{ $t->id }}]"
+                                                               value="{{ old('results.' . $t->id, $t->result_value) }}"
+                                                               class="w-40 rounded-lg border {{ $t->is_abnormal ? 'border-red-300 bg-red-50' : 'border-gray-200' }} px-3 py-1.5 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 disabled:bg-gray-100 disabled:text-gray-500"
+                                                               placeholder="Enter result"
+                                                               @disabled($isApproved || $isVerified)>
+                                                    @endif
+                                                    @if($isVerified)
+                                                        <div class="mt-1 text-xs text-gray-500">Locked after verification</div>
+                                                    @endif
                                                 @else
-                                                    <input type="text"
-                                                           name="results[{{ $t->id }}]"
-                                                           value="{{ old('results.' . $t->id, $t->result_value) }}"
-                                                           class="w-40 rounded-lg border {{ $t->is_abnormal ? 'border-red-300 bg-red-50' : 'border-gray-200' }} px-3 py-1.5 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 disabled:bg-gray-100 disabled:text-gray-500"
-                                                           placeholder="Enter result"
-                                                           @disabled($isApproved || $isVerified)>
-                                                @endif
-
-                                                @if($isVerified)
-                                                    <div class="mt-1 text-xs text-gray-500">
-                                                        Locked after verification
-                                                    </div>
+                                                    <span class="text-sm {{ $t->is_abnormal ? 'font-semibold text-red-600' : 'text-gray-800' }}">
+                                                        {{ $t->result_value ?? '—' }}
+                                                    </span>
                                                 @endif
                                             </td>
 
@@ -225,11 +233,35 @@
                                             </td>
 
                                             <td class="py-3 pr-4">
-                                                <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium ring-1 {{ $abnormal['class'] }}">
-                                                    {{ $abnormal['label'] }}
-                                                </span>
+                                                @if($dataType === 'text' && $canEdit && !$isVerified && !$isApproved)
+                                                    {{-- Manual toggle for text tests --}}
+                                                    <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                                        <input type="checkbox"
+                                                               name="abnormal_flags[]"
+                                                               value="{{ $t->id }}"
+                                                               class="rounded border-gray-300 text-red-600 focus:ring-red-500"
+                                                               {{ $t->is_abnormal ? 'checked' : '' }}>
+                                                        <span class="text-xs {{ $t->is_abnormal ? 'text-red-600 font-medium' : 'text-gray-400' }}">
+                                                            Abnormal
+                                                        </span>
+                                                    </label>
+                                                @else
+                                                    <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium ring-1 {{ $abnormal['class'] }}">
+                                                        {{ $abnormal['label'] }}
+                                                    </span>
+                                                @endif
                                             </td>
 
+                                            <td class="py-3 pr-4">
+                                                @if($t->verifiedBy)
+                                                    <div class="text-xs font-medium text-gray-800">{{ $t->verifiedBy->name }}</div>
+                                                    <div class="text-xs text-gray-400">{{ $t->verified_at?->format('d M Y H:i') }}</div>
+                                                @else
+                                                    <span class="text-xs text-gray-400">—</span>
+                                                @endif
+                                            </td>
+
+                                            @if($canEdit)
                                             <td class="py-3 pr-4 text-center">
                                                 @if($isVerified)
                                                     <input type="checkbox"
@@ -245,10 +277,11 @@
                                                            @disabled(!$canVerify)>
                                                 @endif
                                             </td>
+                                            @endif
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="py-3 text-gray-500">No tests in this panel.</td>
+                                            <td colspan="8" class="py-3 text-gray-500">No tests in this panel.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -257,9 +290,10 @@
                     </div>
                 @endforeach
 
-                {{-- Bottom action bar --}}
+                {{-- Bottom action bar (Admin & Technician only) --}}
+                @if($canEdit)
                 <div class="sticky bottom-4 z-10 mt-6">
-                    <div class="flex flex-col gap-3 rounded-2xl bg-white/95 p-4 shadow-lg ring-1 ring-gray-200 backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex flex-col gap-3 rounded-lg bg-white/95 p-4 shadow-lg ring-1 ring-gray-200 backdrop-blur sm:flex-row sm:items-center sm:justify-between">
                         <div class="flex items-center gap-3">
                             <label class="inline-flex items-center gap-2 text-sm text-gray-700">
                                 <input type="checkbox"
@@ -275,27 +309,31 @@
 
                         <div class="flex items-center justify-end gap-2">
                             <button type="submit"
-                                    class="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black disabled:pointer-events-none disabled:opacity-50"
+                                    class="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black disabled:pointer-events-none disabled:opacity-50"
                                     @disabled($labOrder->status === 'approved')>
                                 Save All Results
                             </button>
 
                             <button type="submit"
                                     form="verify-selected-form"
-                                    class="rounded-xl px-4 py-2 text-sm font-semibold text-green-700 ring-1 ring-green-200 hover:bg-green-50 disabled:pointer-events-none disabled:opacity-50"
+                                    class="rounded-lg px-4 py-2 text-sm font-semibold text-green-700 ring-1 ring-green-200 hover:bg-green-50 disabled:pointer-events-none disabled:opacity-50"
                                     @disabled($labOrder->status === 'approved')>
                                 Verify Selected
                             </button>
                         </div>
                     </div>
                 </div>
+                @endif {{-- end $canEdit --}}
+
             </form>
 
-            {{-- Verify selected form --}}
+            {{-- Verify selected form (Admin & Technician only) --}}
+            @if($canEdit)
             <form id="verify-selected-form" method="POST" action="{{ route('lab-results.bulk-verify', $labOrder) }}">
                 @csrf
                 @method('PATCH')
             </form>
+            @endif
 
         </div>
     </div>

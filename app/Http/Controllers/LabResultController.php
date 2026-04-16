@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LabOrder;
 use App\Models\LabOrderTest;
+use App\Models\StaffNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,8 +15,10 @@ class LabResultController extends Controller
         $labOrder->load([
             'patient',
             'tests.test',
+            'tests.verifiedBy',
             'groups.testGroup',
             'groups.tests.test',
+            'groups.tests.verifiedBy',
         ]);
 
         return view('pages.lab_results.index', compact('labOrder'));
@@ -25,17 +28,13 @@ class LabResultController extends Controller
     {
         $labOrder->load(['tests.test']);
 
-        if (!in_array($labOrder->status, ['pending', 'in_progress', 'completed'], true)) {
-            return back()->with('error', 'Results can only be edited for Pending, In Progress, or Completed orders.');
-        }
-
-        if ($labOrder->status === 'approved') {
-            return back()->with('error', 'Approved orders cannot be edited.');
+        if (!in_array($labOrder->status, ['sample_collected', 'in_progress', 'pending_review'], true)) {
+            return back()->with('error', 'Results can only be edited once samples are collected and before the order is approved.');
         }
 
         $payload = $request->input('results', []);
 
-        return DB::transaction(function () use ($labOrder, $payload) {
+        return DB::transaction(function () use ($labOrder, $payload, $request) {
             $updatedCount = 0;
             $reverifyCount = 0;
 
@@ -83,6 +82,12 @@ class LabResultController extends Controller
                     }
                 }
 
+                // For text-type tests, the technician manually flags abnormal
+                if ($dataType === 'text' && !is_null($value)) {
+                    $manualAbnormal = $request->input('abnormal_flags', []);
+                    $isAbnormal = in_array($labOrderTest->id, $manualAbnormal);
+                }
+
                 $updateData = [
                     'result_value' => $value,
                     'is_abnormal' => $isAbnormal,
@@ -121,12 +126,8 @@ class LabResultController extends Controller
     {
         $labOrder->load('tests');
 
-        if (!in_array($labOrder->status, ['pending', 'in_progress', 'completed'], true)) {
+        if (!in_array($labOrder->status, ['sample_collected', 'in_progress', 'pending_review'], true)) {
             return back()->with('error', 'This order cannot be verified in its current state.');
-        }
-
-        if ($labOrder->status === 'approved') {
-            return back()->with('error', 'Approved orders cannot be modified.');
         }
 
         $verifyIds = $request->input('verify_ids', []);
@@ -181,7 +182,7 @@ class LabResultController extends Controller
 
         if ($tests->isEmpty()) {
             $order->update([
-                'status' => 'pending',
+                'status' => 'sample_collected',
                 'completed_at' => null,
             ]);
             return;
@@ -196,16 +197,36 @@ class LabResultController extends Controller
         });
 
         if ($allVerified) {
+            $wasAlreadyPendingReview = $order->status === 'pending_review';
+
             $order->update([
-                'status' => 'completed',
+                'status' => 'pending_review',
                 'completed_at' => now(),
             ]);
+
+            if (!$wasAlreadyPendingReview) {
+                $patientName = $order->patient?->full_name ?? 'Unknown Patient';
+                $title   = 'Order Ready for Approval';
+                $message = "All tests for {$patientName} ({$order->order_number}) have been verified and are pending final approval.";
+
+                foreach (['Admin', 'Lab Technician'] as $role) {
+                    StaffNotification::create([
+                        'target_role'  => $role,
+                        'lab_order_id' => $order->id,
+                        'type'         => 'pending_review',
+                        'title'        => $title,
+                        'message'      => $message,
+                    ]);
+                }
+            }
+
             return;
         }
 
         if ($allPending) {
+            // results cleared — back to sample collected (samples still exist)
             $order->update([
-                'status' => 'pending',
+                'status' => 'sample_collected',
                 'completed_at' => null,
             ]);
             return;

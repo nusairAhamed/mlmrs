@@ -17,9 +17,11 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\Notification;
 
  use App\Models\QrToken;
+use App\Models\StaffNotification;
 
  use Illuminate\Support\Facades\Mail;
 use App\Mail\ReportReadyMail;
+use App\Mail\ReportHoldMail;
 
 
 class LabOrderController extends Controller
@@ -92,19 +94,25 @@ class LabOrderController extends Controller
             }
 
             return DataTables::of($query)
-                ->addColumn('patient_name', fn ($o) => $o->patient?->full_name ?? $o->patient?->name ?? '-')
+                ->addColumn('patient_name', fn ($o) => ($o->patient?->patient_code ? $o->patient->patient_code . ' — ' : '') . ($o->patient?->full_name ?? '-'))
                 ->addColumn('status_badge', fn ($o) => view('pages.lab_orders.partials.status', ['order' => $o])->render())
                 ->addColumn('action', fn ($o) => view('pages.lab_orders.partials.actions', ['order' => $o])->render())
+                ->editColumn('created_at', fn ($o) => $o->created_at?->format('d M Y, h:i A'))
                 ->rawColumns(['status_badge', 'action'])
                 ->make(true);
         }
 
         $patients = Patient::orderBy('full_name')->get(['id', 'full_name', 'patient_code']);
 
-        return view('pages.lab_orders.index', compact('patients'));
+        $scannedPatient = null;
+        if ($request->filled('patient_id')) {
+            $scannedPatient = Patient::find($request->patient_id);
+        }
+
+        return view('pages.lab_orders.index', compact('patients', 'scannedPatient'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $patients = Patient::orderBy('full_name')->get(['id', 'full_name', 'patient_code']);
 
@@ -114,7 +122,9 @@ class LabOrderController extends Controller
             ->orderBy('name')
             ->get(['id', 'name', 'price', 'status']);
 
-        return view('pages.lab_orders.create', compact('patients', 'groups'));
+        $preselectedPatientId = $request->query('patient_id');
+
+        return view('pages.lab_orders.create', compact('patients', 'groups', 'preselectedPatientId'));
     }
 
     public function store(Request $request)
@@ -201,6 +211,22 @@ class LabOrderController extends Controller
 
             $order->update(['total_amount' => $total]);
 
+            // Patch the creation audit with panels+tests + final amount as a frozen snapshot
+            $creationAudit = $order->audits()->where('event', 'created')->latest()->first();
+            if ($creationAudit) {
+                $order->load('groups.testGroup', 'groups.tests.test');
+                $panelsSnapshot = $order->groups->map(fn($g) => [
+                    'name'  => $g->testGroup?->name ?? 'Unknown Panel',
+                    'tests' => $g->tests->map(fn($t) => $t->test_name)->filter()->values()->toArray(),
+                ])->values()->toArray();
+
+                $newValues = $creationAudit->new_values ?? [];
+                $newValues['panels']       = $panelsSnapshot;
+                $newValues['total_amount'] = (string) $total;
+                $creationAudit->new_values = $newValues;
+                $creationAudit->save();
+            }
+
             return redirect()
                 ->route('lab-orders.index')
                 ->with('success', 'Lab Order created successfully.');
@@ -213,6 +239,7 @@ class LabOrderController extends Controller
             'patient',
             'groups.testGroup',
             'groups.tests.test',
+            'groups.tests.verifiedBy',
             'tests.test',
             'samples',
             'approver',
@@ -231,9 +258,11 @@ class LabOrderController extends Controller
         }
 
         $hasAnyProgress = $labOrder->tests()
-            ->whereNotNull('result_value')
-            ->orWhereNotNull('entered_at')
-            ->orWhereNotNull('verified_at')
+            ->where(function ($q) {
+                $q->whereNotNull('result_value')
+                  ->orWhereNotNull('entered_at')
+                  ->orWhereNotNull('verified_at');
+            })
             ->exists();
 
         $patients = Patient::orderBy('full_name')->get(['id', 'full_name', 'patient_code']);
@@ -264,15 +293,17 @@ class LabOrderController extends Controller
         }
 
         $hasAnyProgress = $labOrder->tests()
-            ->whereNotNull('result_value')
-            ->orWhereNotNull('entered_at')
-            ->orWhereNotNull('verified_at')
+            ->where(function ($q) {
+                $q->whereNotNull('result_value')
+                  ->orWhereNotNull('entered_at')
+                  ->orWhereNotNull('verified_at');
+            })
             ->exists();
 
         $rules = [
             'patient_id' => ['required', 'exists:patients,id'],
             'notes' => ['nullable', 'string', 'max:2000'],
-            'status' => ['required', Rule::in(['pending', 'in_progress', 'completed', 'approved'])],
+            'status' => ['required', Rule::in(['pending', 'sample_collected', 'in_progress', 'pending_review', 'on_hold', 'approved', 'sample_rejected', 'cancelled'])],
         ];
 
         if (!$hasAnyProgress) {
@@ -385,10 +416,10 @@ class LabOrderController extends Controller
         $hasTests = $labOrder->tests->isNotEmpty();
         $allVerified = $hasTests && $labOrder->tests->every(fn ($t) => $t->status === 'verified');
 
-        if (!$allVerified || $labOrder->status !== 'completed') {
+        if (!$allVerified || !in_array($labOrder->status, ['pending_review', 'on_hold'])) {
             return redirect()
                 ->route('lab-orders.show', $labOrder)
-                ->with('error', 'Only completed orders with all tests verified can be approved.');
+                ->with('error', 'Only orders in Pending Review or On Hold with all tests verified can be approved.');
         }
 
         $labOrder->update([
@@ -401,11 +432,63 @@ class LabOrderController extends Controller
 
         $labOrder->load(['qrToken', 'patient']);
 
+        // Clear the "pending review" notifications now that someone approved it —
+        // prevents all other techs/admins from seeing a stale action item.
+        StaffNotification::where('lab_order_id', $labOrder->id)
+            ->where('type', 'pending_review')
+            ->delete();
+
         $this->queuePatientNotifications($labOrder);
+        $this->createStaffNotification($labOrder, 'report_approved');
 
         return redirect()
             ->route('lab-orders.show', $labOrder)
             ->with('success', 'Report approved successfully and notifications were queued.');
+    }
+
+    public function hold(LabOrder $labOrder)
+    {
+        $labOrder->load(['tests']);
+
+        if (!in_array($labOrder->status, ['pending_review'])) {
+            return redirect()
+                ->route('lab-orders.show', $labOrder)
+                ->with('error', 'Only orders in Pending Review can be placed on hold.');
+        }
+
+        $hasTests = $labOrder->tests->isNotEmpty();
+        $allVerified = $hasTests && $labOrder->tests->every(fn ($t) => $t->status === 'verified');
+
+        if (!$allVerified) {
+            return redirect()
+                ->route('lab-orders.show', $labOrder)
+                ->with('error', 'All tests must be verified before placing the report on hold.');
+        }
+
+        $labOrder->update(['status' => 'on_hold']);
+
+        $labOrder->load(['patient']);
+        $this->queueHoldNotifications($labOrder);
+        $this->createStaffNotification($labOrder, 'report_on_hold');
+
+        return redirect()
+            ->route('lab-orders.show', $labOrder)
+            ->with('success', 'Report placed on hold. Patient has been notified to collect the report in person.');
+    }
+
+    public function cancel(LabOrder $labOrder)
+    {
+        if ($labOrder->status !== 'pending') {
+            return redirect()
+                ->route('lab-orders.show', $labOrder)
+                ->with('error', 'Only pending orders can be cancelled.');
+        }
+
+        $labOrder->update(['status' => 'cancelled']);
+
+        return redirect()
+            ->route('lab-orders.index')
+            ->with('success', 'Lab Order cancelled successfully.');
     }
 
     private function ensureQrToken(LabOrder $labOrder): void
@@ -415,8 +498,81 @@ class LabOrderController extends Controller
                 'lab_order_id' => $labOrder->id,
                 'token' => \Illuminate\Support\Str::random(64),
                 'is_active' => true,
-                'expires_at' => null,
+                'expires_at' => now()->addDays(30),
             ]);
+        }
+    }
+
+    private function createStaffNotification(LabOrder $labOrder, string $type): void
+    {
+        $patient = $labOrder->patient;
+        $name    = $patient?->full_name ?? 'Unknown';
+
+        [$title, $message] = match ($type) {
+            'report_approved' => [
+                'Report Approved — Ready for Collection',
+                "Report {$labOrder->order_number} for {$name} has been approved. Patient has been notified via email.",
+            ],
+            'report_on_hold' => [
+                'Report On Hold — Requires In-Person Delivery',
+                "Report {$labOrder->order_number} for {$name} is on hold. Patient was asked to visit. Handle with care.",
+            ],
+            default => ['Notification', ''],
+        };
+
+        StaffNotification::create([
+            'target_role'  => 'All',  // visible to Admin + Receptionist
+            'lab_order_id' => $labOrder->id,
+            'type'         => $type,
+            'title'        => $title,
+            'message'      => $message,
+        ]);
+    }
+
+    private function queueHoldNotifications(LabOrder $labOrder): void
+    {
+        $patient = $labOrder->patient;
+
+        if (!$patient) {
+            return;
+        }
+
+        $message = "Your laboratory report (Order {$labOrder->order_number}) is ready. Please visit the laboratory to collect your report.";
+
+        if (!empty($patient->phone)) {
+            Notification::create([
+                'patient_id'   => $patient->id,
+                'lab_order_id' => $labOrder->id,
+                'channel'      => 'sms',
+                'status'       => 'pending',
+                'message'      => $message,
+            ]);
+        }
+
+        if (!empty($patient->email)) {
+            $emailNotification = Notification::create([
+                'patient_id'   => $patient->id,
+                'lab_order_id' => $labOrder->id,
+                'channel'      => 'email',
+                'status'       => 'pending',
+                'message'      => $message,
+            ]);
+
+            try {
+                Mail::to($patient->email)->send(
+                    new ReportHoldMail($patient, $labOrder->order_number)
+                );
+
+                $emailNotification->update([
+                    'status'            => 'sent',
+                    'sent_at'           => now(),
+                    'provider_response' => 'Email sent successfully',
+                ]);
+            } catch (\Exception $e) {
+                $emailNotification->update([
+                    'provider_response' => $e->getMessage(),
+                ]);
+            }
         }
     }
 

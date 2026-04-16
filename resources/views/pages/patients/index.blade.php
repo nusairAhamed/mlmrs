@@ -8,27 +8,27 @@
         <div class="flex items-center justify-end mb-6">
             
             <a href="{{ route('patients.create') }}"
-               class="px-4 py-2 bg-black text-white rounded-lg">
+               class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition">
                 + Create Patient
             </a>
         </div>
 
         @if(session('success'))
-            <div class="mb-4 p-3 rounded bg-green-100 text-green-800">
+            <div class="mb-4 rounded-lg bg-green-50 p-4 text-green-700 ring-1 ring-green-200">
                 {{ session('success') }}
             </div>
         @endif
 
         @if(session('error'))
-            <div class="mb-4 p-3 rounded bg-red-100 text-red-800">
+            <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
                 {{ session('error') }}
             </div>
         @endif
 
         @include('pages.patients.partials.filter')
 
-        <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
-            <div class="p-4 sm:p-6 relative">
+        <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 overflow-hidden">
+            <div class="p-6 relative">
                 <table id="patients-table" class="min-w-full text-left"></table>
 
                 {{-- Loading Overlay --}}

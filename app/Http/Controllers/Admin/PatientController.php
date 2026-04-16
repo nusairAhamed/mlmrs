@@ -62,9 +62,34 @@ class PatientController extends Controller
             'created_by' => auth()->id(),
         ]);
 
-        return redirect()
-            ->route('patients.index')
-            ->with('success', "Patient created successfully ({$patient->patient_code}).");
+        return redirect()->route('patients.label', $patient);
+    }
+
+    public function label(Patient $patient)
+    {
+        return view('pages.patients.label', compact('patient'));
+    }
+
+    public function scanForm()
+    {
+        return view('pages.patients.scan');
+    }
+
+    public function scan(Request $request)
+    {
+        $request->validate([
+            'patient_code' => ['required', 'string'],
+        ]);
+
+        $patient = Patient::where('patient_code', trim($request->patient_code))->first();
+
+        if (! $patient) {
+            return back()->withErrors([
+                'patient_code' => "No patient found with code: {$request->patient_code}",
+            ]);
+        }
+
+        return redirect()->route('lab-orders.index', ['patient_id' => $patient->id]);
     }
 
     public function show(Patient $patient)

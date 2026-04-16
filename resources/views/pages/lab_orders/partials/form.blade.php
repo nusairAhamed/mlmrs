@@ -13,6 +13,7 @@
 
     $groups = $groups ?? collect();
     $patients = $patients ?? collect();
+    $preselectedPatientId = $preselectedPatientId ?? null;
 @endphp
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -22,11 +23,11 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">Patient</label>
 
         <select name="patient_id"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
+                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
             <option value="">-- Select Patient --</option>
             @foreach($patients as $p)
                 <option value="{{ $p->id }}"
-                    @selected(old('patient_id', $labOrder->patient_id ?? '') == $p->id)>
+                    @selected(old('patient_id', $labOrder->patient_id ?? $preselectedPatientId) == $p->id)>
                     {{ $p->patient_code ?? '' }}{{ isset($p->patient_code) ? ' — ' : '' }}{{ $p->full_name ?? ($p->name ?? '-') }}
                 </option>
             @endforeach
@@ -42,7 +43,7 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
 
         <textarea name="notes" rows="3"
-                  class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">{{ old('notes', $labOrder->notes ?? '') }}</textarea>
+                  class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">{{ old('notes', $labOrder->notes ?? '') }}</textarea>
 
         @error('notes')
             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -69,7 +70,7 @@
         </p>
 
         <input type="text" id="panel-search" placeholder="Search panels..."
-               class="w-full mb-3 rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+               class="w-full mb-3 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
                @disabled($panelsLocked)>
 
         <div class="flex flex-wrap items-center gap-2 mb-3">
@@ -97,14 +98,10 @@
                 @php
                     $checked = in_array($g->id, $selected ?? []);
                     $price = (float)($g->price ?? 0);
-
-                    $max = 5;
                     $testNames = ($g->tests ?? collect())->pluck('name');
-                    $shown = $testNames->take($max);
-                    $more = max(0, $testNames->count() - $max);
                 @endphp
 
-                <label class="panel-card group block rounded-2xl border bg-white p-4 shadow-sm transition
+                <label class="panel-card group block rounded-lg border bg-white p-4 shadow-sm transition
                               {{ $panelsLocked ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer' }}
                               {{ $checked ? 'border-indigo-300 ring-2 ring-indigo-500/20' : 'border-gray-200 hover:border-gray-300 hover:ring-2 hover:ring-indigo-500/10' }}"
                        data-name="{{ strtolower($g->name) }}">
@@ -146,25 +143,18 @@
                             </div>
 
                             {{-- Test list --}}
-                            <div class="mt-3 max-h-24 overflow-hidden">
-                                <div class="text-xs font-medium text-gray-700 mb-1">Includes:</div>
-
-                                <div class="flex flex-wrap gap-2">
-                                    @forelse($shown as $t)
+                            @if($testNames->isNotEmpty())
+                            <div class="mt-3">
+                                <div class="text-xs font-medium text-gray-500 mb-1.5">Includes:</div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    @foreach($testNames as $t)
                                         <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700 ring-1 ring-gray-200">
                                             {{ $t }}
                                         </span>
-                                    @empty
-                                        <span class="text-xs text-gray-500">No tests linked</span>
-                                    @endforelse
-
-                                    @if($more > 0)
-                                        <span class="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700 ring-1 ring-indigo-200">
-                                            + {{ $more }} more
-                                        </span>
-                                    @endif
+                                    @endforeach
                                 </div>
                             </div>
+                            @endif
 
                         </div>
                     </div>
