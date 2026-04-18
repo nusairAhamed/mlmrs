@@ -103,7 +103,6 @@ class TestController extends Controller
             ],
             'unit' => ['nullable', 'string', 'max:50'],
             'data_type' => ['required', Rule::in(['numeric', 'text'])],
-            'sort_order' => ['required', 'integer', 'min:0'],
             'status' => ['required', Rule::in(['active', 'inactive'])],
         ]);
 

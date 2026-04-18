@@ -5,17 +5,17 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             @if(session('success'))
-                <div class="mb-4 p-3 rounded bg-green-100 text-green-800">
+                <div class="mb-4 rounded-lg bg-green-50 p-4 text-green-700 ring-1 ring-green-200">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="mb-4 p-3 rounded bg-red-100 text-red-800">
+                <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
                     {{ session('error') }}
                 </div>
             @endif
@@ -23,15 +23,15 @@
             <div class="mb-6 flex items-center justify-end">
               
                 <a href="{{ route('test-categories.create') }}"
-                   class="inline-flex items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
+                   class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
                     + New Category
                 </a>
             </div>
 
        
 
-            <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
-                <div class="p-4 sm:p-6 relative">
+            <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 overflow-hidden">
+                <div class="p-6 relative">
                     <table id="categories-table" class="min-w-full text-left"></table>
 
                     {{-- Loading Overlay (blocks table interactions) --}}

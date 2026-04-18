@@ -7,7 +7,7 @@
 
             <div class="flex items-center gap-2">
                 <a href="{{ route('lab-orders.samples.index', $labOrder) }}"
-                   class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
+                   class="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
                     Back
                 </a>
             </div>
@@ -18,13 +18,13 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
             @if($errors->any())
-                <div class="mb-4 p-3 rounded bg-red-100 text-red-800">
+                <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
                     {{ $errors->first() }}
                 </div>
             @endif
 
             <form method="POST" action="{{ route('lab-orders.samples.store', $labOrder) }}"
-                  class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 space-y-4">
+                  class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 p-6 space-y-4">
                 @csrf
 
                 <div class="text-sm text-gray-600">
@@ -35,12 +35,12 @@
 
                 <div class="flex items-center gap-2">
                     <button type="button" id="add-row"
-                            class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
+                            class="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50">
                         + Add Sample Type
                     </button>
 
                     <button type="submit"
-                            class="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+                            class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
                         Generate
                     </button>
                 </div>
@@ -53,11 +53,11 @@
     </div>
 
     <template id="row-template">
-        <div class="row-item rounded-2xl border border-gray-200 p-4">
+        <div class="row-item rounded-lg border border-gray-200 p-4">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                 <div class="md:col-span-7">
                     <label class="block text-xs font-medium text-gray-600 mb-1">Sample Type</label>
-                    <select class="sample-type w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
+                    <select class="sample-type w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
                         <option value="">-- Select --</option>
                         @foreach($sampleTypes as $key => $label)
                             <option value="{{ $key }}">{{ $label }}</option>
@@ -68,12 +68,12 @@
                 <div class="md:col-span-3">
                     <label class="block text-xs font-medium text-gray-600 mb-1">Qty</label>
                     <input type="number" min="1" max="10" value="1"
-                           class="qty w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
+                           class="qty w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
                 </div>
 
                 <div class="md:col-span-2 flex md:justify-end">
                     <button type="button"
-                            class="remove-row rounded-xl px-3 py-2 text-sm font-semibold text-red-700 ring-1 ring-red-200 hover:bg-red-50">
+                            class="remove-row rounded-lg px-3 py-2 text-sm font-semibold text-red-700 ring-1 ring-red-200 hover:bg-red-50">
                         Remove
                     </button>
                 </div>

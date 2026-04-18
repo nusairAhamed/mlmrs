@@ -46,10 +46,10 @@ class LabSampleController extends Controller
     {
         $labOrder->load(['patient', 'samples']);
 
-        if (!in_array($labOrder->status, ['pending', 'in_progress'], true)) {
+        if (!in_array($labOrder->status, ['pending', 'sample_collected', 'sample_rejected'], true)) {
             return redirect()
                 ->route('lab-orders.show', $labOrder)
-                ->with('error', 'Samples can only be generated for Pending / In Progress orders.');
+                ->with('error', 'Samples can only be added for Pending, Sample Collected, or Sample Rejected orders.');
         }
 
         if ($this->hasLockedSamples($labOrder)) {
@@ -67,10 +67,10 @@ class LabSampleController extends Controller
 
     public function store(Request $request, LabOrder $labOrder)
     {
-        if (!in_array($labOrder->status, ['pending', 'in_progress'], true)) {
+        if (!in_array($labOrder->status, ['pending', 'sample_collected', 'sample_rejected'], true)) {
             return redirect()
                 ->route('lab-orders.show', $labOrder)
-                ->with('error', 'Samples can only be generated for Pending / In Progress orders.');
+                ->with('error', 'Samples can only be added for Pending, Sample Collected, or Sample Rejected orders.');
         }
 
         if ($this->hasLockedSamples($labOrder)) {
@@ -99,9 +99,9 @@ class LabSampleController extends Controller
 
             $ts = now();
 
-            // optional: move order to in_progress after first sample generation
-            if ($labOrder->status === 'pending') {
-                $labOrder->update(['status' => 'in_progress']);
+            // move order to sample_collected after first sample generation
+            if (in_array($labOrder->status, ['pending', 'sample_rejected'], true)) {
+                $labOrder->update(['status' => 'sample_collected']);
             }
 
             // stable ordering
@@ -133,6 +133,27 @@ class LabSampleController extends Controller
                 }
             }
 
+            // Patch the status-change audit with a frozen sample snapshot
+            $statusAudit = $labOrder->audits()
+                ->where('event', 'updated')
+                ->whereRaw("JSON_EXTRACT(new_values, '$.status') = 'sample_collected'")
+                ->latest()
+                ->first();
+
+            if ($statusAudit) {
+                $labOrder->load('samples');
+                $samplesSnapshot = $labOrder->samples->map(fn($s) => [
+                    'code'         => $s->sample_code,
+                    'type'         => $s->sample_type,
+                    'collected_at' => $s->collected_at?->format('d M Y, h:i A'),
+                ])->values()->toArray();
+
+                $newValues = $statusAudit->new_values ?? [];
+                $newValues['samples'] = $samplesSnapshot;
+                $statusAudit->new_values = $newValues;
+                $statusAudit->save();
+            }
+
             return redirect()
                 ->route('lab-orders.samples.index', $labOrder)
                 ->with('success', 'Samples saved successfully.');
@@ -144,5 +165,56 @@ class LabSampleController extends Controller
         $labSample->load(['order.patient']);
 
         return view('pages.lab_samples.label', compact('labSample'));
+    }
+
+    public function printAll(LabOrder $labOrder)
+    {
+        $labOrder->load(['patient', 'samples']);
+
+        if ($labOrder->samples->isEmpty()) {
+            return redirect()
+                ->route('lab-orders.samples.index', $labOrder)
+                ->with('error', 'No samples to print.');
+        }
+
+        return view('pages.lab_samples.print_all', compact('labOrder'));
+    }
+
+    public function scanForm()
+    {
+        return view('pages.lab_samples.scan');
+    }
+
+    public function scan(Request $request)
+    {
+        $data = $request->validate([
+            'sample_code' => ['required', 'string', 'max:100'],
+        ]);
+
+        $sample = LabSample::where('sample_code', trim($data['sample_code']))->first();
+
+        if (!$sample) {
+            return back()
+                ->withInput()
+                ->withErrors(['sample_code' => 'No sample found with code: ' . $data['sample_code']]);
+        }
+
+        if ($sample->status === 'rejected') {
+            return back()
+                ->withInput()
+                ->withErrors(['sample_code' => 'Sample ' . $sample->sample_code . ' has been rejected and cannot be processed.']);
+        }
+
+        // Mark as received the first time it is scanned at the lab
+        if ($sample->status === 'collected') {
+            $sample->update([
+                'status'      => 'received',
+                'received_at' => now(),
+            ]);
+        }
+
+        return redirect()
+            ->route('lab-orders.results.index', $sample->lab_order_id)
+            ->with('success', 'Sample ' . $sample->sample_code . ' received. Enter results below.');
     }
 }

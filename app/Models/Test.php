@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Test extends Model
 {
-    protected $fillable = ['name','unit','data_type','sort_order','status'];
+    protected $fillable = ['name','unit','data_type','status'];
 
     public function ranges()
     {

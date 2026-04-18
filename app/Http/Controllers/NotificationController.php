@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Mail\ReportReadyMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class NotificationController extends Controller
@@ -73,12 +75,12 @@ class NotificationController extends Controller
                 })
                 ->editColumn('sent_at', function ($notification) {
                     return $notification->sent_at
-                        ? $notification->sent_at->format('Y-m-d h:i A')
+                        ? $notification->sent_at->format('d M Y, h:i A')
                         : '-';
                 })
                 ->editColumn('created_at', function ($notification) {
                     return $notification->created_at
-                        ? $notification->created_at->format('Y-m-d h:i A')
+                        ? $notification->created_at->format('d M Y, h:i A')
                         : '-';
                 })
                 ->rawColumns(['channel_badge', 'status_badge'])

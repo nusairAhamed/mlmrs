@@ -36,7 +36,7 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
         <input name="name"
                value="{{ old('name', $test->name ?? '') }}"
-               class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm
+               class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm
                       focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
         @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
@@ -46,7 +46,7 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">Unit</label>
         <input name="unit"
                value="{{ old('unit', $test->unit ?? '') }}"
-               class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm
+               class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm
                       focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
         @error('unit') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
@@ -55,7 +55,7 @@
     <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Data Type</label>
         <select name="data_type" id="data_type"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm
+                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm
                        focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
             <option value="numeric" @selected(old('data_type', $test->data_type ?? 'numeric') === 'numeric')>Numeric</option>
             <option value="text" @selected(old('data_type', $test->data_type ?? '') === 'text')>Text</option>
@@ -63,21 +63,11 @@
         @error('data_type') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
 
-    {{-- Sort Order --}}
-    <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
-        <input name="sort_order" type="number" min="0"
-               value="{{ old('sort_order', $test->sort_order ?? 0) }}"
-               class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm
-                      focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
-        @error('sort_order') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-    </div>
-
     {{-- Status --}}
     <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
         <select name="status"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm
+                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm
                        focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
             <option value="active" @selected(old('status', $test->status ?? 'active') === 'active')>Active</option>
             <option value="inactive" @selected(old('status', $test->status ?? '') === 'inactive')>Inactive</option>
@@ -93,14 +83,14 @@
         <h3 class="text-sm font-semibold text-gray-800">Reference Ranges</h3>
 
         <button type="button" id="add-range"
-                class="rounded-xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
+                class="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700">
             + Add Range
         </button>
     </div>
 
     @error('ranges') <p class="mb-2 text-sm text-red-600">{{ $message }}</p> @enderror
 
-    <div class="overflow-auto ring-1 ring-gray-200 rounded-2xl">
+    <div class="overflow-auto ring-1 ring-gray-200 rounded-lg">
         <table class="min-w-full text-sm">
             <thead class="bg-gray-50 text-gray-600">
                 <tr>
@@ -118,7 +108,7 @@
                     <tr class="range-row">
                         <td class="px-4 py-2">
                             <select name="ranges[{{ $i }}][gender]"
-                                    class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                                 <option value="any" @selected(($r['gender'] ?? 'any') === 'any')>Any</option>
                                 <option value="male" @selected(($r['gender'] ?? '') === 'male')>Male</option>
                                 <option value="female" @selected(($r['gender'] ?? '') === 'female')>Female</option>
@@ -129,28 +119,28 @@
                             <input type="number" min="0"
                                    name="ranges[{{ $i }}][age_min]"
                                    value="{{ $r['age_min'] ?? '' }}"
-                                   class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                                   class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                         </td>
 
                         <td class="px-4 py-2">
                             <input type="number" min="0"
                                    name="ranges[{{ $i }}][age_max]"
                                    value="{{ $r['age_max'] ?? '' }}"
-                                   class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                                   class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                         </td>
 
                         <td class="px-4 py-2">
                             <input type="number" step="0.01"
                                    name="ranges[{{ $i }}][ref_min]"
                                    value="{{ $r['ref_min'] ?? '' }}"
-                                   class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                                   class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                         </td>
 
                         <td class="px-4 py-2">
                             <input type="number" step="0.01"
                                    name="ranges[{{ $i }}][ref_max]"
                                    value="{{ $r['ref_max'] ?? '' }}"
-                                   class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                                   class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                         </td>
 
                         <td class="px-4 py-2 text-right">
@@ -198,7 +188,7 @@
 
             tr.innerHTML = `
                 <td class="px-4 py-2">
-                    <select name="ranges[${index}][gender]" class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                    <select name="ranges[${index}][gender]" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                         <option value="any">Any</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -206,19 +196,19 @@
                 </td>
                 <td class="px-4 py-2">
                     <input type="number" min="0" name="ranges[${index}][age_min]"
-                           class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                           class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                 </td>
                 <td class="px-4 py-2">
                     <input type="number" min="0" name="ranges[${index}][age_max]"
-                           class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                           class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                 </td>
                 <td class="px-4 py-2">
                     <input type="number" step="0.01" name="ranges[${index}][ref_min]"
-                           class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                           class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                 </td>
                 <td class="px-4 py-2">
                     <input type="number" step="0.01" name="ranges[${index}][ref_max]"
-                           class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm">
+                           class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm">
                 </td>
                 <td class="px-4 py-2 text-right">
                     <button type="button" class="remove-range p-2 rounded-lg bg-red-600 text-white hover:bg-red-700" title="Remove">✕</button>

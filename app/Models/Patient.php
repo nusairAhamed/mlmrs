@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Patient extends Model
+class Patient extends Model implements Auditable
 {
-
-    use HasFactory;
+    use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'patient_code',
@@ -20,6 +19,16 @@ class Patient extends Model
         'email',
         'address',
         'created_by',
+    ];
+
+    // Audit all patient demographic changes
+    protected $auditInclude = [
+        'full_name',
+        'dob',
+        'gender',
+        'phone',
+        'email',
+        'address',
     ];
 
     protected static function booted()

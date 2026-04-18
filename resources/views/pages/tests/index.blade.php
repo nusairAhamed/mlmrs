@@ -9,14 +9,14 @@
 
         <div class="flex items-center justify-end mb-6">
             <a href="{{ route('tests.create') }}"
-               class="px-4 py-2 bg-black text-white rounded-lg">
+               class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition">
                 + Create Test
             </a>
         </div>
 
         @include('pages.tests.partials.filter')
 
-        <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
+        <div class="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 overflow-hidden">
             <div class="p-6 relative">
 
                 <table id="tests-table" class="min-w-full text-left"></table>
@@ -56,7 +56,6 @@
                     { data: 'name', name: 'name', title: 'Name' },
                     { data: 'unit', name: 'unit', title: 'Unit' },
                     { data: 'data_type', name: 'data_type', title: 'Type' },
-                    { data: 'sort_order', name: 'sort_order', title: 'Order' },
                     { data: 'status_badge', name: 'status', orderable: false, searchable: false, title: 'Status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, title: 'Actions' },
                 ],
