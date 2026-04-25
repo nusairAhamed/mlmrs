@@ -60,6 +60,12 @@ class TestController extends Controller
         return redirect()->route('tests.index')->with('success', 'Test created successfully.');
     }
 
+    public function show(Test $test)
+    {
+        $test->load('ranges', 'testGroups');
+        return view('pages.tests.show', compact('test'));
+    }
+
     public function edit(Test $test)
     {
         $test->load('ranges');

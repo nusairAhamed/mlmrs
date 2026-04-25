@@ -194,6 +194,13 @@
 
                 </header>
 
+                {{-- Optional sticky filter bar --}}
+                @isset($filterBar)
+                <div class="shrink-0 bg-gray-100 border-b border-gray-200 z-10">
+                    {{ $filterBar }}
+                </div>
+                @endisset
+
                 {{-- Page content --}}
                 <main class="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
                     {{ $slot }}

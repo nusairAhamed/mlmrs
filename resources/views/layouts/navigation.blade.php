@@ -42,7 +42,7 @@
     </div>
 
     {{-- Scrollable nav --}}
-    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-2">
 
         {{-- ── Dashboard (all roles) ── --}}
         <a href="{{ route('dashboard') }}"
@@ -56,7 +56,7 @@
 
         {{-- ── ADMIN: User Management ── --}}
         @if($role === 'Admin')
-        <div class="pt-4">
+        <div class="pt-4 space-y-1">
             <p class="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-indigo-400">
                 User Management
             </p>
@@ -79,7 +79,7 @@
         </div>
 
         {{-- ── ADMIN: Lab Configuration ── --}}
-        <div class="pt-4">
+        <div class="pt-4 space-y-1">
             <p class="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-indigo-400">
                 Lab Configuration
             </p>
@@ -113,7 +113,7 @@
 
         {{-- ── ADMIN: Scan Sample ── --}}
         @if($role === 'Admin')
-        <div class="pt-4">
+        <div class="pt-4 space-y-1">
             <p class="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-indigo-400">
                 Lab Work
             </p>
@@ -132,7 +132,7 @@
 
         {{-- ── ADMIN + RECEPTIONIST: Operations ── --}}
         @if(in_array($role, ['Admin', 'Receptionist']))
-        <div class="pt-4">
+        <div class="pt-4 space-y-1">
             <p class="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-indigo-400">
                 Operations
             </p>
@@ -175,7 +175,7 @@
 
         {{-- ── TECHNICIAN: Lab Work ── --}}
         @if($role === 'Lab Technician')
-        <div class="pt-4">
+        <div class="pt-4 space-y-1">
             <p class="px-3 mb-1 text-xs font-semibold uppercase tracking-wider text-indigo-400">
                 Lab Work
             </p>

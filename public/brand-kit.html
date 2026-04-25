@@ -245,6 +245,51 @@
     /* ── Two col ── */
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Logo variants ── */
+    .logo-stage {
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 24px; min-height: 180px; border-radius: 10px;
+    }
+    .lockup { display: inline-flex; align-items: center; gap: 14px; }
+    .lockup-stacked { display: inline-flex; flex-direction: column; align-items: center; gap: 14px; }
+    .icon-tile {
+      background: #4f46e5; border-radius: 14px;
+      overflow: hidden; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .wm { font-family: 'Figtree', sans-serif; font-weight: 700; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; }
+    .tl { font-family: 'Figtree', sans-serif; font-weight: 500; line-height: 1; margin-top: 5px; }
+    .wm-block { display: flex; flex-direction: column; }
+
+    .variant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .variant-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 640px) {
+      .variant-grid, .variant-grid-3 { grid-template-columns: 1fr; }
+    }
+    .variant-card { border-radius: 10px; overflow: hidden; border: 1px solid #e5e7eb; }
+    .variant-label {
+      padding: 10px 14px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      border-top: 1px solid #e5e7eb; color: #9ca3af; background: white;
+      display: flex; justify-content: space-between;
+    }
+    .variant-label.dark-label {
+      background: #1f2937; border-top-color: #374151; color: #6b7280;
+    }
+
+    .scale-row { display: flex; align-items: flex-end; gap: 24px; flex-wrap: wrap; justify-content: center; }
+    .scale-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .scale-px { font-size: 10px; color: #9ca3af; font-family: monospace; }
+
+    .anatomy-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+    .anatomy-item { display: flex; gap: 12px; align-items: flex-start; }
+    .anatomy-num {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+      background: #e0e7ff; color: #4338ca;
+      font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -283,6 +328,64 @@
         <polyline points="10,50 30,50 36,50 41,40 46,60 50,46 54,54 58,50 70,50 90,50"
           fill="none" stroke="#4f46e5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
       </symbol>
+
+      <!-- Light background variant: navy axes + heart, white pulse -->
+      <symbol id="aml-mark-on-light" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="#ffffff"/>
+        <g stroke="rgba(49,46,129,0.12)" stroke-width="0.6">
+          <path d="M10 0 V100 M20 0 V100 M30 0 V100 M40 0 V100 M60 0 V100 M70 0 V100 M80 0 V100 M90 0 V100"/>
+          <path d="M0 10 H100 M0 20 H100 M0 30 H100 M0 40 H100 M0 60 H100 M0 70 H100 M0 80 H100 M0 90 H100"/>
+        </g>
+        <g stroke="#312e81" stroke-width="2" stroke-linecap="square">
+          <path d="M0 50 H100"/>
+          <path d="M50 0 V100"/>
+        </g>
+        <g fill="#312e81">
+          <polygon points="100,50 95,47 95,53"/>
+          <polygon points="50,0 47,5 53,5"/>
+        </g>
+        <path d="M50 70 C 30 56, 22 44, 30 36 C 36 30, 44 32, 50 40 C 56 32, 64 30, 70 36 C 78 44, 70 56, 50 70 Z" fill="#312e81"/>
+        <polyline points="14,50 30,50 36,50 40,42 44,58 48,46 52,54 56,50 64,50 70,50 86,50"
+          fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
+      <!-- Monochrome white — single colour, all white (for dark solid backgrounds) -->
+      <symbol id="aml-mark-mono-white" viewBox="0 0 100 100">
+        <g stroke="rgba(255,255,255,0.3)" stroke-width="0.6">
+          <path d="M10 0 V100 M20 0 V100 M30 0 V100 M40 0 V100 M60 0 V100 M70 0 V100 M80 0 V100 M90 0 V100"/>
+          <path d="M0 10 H100 M0 20 H100 M0 30 H100 M0 40 H100 M0 60 H100 M0 70 H100 M0 80 H100 M0 90 H100"/>
+        </g>
+        <g stroke="#ffffff" stroke-width="2" stroke-linecap="square">
+          <path d="M0 50 H100"/>
+          <path d="M50 0 V100"/>
+        </g>
+        <g fill="#ffffff">
+          <polygon points="100,50 95,47 95,53"/>
+          <polygon points="50,0 47,5 53,5"/>
+        </g>
+        <path d="M50 70 C 30 56, 22 44, 30 36 C 36 30, 44 32, 50 40 C 56 32, 64 30, 70 36 C 78 44, 70 56, 50 70 Z" fill="#ffffff"/>
+        <polyline points="14,50 30,50 36,50 40,42 44,58 48,46 52,54 56,50 64,50 70,50 86,50"
+          fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
+      <!-- Monochrome navy — single colour, all navy (print / stamp) -->
+      <symbol id="aml-mark-mono-navy" viewBox="0 0 100 100">
+        <g stroke="rgba(49,46,129,0.2)" stroke-width="0.6">
+          <path d="M10 0 V100 M20 0 V100 M30 0 V100 M40 0 V100 M60 0 V100 M70 0 V100 M80 0 V100 M90 0 V100"/>
+          <path d="M0 10 H100 M0 20 H100 M0 30 H100 M0 40 H100 M0 60 H100 M0 70 H100 M0 80 H100 M0 90 H100"/>
+        </g>
+        <g stroke="#312e81" stroke-width="2" stroke-linecap="square">
+          <path d="M0 50 H100"/>
+          <path d="M50 0 V100"/>
+        </g>
+        <g fill="#312e81">
+          <polygon points="100,50 95,47 95,53"/>
+          <polygon points="50,0 47,5 53,5"/>
+        </g>
+        <path d="M50 70 C 30 56, 22 44, 30 36 C 36 30, 44 32, 50 40 C 56 32, 64 30, 70 36 C 78 44, 70 56, 50 70 Z" fill="#312e81"/>
+        <polyline points="14,50 30,50 36,50 40,42 44,58 48,46 52,54 56,50 64,50 70,50 86,50"
+          fill="none" stroke="rgba(49,46,129,0.25)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
     </defs>
   </svg>
 
@@ -300,6 +403,372 @@
     <div class="cover-meta">
       <p>Brand Kit</p>
       <strong>v1.0 — 2026</strong>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       LOGO VARIANTS
+       ════════════════════════════════════════════ -->
+
+  <!-- 1. Primary lockup — light bg -->
+  <div class="card">
+    <div class="section-label">Logo — Primary Lockup · Light</div>
+    <div class="logo-stage" style="background:#f9fafb;">
+      <div class="lockup">
+        <div class="icon-tile" style="width:72px;height:72px;border-radius:16px;">
+          <svg viewBox="0 0 100 100" width="72" height="72"><use href="#aml-mark"/></svg>
+        </div>
+        <div class="wm-block">
+          <span class="wm" style="font-size:42px;color:#312e81;">AxisMedLab</span>
+          <span class="tl" style="font-size:15px;color:#818cf8;">Precision in Every Result</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding-top:12px;font-size:11px;color:#9ca3af;">
+      <span>Default usage — white / gray-50 backgrounds</span>
+      <span>Figtree 700 · indigo-900</span>
+    </div>
+  </div>
+
+  <!-- 2. Reverse variants (dark & medium) -->
+  <div class="variant-grid">
+    <div class="variant-card">
+      <div class="logo-stage" style="background:#312e81;">
+        <div class="lockup">
+          <div class="icon-tile" style="width:56px;height:56px;border-radius:12px;">
+            <svg viewBox="0 0 100 100" width="56" height="56"><use href="#aml-mark"/></svg>
+          </div>
+          <div class="wm-block">
+            <span class="wm" style="font-size:30px;color:#ffffff;">AxisMedLab</span>
+            <span class="tl" style="font-size:12px;color:#c7d2fe;">Precision in Every Result</span>
+          </div>
+        </div>
+      </div>
+      <div class="variant-label dark-label">
+        <span>Reverse — Indigo 900</span><span style="font-family:monospace;">#312e81</span>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="logo-stage" style="background:#4f46e5;">
+        <div class="lockup">
+          <div class="icon-tile" style="width:56px;height:56px;border-radius:12px;background:#312e81;">
+            <svg viewBox="0 0 100 100" width="56" height="56"><use href="#aml-mark"/></svg>
+          </div>
+          <div class="wm-block">
+            <span class="wm" style="font-size:30px;color:#ffffff;">AxisMedLab</span>
+            <span class="tl" style="font-size:12px;color:#e0e7ff;">Precision in Every Result</span>
+          </div>
+        </div>
+      </div>
+      <div class="variant-label dark-label">
+        <span>Reverse — Indigo 600</span><span style="font-family:monospace;">#4f46e5</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Stacked & icon-only -->
+  <div class="variant-grid">
+    <div class="variant-card">
+      <div class="logo-stage" style="background:#f9fafb;">
+        <div class="lockup-stacked">
+          <div class="icon-tile" style="width:72px;height:72px;border-radius:16px;">
+            <svg viewBox="0 0 100 100" width="72" height="72"><use href="#aml-mark"/></svg>
+          </div>
+          <div class="wm-block" style="align-items:center;">
+            <span class="wm" style="font-size:26px;color:#312e81;">AxisMedLab</span>
+            <span class="tl" style="font-size:12px;color:#818cf8;margin-top:4px;">Precision in Every Result</span>
+          </div>
+        </div>
+      </div>
+      <div class="variant-label"><span>Stacked Lockup</span><span>Square placements</span></div>
+    </div>
+    <div class="variant-card">
+      <div class="logo-stage" style="background:#f9fafb;gap:20px;flex-wrap:wrap;">
+        <div class="icon-tile" style="width:100px;height:100px;border-radius:22px;box-shadow:0 8px 24px rgba(79,70,229,.25);">
+          <svg viewBox="0 0 100 100" width="100" height="100"><use href="#aml-mark"/></svg>
+        </div>
+        <div class="icon-tile" style="width:64px;height:64px;border-radius:14px;">
+          <svg viewBox="0 0 100 100" width="64" height="64"><use href="#aml-mark"/></svg>
+        </div>
+        <div class="icon-tile" style="width:40px;height:40px;border-radius:9px;">
+          <svg viewBox="0 0 100 100" width="40" height="40"><use href="#aml-mark"/></svg>
+        </div>
+      </div>
+      <div class="variant-label"><span>Icon Only / App Icon</span><span>iOS · Android · Favicon</span></div>
+    </div>
+  </div>
+
+  <!-- 4. Wordmark only (no icon) -->
+  <div class="card">
+    <div class="section-label">Logo — Wordmark Only</div>
+    <div class="variant-grid-3" style="gap:12px;">
+      <div class="variant-card">
+        <div class="logo-stage" style="background:#f9fafb;min-height:100px;">
+          <span class="wm" style="font-size:24px;color:#312e81;">AxisMedLab</span>
+        </div>
+        <div class="variant-label"><span>Dark · Light bg</span></div>
+      </div>
+      <div class="variant-card">
+        <div class="logo-stage" style="background:#312e81;min-height:100px;">
+          <span class="wm" style="font-size:24px;color:#ffffff;">AxisMedLab</span>
+        </div>
+        <div class="variant-label dark-label"><span>White · Dark bg</span></div>
+      </div>
+      <div class="variant-card">
+        <div class="logo-stage" style="background:#f9fafb;min-height:100px;">
+          <span class="wm" style="font-size:24px;">
+            <span style="color:#312e81;">Axis</span><span style="color:#4f46e5;">Med</span><span style="color:#6b7280;">Lab</span>
+          </span>
+        </div>
+        <div class="variant-label"><span>Split colour wordmark</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Monochrome variants -->
+  <div class="card">
+    <div class="section-label">Logo — Monochrome</div>
+    <div class="variant-grid-3" style="gap:12px;">
+      <div class="variant-card">
+        <div class="logo-stage" style="background:#312e81;min-height:140px;">
+          <div class="lockup">
+            <div style="width:52px;height:52px;border-radius:11px;overflow:hidden;flex-shrink:0;">
+              <svg viewBox="0 0 100 100" width="52" height="52"><use href="#aml-mark-mono-white"/></svg>
+            </div>
+            <span class="wm" style="font-size:24px;color:#ffffff;">AxisMedLab</span>
+          </div>
+        </div>
+        <div class="variant-label dark-label"><span>Mono White</span><span>Dark bg use</span></div>
+      </div>
+      <div class="variant-card">
+        <div class="logo-stage" style="background:#f9fafb;min-height:140px;">
+          <div class="lockup">
+            <div style="width:52px;height:52px;border-radius:11px;overflow:hidden;flex-shrink:0;border:1px solid #e5e7eb;">
+              <svg viewBox="0 0 100 100" width="52" height="52"><use href="#aml-mark-mono-navy"/></svg>
+            </div>
+            <span class="wm" style="font-size:24px;color:#312e81;">AxisMedLab</span>
+          </div>
+        </div>
+        <div class="variant-label"><span>Mono Navy</span><span>Print / stamp</span></div>
+      </div>
+      <div class="variant-card">
+        <div class="logo-stage" style="background:#ffffff;min-height:140px;border:1px solid #e5e7eb;">
+          <div class="lockup">
+            <div style="width:52px;height:52px;border-radius:11px;overflow:hidden;flex-shrink:0;">
+              <svg viewBox="0 0 100 100" width="52" height="52"><use href="#aml-mark-on-light"/></svg>
+            </div>
+            <span class="wm" style="font-size:24px;color:#312e81;">AxisMedLab</span>
+          </div>
+        </div>
+        <div class="variant-label"><span>Icon on White</span><span>Embossed / outlined</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Size scale -->
+  <div class="card">
+    <div class="section-label">Logo — Icon Size Scale</div>
+    <div style="background:#f9fafb;border-radius:10px;padding:36px 24px;">
+      <div class="scale-row">
+        <div class="scale-item">
+          <div class="icon-tile" style="width:16px;height:16px;border-radius:4px;">
+            <svg viewBox="0 0 100 100" width="16" height="16"><use href="#aml-mark-mini"/></svg>
+          </div>
+          <span class="scale-px">16px</span>
+        </div>
+        <div class="scale-item">
+          <div class="icon-tile" style="width:20px;height:20px;border-radius:5px;">
+            <svg viewBox="0 0 100 100" width="20" height="20"><use href="#aml-mark-mini"/></svg>
+          </div>
+          <span class="scale-px">20px</span>
+        </div>
+        <div class="scale-item">
+          <div class="icon-tile" style="width:28px;height:28px;border-radius:7px;">
+            <svg viewBox="0 0 100 100" width="28" height="28"><use href="#aml-mark-mini"/></svg>
+          </div>
+          <span class="scale-px">28px</span>
+        </div>
+        <div class="scale-item">
+          <div class="icon-tile" style="width:40px;height:40px;border-radius:9px;">
+            <svg viewBox="0 0 100 100" width="40" height="40"><use href="#aml-mark"/></svg>
+          </div>
+          <span class="scale-px">40px</span>
+        </div>
+        <div class="scale-item">
+          <div class="icon-tile" style="width:56px;height:56px;border-radius:12px;">
+            <svg viewBox="0 0 100 100" width="56" height="56"><use href="#aml-mark"/></svg>
+          </div>
+          <span class="scale-px">56px</span>
+        </div>
+        <div class="scale-item">
+          <div class="icon-tile" style="width:80px;height:80px;border-radius:18px;">
+            <svg viewBox="0 0 100 100" width="80" height="80"><use href="#aml-mark"/></svg>
+          </div>
+          <span class="scale-px">80px</span>
+        </div>
+        <div class="scale-item">
+          <div class="icon-tile" style="width:120px;height:120px;border-radius:26px;box-shadow:0 8px 24px rgba(79,70,229,.2);">
+            <svg viewBox="0 0 100 100" width="120" height="120"><use href="#aml-mark"/></svg>
+          </div>
+          <span class="scale-px">120px</span>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:11px;color:#d1d5db;margin-top:20px;">16–28 px use simplified glyph (no grid) · 40 px and above use full mark</p>
+    </div>
+  </div>
+
+  <!-- 7. Horizontal size ramp -->
+  <div class="card">
+    <div class="section-label">Logo — Horizontal Lockup Sizes</div>
+    <div style="display:flex;flex-direction:column;gap:28px;padding:12px 0;">
+      <!-- XL -->
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="font-size:10px;color:#d1d5db;width:28px;font-family:monospace;flex-shrink:0;">XL</span>
+        <div class="lockup">
+          <div class="icon-tile" style="width:64px;height:64px;border-radius:14px;">
+            <svg viewBox="0 0 100 100" width="64" height="64"><use href="#aml-mark"/></svg>
+          </div>
+          <div class="wm-block">
+            <span class="wm" style="font-size:38px;color:#312e81;">AxisMedLab</span>
+            <span class="tl" style="font-size:14px;color:#818cf8;">Precision in Every Result</span>
+          </div>
+        </div>
+      </div>
+      <!-- LG -->
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="font-size:10px;color:#d1d5db;width:28px;font-family:monospace;flex-shrink:0;">LG</span>
+        <div class="lockup">
+          <div class="icon-tile" style="width:48px;height:48px;border-radius:11px;">
+            <svg viewBox="0 0 100 100" width="48" height="48"><use href="#aml-mark"/></svg>
+          </div>
+          <span class="wm" style="font-size:28px;color:#312e81;">AxisMedLab</span>
+        </div>
+      </div>
+      <!-- MD -->
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="font-size:10px;color:#d1d5db;width:28px;font-family:monospace;flex-shrink:0;">MD</span>
+        <div class="lockup" style="gap:10px;">
+          <div class="icon-tile" style="width:36px;height:36px;border-radius:8px;">
+            <svg viewBox="0 0 100 100" width="36" height="36"><use href="#aml-mark"/></svg>
+          </div>
+          <span class="wm" style="font-size:20px;color:#312e81;">AxisMedLab</span>
+        </div>
+      </div>
+      <!-- SM -->
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="font-size:10px;color:#d1d5db;width:28px;font-family:monospace;flex-shrink:0;">SM</span>
+        <div class="lockup" style="gap:8px;">
+          <div class="icon-tile" style="width:28px;height:28px;border-radius:7px;">
+            <svg viewBox="0 0 100 100" width="28" height="28"><use href="#aml-mark-mini"/></svg>
+          </div>
+          <span class="wm" style="font-size:16px;color:#312e81;">AxisMedLab</span>
+        </div>
+      </div>
+      <!-- XS -->
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="font-size:10px;color:#d1d5db;width:28px;font-family:monospace;flex-shrink:0;">XS</span>
+        <div class="lockup" style="gap:6px;">
+          <div class="icon-tile" style="width:20px;height:20px;border-radius:5px;">
+            <svg viewBox="0 0 100 100" width="20" height="20"><use href="#aml-mark-mini"/></svg>
+          </div>
+          <span class="wm" style="font-size:13px;color:#312e81;">AxisMedLab</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Anatomy -->
+  <div class="card">
+    <div class="section-label">Logo — Icon Anatomy</div>
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center;">
+      <div style="background:#f9fafb;border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:center;">
+        <div class="icon-tile" style="width:188px;height:188px;border-radius:22px;">
+          <svg viewBox="0 0 100 100" width="188" height="188"><use href="#aml-mark"/></svg>
+        </div>
+      </div>
+      <ul class="anatomy-list">
+        <li class="anatomy-item">
+          <span class="anatomy-num">1</span>
+          <div>
+            <strong style="font-size:13px;color:#1f2937;">Tiny grid</strong>
+            <p style="font-size:13px;color:#6b7280;margin-top:3px;">8 vertical + 8 horizontal hairlines at 18 % opacity — graph paper, represents data precision.</p>
+          </div>
+        </li>
+        <li class="anatomy-item">
+          <span class="anatomy-num">2</span>
+          <div>
+            <strong style="font-size:13px;color:#1f2937;">X &amp; Y axes</strong>
+            <p style="font-size:13px;color:#6b7280;margin-top:3px;">Bold white lines crossing at centre with arrowheads — the "Axis" in AxisMedLab.</p>
+          </div>
+        </li>
+        <li class="anatomy-item">
+          <span class="anatomy-num">3</span>
+          <div>
+            <strong style="font-size:13px;color:#1f2937;">Heart silhouette</strong>
+            <p style="font-size:13px;color:#6b7280;margin-top:3px;">Solid white heart centred at the origin — the "Med" (medical / patient care).</p>
+          </div>
+        </li>
+        <li class="anatomy-item">
+          <span class="anatomy-num">4</span>
+          <div>
+            <strong style="font-size:13px;color:#1f2937;">ECG pulse line</strong>
+            <p style="font-size:13px;color:#6b7280;margin-top:3px;">Indigo-600 polyline running across the x-axis through the heart — the "Lab" (test results, diagnostics).</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 9. Clear space & don'ts -->
+  <div class="card">
+    <div class="section-label">Logo — Clear Space &amp; Usage Rules</div>
+    <div class="variant-grid" style="gap:12px;">
+      <div style="background:#f9fafb;border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:10px;">
+        <div style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;">Clear Space</div>
+        <div style="position:relative;display:inline-flex;align-items:center;gap:10px;padding:20px;border:1.5px dashed #e0e7ff;border-radius:8px;align-self:flex-start;">
+          <div class="icon-tile" style="width:40px;height:40px;border-radius:9px;">
+            <svg viewBox="0 0 100 100" width="40" height="40"><use href="#aml-mark"/></svg>
+          </div>
+          <span class="wm" style="font-size:22px;color:#312e81;">AxisMedLab</span>
+          <span style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:9px;color:#a5b4fc;">min 1× icon height</span>
+        </div>
+        <p style="font-size:12px;color:#9ca3af;">Maintain clear space equal to the icon height on all sides.</p>
+      </div>
+      <div style="background:#f9fafb;border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:12px;">
+        <div style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;">Don'ts</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="color:#ef4444;font-size:16px;flex-shrink:0;">✕</span>
+            <div class="lockup" style="gap:8px;opacity:0.6;filter:hue-rotate(120deg);">
+              <div class="icon-tile" style="width:28px;height:28px;border-radius:7px;background:#16a34a;">
+                <svg viewBox="0 0 100 100" width="28" height="28"><use href="#aml-mark-mini"/></svg>
+              </div>
+              <span class="wm" style="font-size:16px;color:#16a34a;">AxisMedLab</span>
+            </div>
+            <span style="font-size:11px;color:#9ca3af;">Don't recolour</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="color:#ef4444;font-size:16px;flex-shrink:0;">✕</span>
+            <div class="lockup" style="gap:8px;transform:scaleX(1.4);transform-origin:left;">
+              <div class="icon-tile" style="width:28px;height:28px;border-radius:7px;">
+                <svg viewBox="0 0 100 100" width="28" height="28"><use href="#aml-mark-mini"/></svg>
+              </div>
+              <span class="wm" style="font-size:16px;color:#312e81;">AxisMedLab</span>
+            </div>
+            <span style="font-size:11px;color:#9ca3af;">Don't stretch</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="color:#ef4444;font-size:16px;flex-shrink:0;">✕</span>
+            <div class="lockup" style="gap:8px;">
+              <div class="icon-tile" style="width:28px;height:28px;border-radius:7px;">
+                <svg viewBox="0 0 100 100" width="28" height="28"><use href="#aml-mark-mini"/></svg>
+              </div>
+              <span class="wm" style="font-size:16px;color:#312e81;font-weight:400;">AxisMedLab</span>
+            </div>
+            <span style="font-size:11px;color:#9ca3af;">Don't change font weight</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
