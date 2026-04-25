@@ -19,13 +19,26 @@
 
     {{-- Brand --}}
     <div class="flex items-center gap-3 h-16 px-5 border-b border-indigo-800 shrink-0">
-        <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600">
-            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 001.357 2.059l.182.08M14.25 3.104c.251.023.501.05.75.082M19.5 7.336A2.25 2.25 0 0121 9.5v9.75A2.25 2.25 0 0118.75 21.5h-13.5A2.25 2.25 0 013 19.25V9.5a2.25 2.25 0 011.5-2.164" />
+        <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600 overflow-hidden shrink-0">
+            <svg viewBox="0 0 100 100" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+                <!-- Axes -->
+                <g stroke="rgba(255,255,255,0.85)" stroke-width="3" stroke-linecap="square">
+                    <path d="M6 50 H94"/>
+                    <path d="M50 6 V94"/>
+                </g>
+                <!-- Arrowheads -->
+                <g fill="rgba(255,255,255,0.85)">
+                    <polygon points="94,50 88,46 88,54"/>
+                    <polygon points="50,6 46,12 54,12"/>
+                </g>
+                <!-- Heart -->
+                <path d="M50 72 C 28 56, 18 42, 28 32 C 36 24, 46 28, 50 38 C 54 28, 64 24, 72 32 C 82 42, 72 56, 50 72 Z" fill="#ffffff"/>
+                <!-- ECG pulse -->
+                <polyline points="10,50 30,50 36,50 41,40 46,60 50,46 54,54 58,50 70,50 90,50"
+                    fill="none" stroke="#4f46e5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
-        <span class="text-lg font-bold tracking-tight">MLMRS</span>
+        <span class="text-lg font-bold tracking-tight">AxisMedLab</span>
     </div>
 
     {{-- Scrollable nav --}}

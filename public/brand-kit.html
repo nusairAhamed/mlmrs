@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AxisMedLab — Brand Kit</title>
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: #f3f4f6;
+      color: #1f2937;
+      padding: 48px 24px;
+    }
+
+    .page { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px; }
+
+    /* ── Section ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: 16px;
+    }
+    .section { display: flex; flex-direction: column; gap: 6px; }
+
+    /* ── Cover ── */
+    .cover {
+      background: #312e81;
+      border-radius: 16px;
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .cover-brand { display: flex; align-items: center; gap: 16px; }
+    .cover-icon {
+      width: 56px; height: 56px;
+      background: #4f46e5;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cover-icon svg { width: 32px; height: 32px; color: white; stroke: white; }
+    .cover-name { font-size: 32px; font-weight: 700; color: white; letter-spacing: -.02em; }
+    .cover-tagline { font-size: 14px; color: #a5b4fc; margin-top: 4px; }
+    .cover-meta { text-align: right; }
+    .cover-meta p { font-size: 12px; color: #818cf8; }
+    .cover-meta strong { color: white; font-size: 14px; }
+
+    /* ── Card ── */
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    /* ── Color grid ── */
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .color-swatch {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #f3f4f6;
+    }
+    .swatch-block { height: 72px; }
+    .swatch-info { padding: 10px 12px; background: white; }
+    .swatch-name { font-size: 11px; font-weight: 600; color: #374151; }
+    .swatch-hex  { font-size: 11px; color: #9ca3af; font-family: monospace; margin-top: 2px; }
+    .swatch-use  { font-size: 10px; color: #d1d5db; margin-top: 2px; }
+
+    /* ── Typography ── */
+    .type-row {
+      display: flex; align-items: baseline; gap: 20px;
+      padding: 14px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-label { font-size: 11px; color: #9ca3af; width: 160px; flex-shrink: 0; }
+    .type-spec   { font-size: 11px; color: #d1d5db; width: 180px; flex-shrink: 0; font-family: monospace; }
+
+    /* ── Status badges ── */
+    .badge-grid { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .badge {
+      display: inline-flex; align-items: center;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* ── Buttons ── */
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      font-family: 'Figtree', sans-serif;
+    }
+    .btn-primary   { background: #4f46e5; color: white; }
+    .btn-secondary { background: white; color: #4b5563; border: 1px solid #e5e7eb; }
+    .btn-danger    { background: #ef4444; color: white; }
+    .btn-ghost     { background: transparent; color: #4f46e5; border: 1px solid #e0e7ff; }
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 500;
+    }
+
+    /* ── Sidebar preview ── */
+    .sidebar-preview {
+      width: 220px;
+      background: #312e81;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .sb-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px;
+      border-bottom: 1px solid #3730a3;
+    }
+    .sb-icon {
+      width: 32px; height: 32px;
+      background: #4f46e5;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sb-icon svg { width: 18px; height: 18px; stroke: white; }
+    .sb-name { font-size: 15px; font-weight: 700; color: white; }
+    .sb-nav { padding: 12px 10px; display: flex; flex-direction: column; gap: 2px; }
+    .sb-section { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #818cf8; padding: 12px 10px 4px; }
+    .sb-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #c7d2fe;
+    }
+    .sb-item.active { background: #4338ca; color: white; }
+    .sb-item svg { width: 16px; height: 16px; stroke: currentColor; flex-shrink: 0; }
+    .sb-footer {
+      padding: 12px 14px;
+      border-top: 1px solid #3730a3;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sb-avatar {
+      width: 32px; height: 32px;
+      background: #4f46e5;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; color: white;
+    }
+    .sb-user-name { font-size: 12px; font-weight: 600; color: white; }
+    .sb-user-role { font-size: 11px; color: #a5b4fc; }
+
+    /* ── Stat card ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    .stat-card {
+      background: white;
+      border: 1px solid #f3f4f6;
+      border-radius: 10px;
+      padding: 18px;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    }
+    .stat-icon {
+      width: 44px; height: 44px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon svg { width: 22px; height: 22px; stroke: currentColor; }
+    .stat-label { font-size: 11px; font-weight: 500; color: #6b7280; }
+    .stat-value { font-size: 22px; font-weight: 700; line-height: 1.2; }
+
+    /* ── Table preview ── */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #6b7280;
+      background: #f9fafb;
+      padding: 10px 16px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    td { padding: 10px 16px; border-bottom: 1px solid #f3f4f6; color: #374151; }
+    tr:hover td { background: #f9fafb; }
+    .mono { font-family: monospace; font-size: 12px; color: #6b7280; }
+
+    /* ── Layout preview ── */
+    .layout-preview {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      height: 360px;
+    }
+    .lp-sidebar { width: 200px; background: #312e81; flex-shrink: 0; padding: 16px; }
+    .lp-main { flex: 1; display: flex; flex-direction: column; background: #f3f4f6; }
+    .lp-header { height: 52px; background: white; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; padding: 0 20px; justify-content: space-between; }
+    .lp-header-title { font-size: 14px; font-weight: 600; color: #1f2937; }
+    .lp-content { flex: 1; padding: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-content: start; }
+    .lp-card { background: white; border-radius: 8px; border: 1px solid #f3f4f6; padding: 14px; }
+    .lp-card-title { font-size: 10px; color: #9ca3af; font-weight: 500; }
+    .lp-card-value { font-size: 20px; font-weight: 700; color: #312e81; margin-top: 4px; }
+
+    /* ── Form elements ── */
+    .form-row { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 12px; font-weight: 500; color: #374151; }
+    .form-input {
+      padding: 8px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Figtree', sans-serif;
+      color: #374151;
+      outline: none;
+      width: 100%;
+    }
+    .form-input:focus { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* ── Divider ── */
+    hr { border: none; border-top: 1px solid #e5e7eb; }
+
+    /* ── Two col ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- SVG Symbol Definitions -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="aml-mark" viewBox="0 0 100 100">
+        <g stroke="rgba(255,255,255,0.18)" stroke-width="0.6">
+          <path d="M10 0 V100 M20 0 V100 M30 0 V100 M40 0 V100 M60 0 V100 M70 0 V100 M80 0 V100 M90 0 V100"/>
+          <path d="M0 10 H100 M0 20 H100 M0 30 H100 M0 40 H100 M0 60 H100 M0 70 H100 M0 80 H100 M0 90 H100"/>
+        </g>
+        <g stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="square">
+          <path d="M0 50 H100"/>
+          <path d="M50 0 V100"/>
+        </g>
+        <g fill="rgba(255,255,255,0.85)">
+          <polygon points="100,50 95,47 95,53"/>
+          <polygon points="50,0 47,5 53,5"/>
+        </g>
+        <path d="M50 70 C 30 56, 22 44, 30 36 C 36 30, 44 32, 50 40 C 56 32, 64 30, 70 36 C 78 44, 70 56, 50 70 Z" fill="#ffffff"/>
+        <polyline points="14,50 30,50 36,50 40,42 44,58 48,46 52,54 56,50 64,50 70,50 86,50"
+          fill="none" stroke="#4f46e5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="aml-mark-mini" viewBox="0 0 100 100">
+        <g stroke="rgba(255,255,255,0.85)" stroke-width="3" stroke-linecap="square">
+          <path d="M6 50 H94"/>
+          <path d="M50 6 V94"/>
+        </g>
+        <g fill="rgba(255,255,255,0.85)">
+          <polygon points="94,50 88,46 88,54"/>
+          <polygon points="50,6 46,12 54,12"/>
+        </g>
+        <path d="M50 72 C 28 56, 18 42, 28 32 C 36 24, 46 28, 50 38 C 54 28, 64 24, 72 32 C 82 42, 72 56, 50 72 Z" fill="#ffffff"/>
+        <polyline points="10,50 30,50 36,50 41,40 46,60 50,46 54,54 58,50 70,50 90,50"
+          fill="none" stroke="#4f46e5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Cover -->
+  <div class="cover">
+    <div class="cover-brand">
+      <div class="cover-icon" style="overflow:hidden;">
+        <svg viewBox="0 0 100 100" width="56" height="56"><use href="#aml-mark"/></svg>
+      </div>
+      <div>
+        <div class="cover-name">AxisMedLab</div>
+        <div class="cover-tagline">Precision in Every Result</div>
+      </div>
+    </div>
+    <div class="cover-meta">
+      <p>Brand Kit</p>
+      <strong>v1.0 — 2026</strong>
+    </div>
+  </div>
+
+  <!-- Colors: Primary -->
+  <div class="card">
+    <div class="section-label">Primary Palette — Indigo</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#312e81"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Indigo 900</div>
+          <div class="swatch-hex">#312e81</div>
+          <div class="swatch-use">Sidebar bg</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#3730a3"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Indigo 800</div>
+          <div class="swatch-hex">#3730a3</div>
+          <div class="swatch-use">Sidebar border</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#4338ca"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Indigo 700</div>
+          <div class="swatch-hex">#4338ca</div>
+          <div class="swatch-use">Active nav / hover</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#4f46e5"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Indigo 600</div>
+          <div class="swatch-hex">#4f46e5</div>
+          <div class="swatch-use">Primary buttons</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#818cf8"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Indigo 400</div>
+          <div class="swatch-hex">#818cf8</div>
+          <div class="swatch-use">Section labels</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#e0e7ff"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Indigo 100</div>
+          <div class="swatch-hex">#e0e7ff</div>
+          <div class="swatch-use">Icon bg / badge</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Colors: Neutral -->
+  <div class="card">
+    <div class="section-label">Neutral Palette</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#1f2937"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gray 800</div>
+          <div class="swatch-hex">#1f2937</div>
+          <div class="swatch-use">Headings / values</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#374151"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gray 700</div>
+          <div class="swatch-hex">#374151</div>
+          <div class="swatch-use">Body text</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#6b7280"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gray 500</div>
+          <div class="swatch-hex">#6b7280</div>
+          <div class="swatch-use">Labels / meta</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#9ca3af"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gray 400</div>
+          <div class="swatch-hex">#9ca3af</div>
+          <div class="swatch-use">Placeholder</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#e5e7eb"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gray 200</div>
+          <div class="swatch-hex">#e5e7eb</div>
+          <div class="swatch-use">Borders / dividers</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#f3f4f6"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gray 100</div>
+          <div class="swatch-hex">#f3f4f6</div>
+          <div class="swatch-use">Page background</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#f9fafb; border:1px solid #e5e7eb;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gray 50</div>
+          <div class="swatch-hex">#f9fafb</div>
+          <div class="swatch-use">Table header / hover</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#ffffff; border:1px solid #e5e7eb;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">White</div>
+          <div class="swatch-hex">#ffffff</div>
+          <div class="swatch-use">Cards / panels</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Colors: Status -->
+  <div class="card">
+    <div class="section-label">Status & Semantic Colors</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#f3f4f6"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Pending</div>
+          <div class="swatch-hex">gray-100 / gray-700</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#dbeafe"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Sample Collected</div>
+          <div class="swatch-hex">blue-100 / blue-700</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#fef3c7"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">In Progress</div>
+          <div class="swatch-hex">amber-100 / amber-700</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#ede9fe"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Pending Review</div>
+          <div class="swatch-hex">violet-100 / violet-700</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#d1fae5"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Approved</div>
+          <div class="swatch-hex">emerald-100 / emerald-700</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#fee2e2"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Rejected</div>
+          <div class="swatch-hex">red-100 / red-700</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#ffe4e6"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Cancelled</div>
+          <div class="swatch-hex">rose-100 / rose-700</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#f3e8ff"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">On Hold</div>
+          <div class="swatch-hex">purple-100 / purple-700</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#ef4444"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Notification dot</div>
+          <div class="swatch-hex">red-500 / white</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="card">
+    <div class="section-label">Typography — Figtree</div>
+
+    <div class="type-row">
+      <span class="type-label">Brand / Wordmark</span>
+      <span class="type-spec">700  18px  tight</span>
+      <span style="font-size:18px;font-weight:700;letter-spacing:-.02em;color:#312e81;">AxisMedLab</span>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Page Heading</span>
+      <span class="type-spec">600  20px</span>
+      <span style="font-size:20px;font-weight:600;color:#1f2937;">Dashboard</span>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Section Title</span>
+      <span class="type-spec">600  14px</span>
+      <span style="font-size:14px;font-weight:600;color:#374151;">Recent Orders</span>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Body / Table cell</span>
+      <span class="type-spec">400  14px</span>
+      <span style="font-size:14px;color:#374151;">Mohammed Al Rashid</span>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Label / Meta</span>
+      <span class="type-spec">500  12px  gray-500</span>
+      <span style="font-size:12px;font-weight:500;color:#6b7280;">Total Patients</span>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Table Header</span>
+      <span class="type-spec">600  11px  uppercase</span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6b7280;">Order #</span>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Order Number</span>
+      <span class="type-spec">mono  12px  gray-700</span>
+      <span style="font-size:12px;font-family:monospace;color:#374151;">LAB-2026-00042</span>
+    </div>
+    <div class="type-row">
+      <span class="type-label">Stat Value</span>
+      <span class="type-spec">700  24px</span>
+      <span style="font-size:24px;font-weight:700;color:#4f46e5;">1,284</span>
+    </div>
+  </div>
+
+  <!-- Status Badges -->
+  <div class="card">
+    <div class="section-label">Status Badges</div>
+    <div class="badge-grid">
+      <span class="badge" style="background:#f3f4f6;color:#374151;">Pending</span>
+      <span class="badge" style="background:#dbeafe;color:#1d4ed8;">Sample Collected</span>
+      <span class="badge" style="background:#fef3c7;color:#b45309;">In Progress</span>
+      <span class="badge" style="background:#ede9fe;color:#6d28d9;">Pending Review</span>
+      <span class="badge" style="background:#d1fae5;color:#065f46;">Approved</span>
+      <span class="badge" style="background:#fee2e2;color:#b91c1c;">Sample Rejected</span>
+      <span class="badge" style="background:#ffe4e6;color:#be123c;">Cancelled</span>
+      <span class="badge" style="background:#f3e8ff;color:#7e22ce;">On Hold</span>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="card">
+    <div class="section-label">Buttons</div>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div>
+        <div style="font-size:11px;color:#9ca3af;margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Regular</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Primary Action</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-danger">Danger</button>
+          <button class="btn btn-ghost">Ghost</button>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:#9ca3af;margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Small (table actions)</div>
+        <div class="btn-row">
+          <button class="btn-sm" style="background:#4f46e5;color:white;">Edit</button>
+          <button class="btn-sm" style="background:white;color:#374151;border:1px solid #e5e7eb;">View</button>
+          <button class="btn-sm" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="card">
+    <div class="section-label">Stat Cards</div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#e0e7ff;color:#4f46e5;">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+        </div>
+        <div>
+          <div class="stat-label">Total Patients</div>
+          <div class="stat-value" style="color:#4338ca;">1,284</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#dbeafe;color:#2563eb;">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
+        </div>
+        <div>
+          <div class="stat-label">Lab Orders</div>
+          <div class="stat-value" style="color:#1d4ed8;">342</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#d1fae5;color:#059669;">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div>
+          <div class="stat-label">Approved</div>
+          <div class="stat-value" style="color:#065f46;">198</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef3c7;color:#d97706;">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div>
+          <div class="stat-label">In Progress</div>
+          <div class="stat-value" style="color:#b45309;">87</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card">
+    <div class="section-label">Data Table</div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Patient</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="mono">LAB-2026-00041</span></td>
+            <td style="font-weight:500;">Ahmed Al Farsi</td>
+            <td><span class="badge" style="background:#d1fae5;color:#065f46;font-size:11px;">Approved</span></td>
+            <td style="font-size:12px;color:#6b7280;">24 Apr 2026</td>
+            <td style="text-align:right;"><a href="#" style="font-size:12px;color:#4f46e5;text-decoration:none;font-weight:500;">View</a></td>
+          </tr>
+          <tr>
+            <td><span class="mono">LAB-2026-00040</span></td>
+            <td style="font-weight:500;">Sara Khalid</td>
+            <td><span class="badge" style="background:#fef3c7;color:#b45309;font-size:11px;">In Progress</span></td>
+            <td style="font-size:12px;color:#6b7280;">23 Apr 2026</td>
+            <td style="text-align:right;"><a href="#" style="font-size:12px;color:#4f46e5;text-decoration:none;font-weight:500;">View</a></td>
+          </tr>
+          <tr>
+            <td><span class="mono">LAB-2026-00039</span></td>
+            <td style="font-weight:500;">Omar Nasser</td>
+            <td><span class="badge" style="background:#ede9fe;color:#6d28d9;font-size:11px;">Pending Review</span></td>
+            <td style="font-size:12px;color:#6b7280;">22 Apr 2026</td>
+            <td style="text-align:right;"><a href="#" style="font-size:12px;color:#4f46e5;text-decoration:none;font-weight:500;">View</a></td>
+          </tr>
+          <tr>
+            <td><span class="mono">LAB-2026-00038</span></td>
+            <td style="font-weight:500;">Fatima Hassan</td>
+            <td><span class="badge" style="background:#f3f4f6;color:#374151;font-size:11px;">Pending</span></td>
+            <td style="font-size:12px;color:#6b7280;">21 Apr 2026</td>
+            <td style="text-align:right;"><a href="#" style="font-size:12px;color:#4f46e5;text-decoration:none;font-weight:500;">View</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Form Elements -->
+  <div class="card">
+    <div class="section-label">Form Elements</div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Patient Name</label>
+        <input class="form-input" type="text" placeholder="Enter full name" />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Date of Birth</label>
+        <input class="form-input" type="date" />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" placeholder="patient@email.com" />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" type="text" placeholder="+966 5X XXX XXXX" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Preview -->
+  <div class="card">
+    <div class="section-label">Sidebar Component</div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;">
+      <div class="sidebar-preview">
+        <div class="sb-header">
+          <div class="sb-icon" style="overflow:hidden;padding:0;">
+            <svg viewBox="0 0 100 100" width="32" height="32"><use href="#aml-mark-mini"/></svg>
+          </div>
+          <span class="sb-name">AxisMedLab</span>
+        </div>
+        <div class="sb-nav">
+          <a class="sb-item active" href="#">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+            Dashboard
+          </a>
+          <div class="sb-section">Operations</div>
+          <a class="sb-item" href="#">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0"/></svg>
+            Patients
+          </a>
+          <a class="sb-item" href="#">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586"/></svg>
+            Lab Orders
+          </a>
+        </div>
+        <div class="sb-footer">
+          <div class="sb-avatar">N</div>
+          <div>
+            <div class="sb-user-name">Nusair</div>
+            <div class="sb-user-role">Admin</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:12px;">
+        <div style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Sidebar Tokens</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:28px;height:28px;background:#312e81;border-radius:6px;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;font-weight:500;">indigo-900</div><div style="font-size:11px;color:#9ca3af;font-family:monospace;">#312e81 — background</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:28px;height:28px;background:#4338ca;border-radius:6px;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;font-weight:500;">indigo-700</div><div style="font-size:11px;color:#9ca3af;font-family:monospace;">#4338ca — active item</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:28px;height:28px;background:#4f46e5;border-radius:6px;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;font-weight:500;">indigo-600</div><div style="font-size:11px;color:#9ca3af;font-family:monospace;">#4f46e5 — icon bg / avatar</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:28px;height:28px;background:#818cf8;border-radius:6px;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;font-weight:500;">indigo-400</div><div style="font-size:11px;color:#9ca3af;font-family:monospace;">#818cf8 — section labels</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:28px;height:28px;background:#c7d2fe;border-radius:6px;flex-shrink:0;"></div>
+            <div><div style="font-size:12px;font-weight:500;">indigo-200</div><div style="font-size:11px;color:#9ca3af;font-family:monospace;">#c7d2fe — nav item text</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layout Preview -->
+  <div class="card">
+    <div class="section-label">Layout Structure</div>
+    <div class="layout-preview">
+      <div class="lp-sidebar">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+          <div style="width:24px;height:24px;background:#4f46e5;border-radius:6px;overflow:hidden;flex-shrink:0;">
+            <svg viewBox="0 0 100 100" width="24" height="24"><use href="#aml-mark-mini"/></svg>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:white;">AxisMedLab</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="padding:6px 8px;background:#4338ca;border-radius:6px;font-size:11px;font-weight:500;color:white;">Dashboard</div>
+          <div style="padding:6px 8px;font-size:11px;color:#c7d2fe;">Patients</div>
+          <div style="padding:6px 8px;font-size:11px;color:#c7d2fe;">Lab Orders</div>
+          <div style="padding:6px 8px;font-size:11px;color:#c7d2fe;">Lab Samples</div>
+        </div>
+      </div>
+      <div class="lp-main">
+        <div class="lp-header">
+          <span class="lp-header-title">Dashboard</span>
+          <div style="width:24px;height:24px;background:#f3f4f6;border-radius:50%;"></div>
+        </div>
+        <div class="lp-content">
+          <div class="lp-card"><div class="lp-card-title">Patients</div><div class="lp-card-value">1,284</div></div>
+          <div class="lp-card"><div class="lp-card-title">Orders</div><div class="lp-card-value">342</div></div>
+          <div class="lp-card"><div class="lp-card-title">Approved</div><div class="lp-card-value">198</div></div>
+          <div class="lp-card" style="grid-column:span 2"><div class="lp-card-title">Recent Orders</div><div style="margin-top:8px;font-size:10px;color:#9ca3af;">Table goes here…</div></div>
+          <div class="lp-card"><div class="lp-card-title">Status Breakdown</div><div style="margin-top:8px;font-size:10px;color:#9ca3af;">Chart goes here…</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center;font-size:12px;color:#9ca3af;padding-bottom:24px;">
+    AxisMedLab Brand Kit — v1.0 — 2026 &nbsp;·&nbsp; Font: Figtree &nbsp;·&nbsp; Framework: Tailwind CSS
+  </div>
+
+</div>
+</body>
+</html>

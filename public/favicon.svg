@@ -1,0 +1,18 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="18" fill="#4f46e5"/>
+  <!-- Axes -->
+  <g stroke="rgba(255,255,255,0.85)" stroke-width="3" stroke-linecap="square">
+    <path d="M6 50 H94"/>
+    <path d="M50 6 V94"/>
+  </g>
+  <!-- Arrowheads -->
+  <g fill="rgba(255,255,255,0.85)">
+    <polygon points="94,50 88,46 88,54"/>
+    <polygon points="50,6 46,12 54,12"/>
+  </g>
+  <!-- Heart -->
+  <path d="M50 72 C 28 56, 18 42, 28 32 C 36 24, 46 28, 50 38 C 54 28, 64 24, 72 32 C 82 42, 72 56, 50 72 Z" fill="#ffffff"/>
+  <!-- ECG pulse -->
+  <polyline points="10,50 30,50 36,50 41,40 46,60 50,46 54,54 58,50 70,50 90,50"
+    fill="none" stroke="#4f46e5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
