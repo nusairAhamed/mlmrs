@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MLMRS — PlantUML Diagram Codes</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f9;
+      color: #222;
+      padding: 32px 20px 60px;
+    }
+
+    header {
+      max-width: 960px;
+      margin: 0 auto 36px;
+      border-left: 5px solid #1a73e8;
+      padding-left: 16px;
+    }
+    header h1 { font-size: 1.6rem; font-weight: 700; color: #1a1a2e; }
+    header p  { margin-top: 6px; color: #555; font-size: 0.95rem; line-height: 1.5; }
+    header a  { color: #1a73e8; }
+
+    .instruction-box {
+      max-width: 960px;
+      margin: 0 auto 32px;
+      background: #e8f0fe;
+      border: 1px solid #b0c8f5;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #1a1a2e;
+    }
+    .instruction-box strong { color: #1a73e8; }
+
+    .diagram-card {
+      max-width: 960px;
+      margin: 0 auto 32px;
+      background: #fff;
+      border: 1px solid #dde1e7;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #1a1a2e;
+      color: #fff;
+    }
+    .card-header-left { display: flex; align-items: center; gap: 12px; }
+    .diagram-number {
+      background: #1a73e8;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+    .card-title { font-size: 1rem; font-weight: 600; }
+    .card-subtitle { font-size: 0.8rem; color: #aaa; margin-top: 2px; }
+
+    .card-body { padding: 0; }
+
+    .desc-bar {
+      padding: 10px 20px;
+      background: #fafbfc;
+      border-bottom: 1px solid #eee;
+      font-size: 0.85rem;
+      color: #444;
+    }
+
+    .code-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: #282c34;
+      border-top: 1px solid #1a1d23;
+    }
+    .code-label { font-size: 0.75rem; color: #888; font-family: monospace; }
+    .btn-copy {
+      background: #1a73e8;
+      color: #fff;
+      border: none;
+      padding: 5px 14px;
+      border-radius: 5px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-copy:hover { background: #1558b0; }
+    .btn-copy.copied { background: #2e7d32; }
+
+    textarea.code-block {
+      display: block;
+      width: 100%;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      padding: 18px 20px;
+      background: #1e2127;
+      color: #abb2bf;
+      border: none;
+      resize: vertical;
+      outline: none;
+      tab-size: 2;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.82rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>MLMRS — PlantUML Diagram Source Codes</h1>
+  <p>
+    Medical Laboratory Management and Reporting System &nbsp;|&nbsp;
+    MIT 593-5 Capstone Project &nbsp;|&nbsp; R.F. Nusair Ahamed &nbsp;|&nbsp; UWU/PGU/MIT/2024/025
+  </p>
+</header>
+
+<div class="instruction-box">
+  <strong>How to use:</strong> Copy any code block below &rarr; open
+  <a href="https://www.plantuml.com/plantuml/uml/" target="_blank">plantuml.com/plantuml/uml</a>
+  or <a href="https://www.plantext.com/" target="_blank">plantext.com</a> &rarr; paste the code &rarr;
+  export as PNG or SVG for your report. Each diagram starts with <code>@startuml</code> and ends with <code>@enduml</code>.
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     DIAGRAM 1 — SYSTEM ARCHITECTURE
+     ═══════════════════════════════════════════════════ -->
+<div class="diagram-card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <span class="diagram-number">Figure 1</span>
+      <div>
+        <div class="card-title">System Architecture Diagram</div>
+        <div class="card-subtitle">Appendix C — Component / Deployment View</div>
+      </div>
+    </div>
+  </div>
+  <div class="desc-bar">
+    Shows the three-layer architecture: Client Layer (browser, scanner) → Application Layer (Laravel MVC — routes, middleware, controllers, models, packages, views) → Data Layer (MySQL) and external SMTP service.
+  </div>
+  <div class="code-toolbar">
+    <span class="code-label">PlantUML — Component Diagram</span>
+    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+  </div>
+  <textarea class="code-block" rows="72" spellcheck="false" readonly>@startuml System_Architecture
+skinparam component {
+  BackgroundColor #DDEEFF
+  BorderColor #336699
+}
+skinparam database {
+  BackgroundColor #FFE4B5
+  BorderColor #CC8800
+}
+skinparam rectangle {
+  BackgroundColor #F0FFF0
+  BorderColor #336633
+  FontColor #1a1a2e
+}
+skinparam arrow {
+  Color #336699
+}
+
+rectangle "Client Layer" {
+  [Web Browser] as browser
+  [Barcode / QR Scanner] as scanner
+}
+
+rectangle "Application Layer  (Laravel 12 — PHP Framework)" {
+
+  rectangle "HTTP Layer" {
+    [Routes] as routes
+    [Auth Middleware] as authMW
+    [Role Middleware] as roleMW
+  }
+
+  rectangle "Controllers" {
+    [PatientController] as patCtrl
+    [LabOrderController] as orderCtrl
+    [LabResultController] as resultCtrl
+    [LabReportController] as reportCtrl
+    [NotificationController] as notifCtrl
+    [DashboardController] as dashCtrl
+    [PublicReportController] as pubCtrl
+  }
+
+  rectangle "Models  (Eloquent ORM)" {
+    [Patient] as patM
+    [LabOrder] as orderM
+    [LabOrderTest] as lotM
+    [LabSample] as sampleM
+  }
+
+  rectangle "Services / Packages" {
+    [DomPDF\nPDF Generation] as dompdf
+    [Simple QR Code\nQR Generation] as qrpkg
+    [Milon Barcode\nBarcode Generation] as barcodelib
+    [Laravel Mail\nEmail Notifications] as mailer
+    [Laravel Auditing\nAudit Trail] as auditing
+  }
+
+  rectangle "Views  (Blade Templates)" {
+    [Staff Views] as staffViews
+    [PDF Report Template] as pdfView
+    [Public Report View] as pubView
+  }
+}
+
+database "MySQL 8.0\nDatabase" as db
+
+rectangle "External Services" {
+  [SMTP Server\n(Email Delivery)] as smtp
+}
+
+browser --> routes
+scanner --> routes
+routes --> authMW
+authMW --> roleMW
+roleMW --> patCtrl
+roleMW --> orderCtrl
+roleMW --> resultCtrl
+roleMW --> reportCtrl
+roleMW --> notifCtrl
+roleMW --> dashCtrl
+routes --> pubCtrl
+
+patCtrl --> patM
+orderCtrl --> orderM
+resultCtrl --> lotM
+orderCtrl --> sampleM
+
+reportCtrl --> dompdf
+reportCtrl --> qrpkg
+orderCtrl --> barcodelib
+notifCtrl --> mailer
+auditing --> db
+
+patM --> db
+orderM --> db
+lotM --> db
+sampleM --> db
+
+mailer --> smtp
+
+patCtrl --> staffViews
+orderCtrl --> staffViews
+dashCtrl --> staffViews
+reportCtrl --> pdfView
+pubCtrl --> pubView
+
+@enduml</textarea>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     DIAGRAM 2 — ER DIAGRAM
+     ═══════════════════════════════════════════════════ -->
+<div class="diagram-card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <span class="diagram-number">Figure 2</span>
+      <div>
+        <div class="card-title">Entity Relationship (ER) Diagram</div>
+        <div class="card-subtitle">Appendix D — Database Schema (17 Tables)</div>
+      </div>
+    </div>
+  </div>
+  <div class="desc-bar">
+    Full normalized database schema showing all 17 tables, their columns (with PK/FK annotations), and cardinality relationships. Includes the snapshotting design (lab_order_tests) and audit trail table.
+  </div>
+  <div class="code-toolbar">
+    <span class="code-label">PlantUML — Entity Diagram</span>
+    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+  </div>
+  <textarea class="code-block" rows="185" spellcheck="false" readonly>@startuml ER_Diagram
+hide circle
+skinparam linetype ortho
+skinparam entity {
+  BackgroundColor #DDEEFF
+  BorderColor #336699
+  FontColor #1a1a2e
+}
+skinparam arrow {
+  Color #336699
+}
+
+entity "roles" as roles {
+  * id : BIGINT <<PK>>
+  --
+  name : VARCHAR(50)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "users" as users {
+  * id : BIGINT <<PK>>
+  --
+  role_id : BIGINT <<FK>>
+  name : VARCHAR(150)
+  email : VARCHAR(150)
+  password : VARCHAR(255)
+  email_verified_at : TIMESTAMP
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "patients" as patients {
+  * id : BIGINT <<PK>>
+  --
+  patient_code : VARCHAR(50)
+  full_name : VARCHAR(150)
+  dob : DATE
+  gender : ENUM(male, female, other)
+  phone : VARCHAR(20)
+  email : VARCHAR(150)
+  address : TEXT
+  created_by : BIGINT <<FK>>
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "test_categories" as test_categories {
+  * id : BIGINT <<PK>>
+  --
+  name : VARCHAR(150)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "test_groups" as test_groups {
+  * id : BIGINT <<PK>>
+  --
+  category_id : BIGINT <<FK>>
+  name : VARCHAR(150)
+  price : DECIMAL(10,2)
+  status : ENUM(active, inactive)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "tests" as tests {
+  * id : BIGINT <<PK>>
+  --
+  name : VARCHAR(150)
+  unit : VARCHAR(50)
+  data_type : ENUM(numeric, text)
+  status : ENUM(active, inactive)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "test_group_tests" as tgt {
+  * id : BIGINT <<PK>>
+  --
+  test_group_id : BIGINT <<FK>>
+  test_id : BIGINT <<FK>>
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "test_reference_ranges" as trr {
+  * id : BIGINT <<PK>>
+  --
+  test_id : BIGINT <<FK>>
+  gender : ENUM(any, male, female)
+  age_min : INT
+  age_max : INT
+  ref_min : DECIMAL(10,2)
+  ref_max : DECIMAL(10,2)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "lab_orders" as lab_orders {
+  * id : BIGINT <<PK>>
+  --
+  patient_id : BIGINT <<FK>>
+  created_by : BIGINT <<FK>>
+  order_number : VARCHAR(30)
+  status : VARCHAR(20)
+  total_amount : DECIMAL(10,2)
+  notes : TEXT
+  completed_at : TIMESTAMP
+  approved_by : BIGINT <<FK>>
+  approved_at : TIMESTAMP
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "lab_order_groups" as log {
+  * id : BIGINT <<PK>>
+  --
+  lab_order_id : BIGINT <<FK>>
+  test_group_id : BIGINT <<FK>>
+  group_price_snapshot : DECIMAL(10,2)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "lab_order_tests" as lot {
+  * id : BIGINT <<PK>>
+  --
+  lab_order_id : BIGINT <<FK>>
+  lab_order_group_id : BIGINT <<FK>>
+  test_id : BIGINT <<FK>>
+  test_name : VARCHAR(150)
+  unit : VARCHAR(30)
+  test_reference_range_id : BIGINT <<FK>>
+  ref_min : DECIMAL(12,4)
+  ref_max : DECIMAL(12,4)
+  result_value : VARCHAR(100)
+  is_abnormal : BOOLEAN
+  status : VARCHAR(20)
+  entered_by : BIGINT <<FK>>
+  entered_at : TIMESTAMP
+  verified_by : BIGINT <<FK>>
+  verified_at : TIMESTAMP
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "lab_samples" as lab_samples {
+  * id : BIGINT <<PK>>
+  --
+  lab_order_id : BIGINT <<FK>>
+  sample_code : VARCHAR(50)
+  sample_type : VARCHAR(50)
+  status : ENUM(collected, received,\n  in_process, rejected, completed)
+  collected_at : DATETIME
+  received_at : DATETIME
+  rejected_reason : VARCHAR(255)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "qr_tokens" as qr_tokens {
+  * id : BIGINT <<PK>>
+  --
+  lab_order_id : BIGINT <<FK>>
+  token : VARCHAR(100)
+  is_active : BOOLEAN
+  expires_at : TIMESTAMP
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "notifications" as notifications {
+  * id : BIGINT <<PK>>
+  --
+  patient_id : BIGINT <<FK>>
+  lab_order_id : BIGINT <<FK>>
+  channel : ENUM(email, sms)
+  status : ENUM(pending, sent, failed)
+  message : TEXT
+  provider_response : TEXT
+  sent_at : TIMESTAMP
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "staff_notifications" as sn {
+  * id : BIGINT <<PK>>
+  --
+  target_role : VARCHAR
+  lab_order_id : BIGINT <<FK>>
+  type : VARCHAR
+  title : VARCHAR
+  message : VARCHAR
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "staff_notification_reads" as snr {
+  * id : BIGINT <<PK>>
+  --
+  staff_notification_id : BIGINT <<FK>>
+  user_id : BIGINT <<FK>>
+  read_at : TIMESTAMP
+}
+
+entity "audits" as audits {
+  * id : BIGINT <<PK>>
+  --
+  user_type : VARCHAR
+  user_id : BIGINT
+  event : VARCHAR
+  auditable_type : VARCHAR
+  auditable_id : BIGINT
+  old_values : TEXT
+  new_values : TEXT
+  url : TEXT
+  ip_address : VARCHAR
+  user_agent : VARCHAR
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+' ── Relationships ──────────────────────────────────
+roles          ||--o{ users          : "assigned to"
+users          ||--o{ patients       : "creates"
+users          ||--o{ lab_orders     : "creates"
+users          ||--o{ lab_orders     : "approves"
+users          ||--o{ lot            : "enters / verifies"
+users          ||--o{ snr            : "reads"
+
+patients       ||--o{ lab_orders     : "placed for"
+patients       ||--o{ notifications  : "sent to"
+
+test_categories ||--o{ test_groups  : "groups"
+test_groups    ||--o{ tgt            : "has"
+tests          ||--o{ tgt            : "belongs to"
+tests          ||--o{ trr            : "has"
+
+lab_orders     ||--o{ log            : "contains"
+lab_orders     ||--o{ lot            : "has"
+lab_orders     ||--o{ lab_samples    : "collects"
+lab_orders     ||--o{ qr_tokens      : "has"
+lab_orders     ||--o{ notifications  : "triggers"
+lab_orders     ||--o{ sn             : "triggers"
+
+test_groups    ||--o{ log            : "snapshotted in"
+log            ||--o{ lot            : "groups"
+tests          ||--o{ lot            : "referenced in"
+trr            ||--o{ lot            : "applied to"
+
+sn             ||--o{ snr            : "tracked by"
+
+@enduml</textarea>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     DIAGRAM 3 — USE CASE DIAGRAM
+     ═══════════════════════════════════════════════════ -->
+<div class="diagram-card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <span class="diagram-number">Figure 3</span>
+      <div>
+        <div class="card-title">Use Case Diagram — Laboratory Workflow</div>
+        <div class="card-subtitle">Appendix E — Actors & Use Cases</div>
+      </div>
+    </div>
+  </div>
+  <div class="desc-bar">
+    Shows the four system actors (Administrator, Receptionist, Lab Technician, Patient) and their respective use cases grouped by functional area.
+  </div>
+  <div class="code-toolbar">
+    <span class="code-label">PlantUML — Use Case Diagram</span>
+    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+  </div>
+  <textarea class="code-block" rows="82" spellcheck="false" readonly>@startuml Use_Case_Diagram
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #DDEEFF
+  BorderColor #336699
+  FontColor #1a1a2e
+}
+skinparam actor {
+  BackgroundColor #FFF8DC
+  BorderColor #CC8800
+}
+
+actor "Administrator" as Admin
+actor "Receptionist"  as Rec
+actor "Lab Technician" as Tech
+actor "Patient"        as Pat
+
+rectangle "Medical Laboratory Management and Reporting System" {
+
+  package "User & System Management" {
+    usecase "Manage System Users"       as UC1
+    usecase "Configure Test Catalogue"  as UC2
+    usecase "View Audit Log"            as UC3
+  }
+
+  package "Patient & Order Management" {
+    usecase "Register Patient"          as UC5
+    usecase "Print Patient ID Label"    as UC7
+    usecase "Create Lab Order"          as UC6
+    usecase "Edit / Cancel Lab Order"   as UC6b
+  }
+
+  package "Sample & Lab Workflow" {
+    usecase "Generate Sample Labels"    as UC14
+    usecase "Scan & Receive Sample"     as UC9
+    usecase "Enter Test Results"        as UC10
+    usecase "Verify Results"            as UC11
+    usecase "Approve / Hold Order"      as UC12
+  }
+
+  package "Reports & Notifications" {
+    usecase "Generate PDF Report"       as UC13
+    usecase "Monitor Notifications"     as UC8
+    usecase "Retry Failed Notification" as UC8b
+    usecase "Access Report via QR Code" as UC15
+  }
+
+  package "Analytics" {
+    usecase "View Role Dashboard"       as UC4
+  }
+}
+
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+Admin --> UC6b
+Admin --> UC7
+Admin --> UC12
+Admin --> UC13
+Admin --> UC8
+Admin --> UC8b
+
+Rec  --> UC4
+Rec  --> UC5
+Rec  --> UC6
+Rec  --> UC6b
+Rec  --> UC7
+Rec  --> UC8
+Rec  --> UC8b
+
+Tech --> UC4
+Tech --> UC9
+Tech --> UC10
+Tech --> UC11
+Tech --> UC12
+Tech --> UC13
+Tech --> UC14
+
+Pat  --> UC15
+
+@enduml</textarea>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     DIAGRAM 4 — CLASS DIAGRAM
+     ═══════════════════════════════════════════════════ -->
+<div class="diagram-card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <span class="diagram-number">Figure 4</span>
+      <div>
+        <div class="card-title">Class Diagram — Core Domain Models</div>
+        <div class="card-subtitle">Appendix — Laravel Eloquent Model Relationships</div>
+      </div>
+    </div>
+  </div>
+  <div class="desc-bar">
+    Shows the core Eloquent model classes, their key attributes, and ORM relationship methods (HasMany, BelongsTo, BelongsToMany) reflecting the implemented Laravel models.
+  </div>
+  <div class="code-toolbar">
+    <span class="code-label">PlantUML — Class Diagram</span>
+    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+  </div>
+  <textarea class="code-block" rows="155" spellcheck="false" readonly>@startuml Class_Diagram
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #DDEEFF
+  BorderColor #336699
+  FontColor #1a1a2e
+}
+skinparam arrow {
+  Color #336699
+}
+
+class Role {
+  +id : int
+  +name : string
+  --
+  +users() : HasMany
+}
+
+class User {
+  +id : int
+  +role_id : int
+  +name : string
+  +email : string
+  --
+  +role() : BelongsTo
+  +createdPatients() : HasMany
+  +createdLabOrders() : HasMany
+  +approvedLabOrders() : HasMany
+  +enteredLabOrderTests() : HasMany
+  +verifiedLabOrderTests() : HasMany
+  +staffNotificationReads() : HasMany
+}
+
+class Patient {
+  +id : int
+  +patient_code : string
+  +full_name : string
+  +dob : date
+  +gender : enum
+  +phone : string
+  +email : string
+  --
+  +labOrders() : HasMany
+  +notifications() : HasMany
+  +createdBy() : BelongsTo
+}
+
+class TestCategory {
+  +id : int
+  +name : string
+  --
+  +testGroups() : HasMany
+}
+
+class TestGroup {
+  +id : int
+  +name : string
+  +price : decimal
+  +status : enum
+  --
+  +category() : BelongsTo
+  +tests() : BelongsToMany
+  +labOrderGroups() : HasMany
+}
+
+class Test {
+  +id : int
+  +name : string
+  +unit : string
+  +data_type : enum
+  +status : enum
+  --
+  +testGroups() : BelongsToMany
+  +referenceRanges() : HasMany
+  +labOrderTests() : HasMany
+}
+
+class TestReferenceRange {
+  +id : int
+  +test_id : int
+  +gender : enum
+  +age_min : int
+  +age_max : int
+  +ref_min : decimal
+  +ref_max : decimal
+  --
+  +test() : BelongsTo
+  +labOrderTests() : HasMany
+}
+
+class LabOrder {
+  +id : int
+  +order_number : string
+  +status : string
+  +total_amount : decimal
+  +notes : text
+  +approved_at : timestamp
+  --
+  +patient() : BelongsTo
+  +createdBy() : BelongsTo
+  +approvedBy() : BelongsTo
+  +labOrderGroups() : HasMany
+  +labOrderTests() : HasMany
+  +labSamples() : HasMany
+  +qrTokens() : HasMany
+  +notifications() : HasMany
+  +staffNotifications() : HasMany
+}
+
+class LabOrderGroup {
+  +id : int
+  +group_price_snapshot : decimal
+  --
+  +labOrder() : BelongsTo
+  +testGroup() : BelongsTo
+  +labOrderTests() : HasMany
+}
+
+class LabOrderTest {
+  +id : int
+  +test_name : string
+  +unit : string
+  +ref_min : decimal
+  +ref_max : decimal
+  +result_value : string
+  +is_abnormal : boolean
+  +status : string
+  --
+  +labOrder() : BelongsTo
+  +labOrderGroup() : BelongsTo
+  +test() : BelongsTo
+  +referenceRange() : BelongsTo
+  +enteredBy() : BelongsTo
+  +verifiedBy() : BelongsTo
+}
+
+class LabSample {
+  +id : int
+  +sample_code : string
+  +sample_type : string
+  +status : enum
+  +collected_at : datetime
+  +received_at : datetime
+  --
+  +labOrder() : BelongsTo
+}
+
+class QrToken {
+  +id : int
+  +token : string
+  +is_active : boolean
+  +expires_at : timestamp
+  --
+  +labOrder() : BelongsTo
+}
+
+class Notification {
+  +id : int
+  +channel : enum
+  +status : enum
+  +message : text
+  +sent_at : timestamp
+  --
+  +patient() : BelongsTo
+  +labOrder() : BelongsTo
+}
+
+class StaffNotification {
+  +id : int
+  +target_role : string
+  +type : string
+  +title : string
+  +message : string
+  --
+  +labOrder() : BelongsTo
+  +reads() : HasMany
+}
+
+class StaffNotificationRead {
+  +id : int
+  +staff_notification_id : int
+  +user_id : int
+  +read_at : timestamp
+  --
+  +staffNotification() : BelongsTo
+  +user() : BelongsTo
+}
+
+' ── Relationships ──────────────────────────────────
+Role              "1"  *--  "0..*"  User
+User              "1"  *--  "0..*"  Patient               : creates
+Patient           "1"  *--  "0..*"  LabOrder
+Patient           "1"  *--  "0..*"  Notification
+TestCategory      "1"  *--  "0..*"  TestGroup
+TestGroup         "0..*" o-- "0..*" Test                  : test_group_tests
+Test              "1"  *--  "0..*"  TestReferenceRange
+LabOrder          "1"  *--  "0..*"  LabOrderGroup
+LabOrder          "1"  *--  "0..*"  LabOrderTest
+LabOrder          "1"  *--  "0..*"  LabSample
+LabOrder          "1"  *--  "0..*"  QrToken
+LabOrder          "1"  *--  "0..*"  Notification
+LabOrder          "1"  *--  "0..*"  StaffNotification
+LabOrderGroup     "1"  *--  "0..*"  LabOrderTest
+Test              "1"  o--  "0..*"  LabOrderTest          : referenced in
+TestReferenceRange "0..1" o-- "0..*" LabOrderTest         : applied to
+StaffNotification "1"  *--  "0..*"  StaffNotificationRead
+User              "1"  *--  "0..*"  StaffNotificationRead : reads
+
+@enduml</textarea>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     DIAGRAM 5 — STATE DIAGRAM
+     ═══════════════════════════════════════════════════ -->
+<div class="diagram-card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <span class="diagram-number">Figure 5</span>
+      <div>
+        <div class="card-title">Lab Order Workflow State Diagram</div>
+        <div class="card-subtitle">Appendix F — Order Status State Machine</div>
+      </div>
+    </div>
+  </div>
+  <div class="desc-bar">
+    Shows the 7 states of a lab order lifecycle: pending → sample_collected → in_progress → pending_review → approved / on_hold / cancelled, with labeled transitions and notes on triggered side-effects.
+  </div>
+  <div class="code-toolbar">
+    <span class="code-label">PlantUML — State Diagram</span>
+    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+  </div>
+  <textarea class="code-block" rows="58" spellcheck="false" readonly>@startuml Lab_Order_State_Diagram
+skinparam state {
+  BackgroundColor #DDEEFF
+  BorderColor #336699
+  FontColor #1a1a2e
+}
+skinparam arrow {
+  Color #336699
+}
+
+[*] --> pending : Order Created\n(Receptionist / Admin)
+
+pending --> sample_collected : Samples Generated\n& Recorded
+pending --> cancelled        : Cancelled by\nAdmin / Receptionist
+
+sample_collected --> in_progress : Sample Scanned &\nReceived by Technician
+sample_collected --> cancelled   : Cancelled by\nAdmin / Receptionist
+
+in_progress --> pending_review : All Results Entered\n(Lab Technician)
+in_progress --> cancelled      : Cancelled by Admin
+
+pending_review --> approved  : Approved\n(Admin / Technician)
+pending_review --> on_hold   : Placed On Hold\n(Admin / Technician)
+
+on_hold --> pending_review   : Hold Resolved —\nReturned for Review
+on_hold --> cancelled        : Cancelled by Admin
+
+approved --> [*] : Report Available\n(PDF + QR Access Active)
+cancelled --> [*]
+
+note right of approved
+  Side-effects on approval:
+  • QR token generated
+  • PDF report rendered
+  • Email notification dispatched to patient
+  • Staff notification sent
+end note
+
+note right of on_hold
+  Side-effects on hold:
+  • Hold email notification dispatched to patient
+  • Staff notification sent
+end note
+
+@enduml</textarea>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     DIAGRAM 6 — ACTIVITY DIAGRAM (MAIN WORKFLOW)
+     ═══════════════════════════════════════════════════ -->
+<div class="diagram-card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <span class="diagram-number">Figure 6</span>
+      <div>
+        <div class="card-title">Activity Diagram — Complete Laboratory Workflow</div>
+        <div class="card-subtitle">Swimlane view: Receptionist/Admin · Lab Technician · Patient</div>
+      </div>
+    </div>
+  </div>
+  <div class="desc-bar">
+    Traces the end-to-end lab workflow across three swimlanes — from patient registration and order creation, through sample handling, bulk result entry, automated anomaly detection, report approval, and finally patient report access via QR code or email link.
+  </div>
+  <div class="code-toolbar">
+    <span class="code-label">PlantUML — Activity Diagram (Swimlane)</span>
+    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+  </div>
+  <textarea class="code-block" rows="100" spellcheck="false" readonly>@startuml Activity_Diagram_Main_Workflow
+skinparam activity {
+  BackgroundColor #DDEEFF
+  BorderColor #336699
+  FontColor #1a1a2e
+  DiamondBackgroundColor #FFF8DC
+  DiamondBorderColor #CC8800
+}
+skinparam arrow {
+  Color #336699
+}
+skinparam swimlane {
+  BorderColor #336699
+  TitleFontColor #1a1a2e
+}
+
+|#E8F0FE| Receptionist / Admin |
+start
+
+:Patient arrives at laboratory;
+
+if (Patient already registered?) then (No)
+  :Register new patient\n(full_name, dob, gender, phone, email, address);
+  :System auto-generates unique patient_code\n(format: PAT-YYYY-NNNNN);
+  :Print patient barcode ID label;
+else (Yes)
+  :Search and retrieve existing patient record\n(by name, phone, or scan barcode);
+endif
+
+:Create lab order\n(select test groups from catalogue);
+:System snapshots test names, units,\nand reference ranges into lab_order_tests;
+:System calculates total_amount;
+:Generate sample codes and\nprint barcode labels for collection tubes;
+
+|#E8F5E9| Lab Technician |
+
+:Receive physical samples\nfrom patient;
+:Scan sample barcode label;
+:Order status → sample_collected → in_progress;
+
+:Open result entry form for the order;
+
+repeat
+  :Enter result value for each test\n(numeric or descriptive text);
+
+  if (Test is numeric?) then (Yes)
+    :System compares result against\nreference range (age + gender specific);
+    if (Result outside reference range?) then (Yes)
+      :Set is_abnormal = true;
+      :Flag result visually in UI\n(highlighted in red);
+    else (No)
+      :Set is_abnormal = false;
+    endif
+  else (Text result)
+    :Technician manually checks\nabnormal checkbox if required;
+  endif
+
+repeat while (More tests to enter?) is (Yes)
+->No;
+
+:All results entered;
+:Order status → pending_review;
+
+|#E8F0FE| Receptionist / Admin |
+
+:Review all results and\nabnormality flags;
+
+if (Decision?) then (Approve)
+  :System generates unique QR token\n(expires in 30 days);
+  :System renders PDF report\n(patient info, results, flags,\nreference ranges, QR code, approver);
+  :Order status → approved;
+  :System dispatches email notification\nto patient with secure report link;
+  :Staff notification sent to\nreceptionist and admin;
+
+  |#FFF8E1| Patient |
+
+  :Receives email with secure link;
+  :Scans QR code from printed report\nor clicks link in email;
+  :Views approved report in browser\n(no login required);
+  :Downloads or saves report;
+  stop
+
+else (Place On Hold)
+  :System dispatches hold notification\nemail to patient;
+  :Staff notification sent;
+  :Order status → on_hold;
+  :Order returned for further review;
+
+  |#E8F0FE| Receptionist / Admin |
+
+  :Investigate flagged or\nincomplete results;
+  if (Cancel order?) then (Yes)
+    :Order status → cancelled;
+    stop
+  else (No)
+    :Order status → pending_review;
+    note right
+      Returns to review loop
+    end note
+  endif
+endif
+
+@enduml</textarea>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     DIAGRAM 7 — ACTIVITY DIAGRAM (ANOMALY DETECTION)
+     ═══════════════════════════════════════════════════ -->
+<div class="diagram-card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <span class="diagram-number">Figure 7</span>
+      <div>
+        <div class="card-title">Activity Diagram — Anomaly Detection Sub-process</div>
+        <div class="card-subtitle">Rule-based result validation against age and gender specific reference ranges</div>
+      </div>
+    </div>
+  </div>
+  <div class="desc-bar">
+    Detailed view of the automated anomaly detection logic executed on each result entry: reference range resolution by patient age and gender, numeric vs. text branching, threshold comparison, and flag assignment.
+  </div>
+  <div class="code-toolbar">
+    <span class="code-label">PlantUML — Activity Diagram (Anomaly Detection)</span>
+    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+  </div>
+  <textarea class="code-block" rows="78" spellcheck="false" readonly>@startuml Activity_Diagram_Anomaly_Detection
+skinparam activity {
+  BackgroundColor #DDEEFF
+  BorderColor #336699
+  FontColor #1a1a2e
+  DiamondBackgroundColor #FFF8DC
+  DiamondBorderColor #CC8800
+}
+skinparam arrow {
+  Color #336699
+}
+
+start
+
+:Technician submits result value\nfor a lab_order_test record;
+
+:Retrieve patient demographics\n(dob → calculate age, gender);
+
+if (Test data_type == numeric?) then (Yes)
+
+  :Query test_reference_ranges\nWHERE test_id = this test\nAND gender matches (or 'any')\nAND age_min ≤ patient_age ≤ age_max;
+
+  if (Matching reference range found?) then (Yes)
+
+    :Extract ref_min and ref_max\nfrom matched range;
+    :Snapshot ref_min and ref_max\ninto lab_order_tests record;
+
+    :Parse result_value as decimal;
+
+    if (result < ref_min?) then (Yes)
+      :is_abnormal = true;
+      :Display flag: LOW (below range);
+    elseif (result > ref_max?) then (Yes)
+      :is_abnormal = true;
+      :Display flag: HIGH (above range);
+    else (Within range)
+      :is_abnormal = false;
+      :Display flag: NORMAL;
+    endif
+
+  else (No range configured)
+    :ref_min = null, ref_max = null;
+    :is_abnormal = false;
+    note right
+      No automatic flagging
+      when reference range
+      is not defined for this
+      test / age / gender
+      combination.
+    end note
+  endif
+
+else (Text result)
+
+  :Technician manually evaluates\nwhether result is abnormal;
+  if (Technician checks abnormal?) then (Yes)
+    :is_abnormal = true;
+  else (No)
+    :is_abnormal = false;
+  endif
+
+endif
+
+:Save result_value and is_abnormal\nto lab_order_tests;
+
+if (is_abnormal == true?) then (Yes)
+  :Highlight result row in red\nin the result entry UI;
+  :Mark row with ABNORMAL badge\nin generated PDF report;
+else (No)
+  :Display result normally;
+endif
+
+stop
+
+@enduml</textarea>
+</div>
+
+
+<footer>
+  MLMRS &mdash; UWU/PGU/MIT/2024/025 &mdash; R.F. Nusair Ahamed &mdash; 2026
+</footer>
+
+<script>
+  function copyCode(btn) {
+    const textarea = btn.closest('.diagram-card').querySelector('textarea.code-block');
+    textarea.select();
+    textarea.setSelectionRange(0, 999999);
+    navigator.clipboard.writeText(textarea.value).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
