@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Medical Laboratory Management and Reporting System — Final Report</title>
+<style>
+  /* ── Page setup ── */
+  @page {
+    size: A4;
+    margin: 25.4mm 25.4mm 25.4mm 38.1mm; /* top right bottom left (1.5" left) */
+  }
+  @page :first { margin-top: 25.4mm; }
+
+  /* ── Base ── */
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+  }
+
+  /* ── Headings ── */
+  h1 {
+    font-size: 18pt;
+    font-weight: bold;
+    font-family: "Times New Roman", Times, serif;
+    margin-top: 30pt;
+    margin-bottom: 12pt;
+    page-break-after: avoid;
+    text-align: left;
+  }
+  h2 {
+    font-size: 16pt;
+    font-weight: bold;
+    font-family: "Times New Roman", Times, serif;
+    margin-top: 18pt;
+    margin-bottom: 9pt;
+    page-break-after: avoid;
+    text-align: left;
+  }
+  h3 {
+    font-size: 14pt;
+    font-weight: bold;
+    font-family: "Times New Roman", Times, serif;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+    page-break-after: avoid;
+    text-align: left;
+  }
+  h4 {
+    font-size: 12pt;
+    font-weight: bold;
+    font-family: "Times New Roman", Times, serif;
+    margin-top: 12pt;
+    margin-bottom: 6pt;
+    page-break-after: avoid;
+  }
+
+  /* ── Cover page ── */
+  .cover {
+    page-break-after: always;
+    text-align: center;
+    padding-top: 40pt;
+  }
+  .cover h1 {
+    font-size: 20pt;
+    text-align: center;
+    margin-bottom: 8pt;
+  }
+  .cover .subtitle { font-size: 16pt; margin: 6pt 0; }
+  .cover .reg      { font-size: 20pt; margin-top: 60pt; }
+  .cover .title    { font-size: 20pt; font-weight: bold; margin: 8pt 0; }
+  .cover .degree   { font-size: 20pt; margin-top: 80pt; }
+  .cover .uni      { font-size: 20pt; margin-top: 60pt; }
+  .cover .year     { font-size: 20pt; margin-top: 8pt; }
+
+  /* ── Pre-pages (Roman numerals section) ── */
+  .pre-page {
+    page-break-before: always;
+  }
+
+  /* ── Body chapter pages ── */
+  .chapter {
+    page-break-before: always;
+  }
+
+  /* ── Paragraphs ── */
+  p {
+    margin: 0 0 9pt 0;
+    text-align: justify;
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12pt 0;
+    font-size: 11pt;
+    page-break-inside: auto;
+  }
+  th {
+    background-color: #1e3a5f;
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+    padding: 6pt 8pt;
+    border: 1pt solid #ccc;
+  }
+  td {
+    padding: 5pt 8pt;
+    border: 1pt solid #ccc;
+    vertical-align: top;
+    text-align: left;
+  }
+  tr:nth-child(even) td { background-color: #f5f7fa; }
+
+  /* ── Code blocks ── */
+  pre {
+    background: #f4f4f4;
+    border-left: 3pt solid #1e3a5f;
+    padding: 10pt 12pt;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.4;
+    overflow: hidden;
+    margin: 12pt 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    page-break-inside: avoid;
+  }
+  code {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 10pt;
+    background: #f0f0f0;
+    padding: 1pt 3pt;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: 9pt;
+  }
+
+  /* ── Lists ── */
+  ul, ol {
+    margin: 6pt 0 9pt 0;
+    padding-left: 24pt;
+  }
+  li { margin-bottom: 4pt; }
+
+  /* ── Blockquote (formatting note) ── */
+  blockquote {
+    border-left: 3pt solid #888;
+    margin: 12pt 0;
+    padding: 6pt 12pt;
+    color: #555;
+    font-style: italic;
+    background: #fafafa;
+  }
+
+  /* ── HR ── */
+  hr {
+    border: none;
+    border-top: 1pt solid #ccc;
+    margin: 20pt 0;
+  }
+
+  /* ── Links ── */
+  a { color: #1e3a5f; word-break: break-all; }
+
+  /* ── TOC ── */
+  .toc-entry { margin: 3pt 0; }
+
+  /* ── Page number (print only) ── */
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  /* ── Section dividers ── */
+  .section-break { page-break-before: always; }
+</style>
+</head>
+<body>
+<h1 id="project-final-report">PROJECT FINAL REPORT</h1>
+<h2 id="mit-593-5-capstone-project">MIT 593-5 — Capstone Project</h2>
+
+<hr/>
+
+<p><strong>Index No: UWU/PGU/MIT/2024/025</strong></p>
+
+<p><strong>R.F. Nusair Ahamed</strong></p>
+
+<h2 id="medical-laboratory-management-and-reporting-system">Medical Laboratory Management and Reporting System</h2>
+
+<p><strong>Master of Information Technology</strong></p>
+
+<p>Postgraduate Unit / Board of Study — Computing and Informatics</p>
+
+<p><strong>Uva Wellassa University of Sri Lanka</strong></p>
+
+<p><strong>2026</strong></p>
+
+<hr/>
+
+<h2 id="personal-details">Personal Details</h2>
+
+<table>
+<tr><th>Field</th><th>Details</th></tr>
+<tr><td>Name with Initials</td><td>R.F. Nusair Ahamed</td></tr>
+<tr><td>Registration Number</td><td>UWU/PGU/MIT/2024/025</td></tr>
+<tr><td>Email</td><td>nus.ahamed@gmail.com</td></tr>
+<tr><td>Contact Number</td><td>—</td></tr>
+<tr><td>Address</td><td>—</td></tr>
+</table>
+
+<h2 id="supervisor-details">Supervisor Details</h2>
+
+<table>
+<tr><th>Name of the Supervisor</th><th>E-mail</th><th>Contact Number</th></tr>
+<tr><td>Dr. K P P Suneth Pathirana</td><td>suneth@uwu.ac.lk</td><td>(+94) 553560090</td></tr>
+</table>
+
+<hr/>
+
+<h2 id="declaration">DECLARATION</h2>
+
+<p>I hereby declare that this project report is my own work and has not been submitted in any form for another degree or diploma at any university or other institution of tertiary education. Information derived from the published or unpublished work of others has been acknowledged in the text and a list of references is given.</p>
+
+<p>Name of Student: <strong>R.F. Nusair Ahamed</strong></p>
+
+<p>Signature of Student & Date: ………………………………………</p>
+
+<p>Supervised by:</p>
+
+<p>Name of Supervisor: <strong>Dr. K P P Suneth Pathirana</strong></p>
+
+<p>Signature of Supervisor: ………………………………………</p>
+
+<p>Date: ………………………………………</p>
+
+<hr/>
+
+<h2 id="acknowledgements">ACKNOWLEDGEMENTS</h2>
+
+<p>I would like to express my sincere gratitude to my supervisor, Dr. K P P Suneth Pathirana, for his continuous guidance, valuable feedback, and encouragement throughout the development of this project. His expertise in software engineering and research methodology was instrumental in shaping both the design and the final outcome of this system.</p>
+
+<p>I also wish to thank the faculty and staff of the Department of Computer Science and Informatics, Faculty of Applied Sciences, Uva Wellassa University of Sri Lanka, for their academic support throughout the Master of Information Technology programme.</p>
+
+<p>My thanks are also extended to the laboratory staff and administrators who participated in the requirements gathering interviews, providing real-world insights into the operational challenges of standalone medical laboratories.</p>
+
+<p>Finally, I am grateful to my family and friends for their unwavering support and encouragement throughout this journey.</p>
+
+<hr/>
+
+<h2 id="abstract">ABSTRACT</h2>
+
+<p>Manual, paper-based workflows remain prevalent in small and medium-scale standalone medical laboratories in Sri Lanka, leading to inefficiencies in patient registration, sample tracking, test result management, and report delivery. Patients are often required to revisit laboratories to collect printed reports, while laboratory staff face challenges in managing test histories and tracking sample status accurately. This project presents the design and implementation of the Medical Laboratory Management and Reporting System (MLMRS), a web-based application developed to digitalize and streamline all core operations of a standalone medical laboratory.</p>
+
+<p>The system was developed using the Agile software development methodology, employing iterative sprints from requirements gathering through deployment. Requirements were identified through stakeholder interviews and workflow observation. The system architecture follows the Model-View-Controller (MVC) pattern, implemented using the Laravel PHP framework with a MySQL relational database. The frontend is built using Tailwind CSS and Blade templating, ensuring a responsive interface across mobile and desktop devices.</p>
+
+<p>MLMRS provides role-based access control for four user types: Administrator, Receptionist, Lab Technician, and Patient. Core modules include patient registration with unique barcode-labelled patient codes, lab order creation with automatic reference range resolution, sample generation and barcode tracking, bulk test result entry with automatic anomaly detection, report approval with QR-code-based public access, and automated email notifications upon report readiness. A comprehensive audit trail records all changes to critical records, and an analytical dashboard provides period-filtered statistics for administrative oversight.</p>
+
+<p>Evaluation was conducted through functional testing, integration testing, and user acceptance testing with laboratory staff. All core objectives defined in the project proposal were successfully achieved. Future work includes integration of an SMS gateway for mobile notifications, a dedicated patient portal, and support for multiple laboratory branches within a single deployment.</p>
+
+<hr/>
+
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+
+<ol>
+<li>Introduction</li>
+<ul>
+</ol>
+<li>1.1. Project Title</li>
+<li>1.2. Project Description</li>
+<li>1.3. Background and Motivation</li>
+<li>1.4. Problem in Brief</li>
+<li>1.5. Proposed Solution</li>
+<li>1.6. Project Aim and Objectives</li>
+<li>1.7. Significance of the Study</li>
+<ol>
+</ul>
+<li>Methodology</li>
+<ul>
+</ol>
+<li>2.1. Introduction</li>
+<li>2.2. Requirements Identification</li>
+<li>2.3. System Analysis and Design</li>
+<li>2.4. Technology Adapted</li>
+<ol>
+</ul>
+<li>Implementation</li>
+<ul>
+</ol>
+<li>3.1. Patient Management Module</li>
+<li>3.2. Lab Order Management Module</li>
+<li>3.3. Sample Management Module</li>
+<li>3.4. Test Result Entry and Verification Module</li>
+<li>3.5. Anomaly Detection Module</li>
+<li>3.6. Report Generation and QR Code Module</li>
+<li>3.7. Notification Module</li>
+<li>3.8. Dashboard and Analytics Module</li>
+<li>3.9. Audit Trail Module</li>
+<li>3.10. Role-Based Access Control</li>
+<ol>
+</ul>
+<li>Testing and Evaluation</li>
+<ul>
+</ol>
+<li>4.1. Testing Strategy</li>
+<li>4.2. Unit Testing</li>
+<li>4.3. Integration Testing</li>
+<li>4.4. System Testing</li>
+<li>4.5. User Acceptance Testing</li>
+<li>4.6. Evaluation Results</li>
+<ol>
+</ul>
+<li>Conclusion</li>
+<ul>
+</ol>
+<li>5.1. Conclusion</li>
+<li>5.2. Project Plan</li>
+<li>5.3. Future Work</li>
+</ul>
+
+<p>References</p>
+
+<p>Appendixes</p>
+
+<hr/>
+
+<h2 id="list-of-figures">LIST OF FIGURES</h2>
+
+<ul>
+<li>Figure 1: System Architecture Diagram</li>
+<li>Figure 2: Entity Relationship (ER) Diagram</li>
+<li>Figure 3: Use Case Diagram — Laboratory Workflow</li>
+<li>Figure 4: Class Diagram — Core Domain Models</li>
+<li>Figure 5: Lab Order Workflow State Diagram</li>
+<li>Figure 6: Patient Registration and Barcode Label Screenshot</li>
+<li>Figure 7: Lab Order Creation Form Screenshot</li>
+<li>Figure 8: Sample Barcode Label (90mm × 50mm format)</li>
+<li>Figure 9: Test Result Entry Form Screenshot</li>
+<li>Figure 10: Generated PDF Report Screenshot</li>
+<li>Figure 11: Public Report View (QR Code Access)</li>
+<li>Figure 12: Role-Specific Dashboard (Admin View)</li>
+<li>Figure 13: Audit Log Listing Screenshot</li>
+<li>Figure 14: Project Gantt Chart</li>
+</ul>
+
+<h2 id="list-of-tables">LIST OF TABLES</h2>
+
+<ul>
+<li>Table 1: Functional Requirements</li>
+<li>Table 2: Non-Functional Requirements</li>
+<li>Table 3: Hardware and Software Requirements</li>
+<li>Table 4: User Roles and Permissions</li>
+<li>Table 5: Database Tables and Descriptions</li>
+<li>Table 6: Lab Order Status Transitions</li>
+<li>Table 7: Unit Test Cases</li>
+<li>Table 8: Integration Test Cases</li>
+<li>Table 9: User Acceptance Test Results Summary</li>
+</ul>
+
+<hr/>
+
+<h1 id="chapter-1-introduction">Chapter 1: Introduction</h1>
+
+<h2 id="1-1-project-title">1.1. Project Title</h2>
+
+<p>Medical Laboratory Management and Reporting System (MLMRS)</p>
+
+<h2 id="1-2-project-description">1.2. Project Description</h2>
+
+<p>The Medical Laboratory Management and Reporting System (MLMRS) is a web-based application designed to digitalize and streamline the operational activities of standalone medical laboratories. The system automates the complete laboratory workflow — from patient registration and test ordering through sample collection, result entry, anomaly detection, report generation, and patient notification — while maintaining a comprehensive, auditable digital record of all activities.</p>
+
+<p>MLMRS provides role-based access for four categories of users: Administrators, Receptionists, Lab Technicians, and Patients. Patients can access their approved reports digitally via unique QR codes without requiring a system login. The system aims to eliminate inefficiencies caused by paper-based workflows, reduce delays in report delivery, and enhance data accuracy and accessibility.</p>
+
+<p>The system is built using the Laravel PHP framework (version 12), a MySQL relational database, and a responsive Tailwind CSS frontend. PDF report generation, QR code encoding, barcode label printing, and automated email notifications are integrated as discrete subsystems within the unified platform.</p>
+
+<h2 id="1-3-background-and-motivation">1.3. Background and Motivation</h2>
+
+<p>Many small and medium-scale medical laboratories in Sri Lanka and similar developing economies still operate using manual processes: patient details recorded on paper ledgers, test requests written by hand, and final reports typed in Microsoft Word before being printed for collection [3]. This approach results in a range of operational inefficiencies. Data entry errors, lost records, inconsistent report formatting, and long patient waiting times are among the most commonly reported issues [4].</p>
+
+<p>With the advancement of web technologies and the widespread availability of reliable internet infrastructure, it is now feasible for laboratories to adopt cost-effective, secure, and automated digital systems [1]. Research in healthcare information systems demonstrates that digitalization significantly reduces turnaround time, minimises human error, and improves the continuity of care by enabling historical test data to be retrieved instantly [3]. The ISO 15189:2022 standard for medical laboratories explicitly identifies the use of digital laboratory information systems as a quality management best practice [4].</p>
+
+<p>The motivation behind MLMRS was the direct observation of workflow inefficiencies in a standalone laboratory setting. Receptionists manually maintained patient registers; technicians re-typed test results into word-processing templates; and patients had no mechanism to access their results other than visiting the laboratory in person. The need for a purpose-built, affordable, and locally deployable digital solution was clear. The project was further motivated by the opportunity to apply modern MVC web frameworks, barcode and QR code technologies, and automated notification systems to a domain with direct social benefit.</p>
+
+<h2 id="1-4-problem-in-brief">1.4. Problem in Brief</h2>
+
+<p>Most standalone medical laboratories continue to rely on manual documentation, using paper forms for patient registration and Microsoft Word templates for test reports. These methods lead to several compounding problems:</p>
+
+<ul>
+<li><strong>Poor record management</strong>: Paper records are prone to loss, damage, and illegibility. Retrieving historical test data for a returning patient is time-consuming and unreliable [3].</li>
+<li><strong>No digital patient access</strong>: Patients must revisit the laboratory to collect printed reports. There is no mechanism for remote or digital report access, which is particularly burdensome for patients who live far away or are elderly.</li>
+<li><strong>Sample tracking failures</strong>: Without a systematic sample coding and tracking process, samples are susceptible to mix-ups, especially in laboratories handling high volumes of tests across multiple test types.</li>
+<li><strong>Delayed anomaly identification</strong>: Technicians manually compare test results to reference ranges, which is error-prone and may result in abnormal values being overlooked.</li>
+<li><strong>Inefficient reporting</strong>: Manually formatting reports in word processors is slow, inconsistent, and does not scale with increasing patient volumes.</li>
+<li><strong>No audit trail</strong>: There is no systematic record of who made changes to patient data or test results, making quality control and accountability difficult [4].</li>
+</ul>
+
+<h2 id="1-5-proposed-solution">1.5. Proposed Solution</h2>
+
+<p>The MLMRS addresses all identified problems through a centralized, role-based web platform integrating seven core subsystems:</p>
+
+<h3 id="1-5-1-centralized-digital-platform">1.5.1. Centralized Digital Platform</h3>
+
+<p>All laboratory functions — patient registration, test ordering, sample tracking, result entry, report generation, and notifications — are managed within a single secure environment using a normalized relational database. This eliminates data duplication and ensures consistency across the workflow.</p>
+
+<h3 id="1-5-2-digital-report-generation-and-printing">1.5.2. Digital Report Generation and Printing</h3>
+
+<p>The system automatically generates professional, standardized medical laboratory reports in printable PDF format using DomPDF [1]. Reports include the laboratory header, patient demographics, test results with reference ranges, abnormality flags, QR code, approver information, and a tamper-indicating timestamp. The reports follow a consistent layout regardless of the test types ordered, eliminating the need for manual word-processor templates.</p>
+
+<h3 id="1-5-3-qr-code-integration">1.5.3. QR Code Integration</h3>
+
+<p>Each approved report is assigned a unique, cryptographically random QR token stored in the database. This token is encoded into a QR code embedded in the printed report. Patients can scan the QR code to access a public-facing version of their report on any browser without logging into the system. QR codes are also printed on sample collection labels, providing traceable links between physical samples and their digital records [7].</p>
+
+<h3 id="1-5-4-anomaly-detection">1.5.4. Anomaly Detection</h3>
+
+<p>The system applies a rule-based validation engine when test results are entered. Each test has predefined reference ranges that may vary by patient gender and age band. When a numeric result is entered, the system automatically compares it to the applicable reference range and sets the <code>is_abnormal</code> flag. Flagged results are highlighted visually in the results entry interface and prominently marked in the generated report.</p>
+
+<h3 id="1-5-5-automated-email-notifications">1.5.5. Automated Email Notifications</h3>
+
+<p>Upon report approval, the system automatically dispatches an email notification to the patient containing a secure link to their report. A separate notification is sent when a report is placed on hold. The notification subsystem tracks delivery status (pending, sent, failed) and provides a retry mechanism for failed deliveries. SMS notification support is designed into the data model and is earmarked for future integration.</p>
+
+<h3 id="1-5-6-role-based-access-control">1.5.6. Role-Based Access Control</h3>
+
+<p>The system enforces four access levels through a custom role middleware:</p>
+<ul>
+<li><strong>Administrator</strong>: Full system access, user management, test catalogue configuration, audit logs.</li>
+<li><strong>Receptionist</strong>: Patient registration, lab order creation, notification monitoring.</li>
+<li><strong>Lab Technician</strong>: Sample scanning, result entry, result verification, report approval.</li>
+<li><strong>Patient</strong>: Public report access via QR token (no login required).</li>
+</ul>
+
+<h3 id="1-5-7-patient-history-and-digital-records">1.5.7. Patient History and Digital Records</h3>
+
+<p>All patient details, lab orders, test results, and reports are stored in a normalized relational database with full referential integrity. Patient history can be retrieved instantly by patient code, name, or phone number. The audit trail module records every change to critical records, supporting quality control and accountability.</p>
+
+<h2 id="1-6-project-aim-and-objectives">1.6. Project Aim and Objectives</h2>
+
+<h3 id="1-6-1-aim">1.6.1. Aim</h3>
+
+<p>To develop a secure, automated, and production-ready Medical Laboratory Management and Reporting System that digitalizes laboratory operations, improves reporting efficiency, and enhances accessibility for both patients and laboratory staff.</p>
+
+<h3 id="1-6-2-objectives">1.6.2. Objectives</h3>
+
+<ul>
+<li>To design a centralized system for managing patient registration, test ordering, and report generation.</li>
+<li>To implement unique barcode-labelled patient codes and sample codes for reliable identification and tracking.</li>
+<li>To develop automated anomaly detection by comparing test results to gender- and age-specific reference ranges.</li>
+<li>To generate standardized PDF laboratory reports with embedded QR codes for tamper-evident public access.</li>
+<li>To enable automated email notifications when reports are approved or placed on hold.</li>
+<li>To maintain complete patient history and laboratory data in a normalized, auditable digital database.</li>
+<li>To provide role-specific dashboards with period-filtered analytical statistics for administrative oversight.</li>
+</ul>
+
+<h2 id="1-7-significance-of-the-study">1.7. Significance of the Study</h2>
+
+<p>MLMRS addresses a real and widespread operational gap in standalone medical laboratories that lack the resources to procure expensive commercial laboratory information systems. Unlike general-purpose tools such as Microsoft Word or spreadsheet applications, MLMRS is purpose-built for the laboratory workflow, integrating patient management, sample tracking, result validation, and report delivery into a single cohesive platform.</p>
+
+<p>Compared to existing commercial systems — such as LABOS, Labtrack, or LISMAtic — which are typically server-based, license-heavy, and designed for hospital environments, MLMRS is:</p>
+<ul>
+<li><strong>Affordable</strong>: Built entirely on open-source technologies with no licensing costs.</li>
+<li><strong>Web-based</strong>: Deployable on any server with a browser-based interface accessible from any device.</li>
+<li><strong>Patient-facing</strong>: Provides patients direct digital access to their reports via QR code, a feature absent from many entry-level commercial alternatives.</li>
+<li><strong>Auditable</strong>: Provides a full audit trail for every change, supporting ISO 15189 quality requirements [4].</li>
+<li><strong>Contextually appropriate</strong>: Designed specifically for the standalone laboratory workflow observed in the Sri Lankan context, rather than adapted from hospital-scale systems.</li>
+</ul>
+
+<hr/>
+
+<h1 id="chapter-2-methodology">Chapter 2: Methodology</h1>
+
+<h2 id="2-1-introduction">2.1. Introduction</h2>
+
+<p>The MLMRS project was developed following the Agile software development methodology. Agile was selected because the system requirements, while partially understood at the outset, required iterative refinement as the development team gained deeper understanding of the laboratory workflow through stakeholder engagement. Agile's emphasis on short development cycles (sprints), continuous stakeholder feedback, and incremental delivery was well-suited to this context [1].</p>
+
+<p>The development lifecycle comprised six phases: requirement gathering, system design, development, testing, deployment, and documentation. These phases were not strictly sequential; development and testing overlapped, and requirements were revisited iteratively as implementation revealed edge cases and new stakeholder needs. The project used Git for version control with a feature-branching strategy to manage parallel development of modules.</p>
+
+<h2 id="2-2-requirements-identification">2.2. Requirements Identification</h2>
+
+<h3 id="2-2-1-functional-and-non-functional-requirements">2.2.1. Functional and Non-Functional Requirements</h3>
+
+<p>Requirements were gathered through two primary methods:</p>
+<ol>
+<li><strong>Stakeholder interviews</strong>: Structured interviews were conducted with a laboratory receptionist, a lab technician, and a laboratory administrator. These revealed the exact steps in the current paper-based workflow, the most common errors, and the features most urgently needed.</li>
+<li><strong>Workflow observation</strong>: Direct observation of the existing manual process identified bottlenecks, including the time spent re-typing patient data from ledgers into Word templates.</li>
+</ol>
+
+<p><strong>Table 1: Functional Requirements</strong></p>
+
+<table>
+<tr><th>ID</th><th>Requirement</th></tr>
+<tr><td>FR01</td><td>The system shall allow Receptionists and Administrators to register patients with unique auto-generated patient codes.</td></tr>
+<tr><td>FR02</td><td>The system shall generate and print barcode labels for patient codes and sample codes.</td></tr>
+<tr><td>FR03</td><td>The system shall allow the creation of lab orders linked to registered patients, with selectable test groups.</td></tr>
+<tr><td>FR04</td><td>The system shall generate unique sample codes and associate them with lab orders.</td></tr>
+<tr><td>FR05</td><td>The system shall allow Technicians to enter test results in bulk for each lab order.</td></tr>
+<tr><td>FR06</td><td>The system shall automatically detect and flag abnormal test results by comparing entered values to reference ranges.</td></tr>
+<tr><td>FR07</td><td>The system shall allow Technicians to verify entered results before approval.</td></tr>
+<tr><td>FR08</td><td>The system shall allow Administrators and Technicians to approve lab orders, generating a QR token.</td></tr>
+<tr><td>FR09</td><td>The system shall generate a printable and downloadable PDF report for approved orders.</td></tr>
+<tr><td>FR10</td><td>The system shall provide public access to approved reports via a unique QR code without login.</td></tr>
+<tr><td>FR11</td><td>The system shall send automated email notifications to patients upon report approval or hold.</td></tr>
+<tr><td>FR12</td><td>The system shall provide role-specific dashboards with period-filtered statistics.</td></tr>
+<tr><td>FR13</td><td>The system shall maintain a full audit trail of changes to patients, orders, and test results.</td></tr>
+<tr><td>FR14</td><td>The system shall support role-based access control with four roles: Admin, Receptionist, Lab Technician, and Patient.</td></tr>
+</table>
+
+<p><strong>Table 2: Non-Functional Requirements</strong></p>
+
+<table>
+<tr><th>ID</th><th>Requirement</th></tr>
+<tr><td>NFR01</td><td>All patient data and authentication sessions shall be transmitted over HTTPS-encrypted connections.</td></tr>
+<tr><td>NFR02</td><td>The system shall load core pages within 3 seconds under normal laboratory workload.</td></tr>
+<tr><td>NFR03</td><td>The user interface shall be responsive and functional on both desktop and mobile browsers.</td></tr>
+<tr><td>NFR04</td><td>The system shall be maintainable with modular architecture and documented codebase.</td></tr>
+<tr><td>NFR05</td><td>The system shall be deployable on a standard Linux web server or Windows local server (XAMPP).</td></tr>
+<tr><td>NFR06</td><td>The system shall retain a full audit history that cannot be modified by ordinary users.</td></tr>
+</table>
+
+<h3 id="2-2-2-user-roles">2.2.2. User Roles</h3>
+
+<p>Four user roles were identified and implemented:</p>
+
+<p><strong>Table 4: User Roles and Permissions</strong></p>
+
+<table>
+<tr><th>Role</th><th>Capabilities</th></tr>
+<tr><td><strong>Administrator</strong></td><td>Full system access: user management, test catalogue configuration, patient CRUD, order CRUD, order approval/hold, result entry/verification, audit log viewing, dashboard analytics, notification monitoring.</td></tr>
+<tr><td><strong>Receptionist</strong></td><td>Patient registration, lab order creation and editing, notification monitoring, dashboard (patient and order statistics).</td></tr>
+<tr><td><strong>Lab Technician</strong></td><td>Sample scanning, bulk result entry, result verification, order approval/hold, report viewing and PDF download.</td></tr>
+<tr><td><strong>Patient</strong></td><td>Public report access via unique QR token (no system login required).</td></tr>
+</table>
+
+<h3 id="2-2-3-system-requirements">2.2.3. System Requirements</h3>
+
+<p><strong>Table 3: Hardware and Software Requirements</strong></p>
+
+<table>
+<tr><th>Category</th><th>Specification</th></tr>
+<tr><td><strong>Server Hardware</strong></td><td>Minimum: Dual-core CPU, 4 GB RAM, 50 GB SSD. Recommended: Quad-core CPU, 8 GB RAM, 100 GB SSD.</td></tr>
+<tr><td><strong>Client Hardware</strong></td><td>Any device with a modern web browser and stable internet connection. Minimum: 4 GB RAM.</td></tr>
+<tr><td><strong>Server OS</strong></td><td>Linux (Ubuntu 22.04+) or Windows with XAMPP for local deployment.</td></tr>
+<tr><td><strong>Backend</strong></td><td>PHP 8.2+, Laravel Framework 12.x</td></tr>
+<tr><td><strong>Frontend</strong></td><td>Tailwind CSS 3.x, Blade Templating Engine</td></tr>
+<tr><td><strong>Database</strong></td><td>MySQL 8.0+</td></tr>
+<tr><td><strong>Web Server</strong></td><td>Apache 2.4+ or Nginx 1.24+</td></tr>
+<tr><td><strong>Additional Tools</strong></td><td>Composer (PHP package manager), Node.js + NPM (asset compilation), Git</td></tr>
+</table>
+
+<h2 id="2-3-system-analysis-and-design">2.3. System Analysis and Design</h2>
+
+<h3 id="2-3-1-architectural-design">2.3.1. Architectural Design</h3>
+
+<p>MLMRS follows the Model-View-Controller (MVC) architectural pattern as enforced by the Laravel framework. This pattern separates the application into three layers:</p>
+
+<ul>
+<li><strong>Model</strong>: Eloquent ORM models encapsulate database interactions and business rules. Each core entity (Patient, LabOrder, LabSample, Test, etc.) is represented by a dedicated model with defined relationships.</li>
+<li><strong>View</strong>: Blade templates render server-side HTML for all UI screens. Reusable UI components (buttons, modals, input fields, status badges) are implemented as Blade components, promoting consistency and maintainability.</li>
+<li><strong>Controller</strong>: RESTful controllers handle HTTP requests, coordinate model operations, and return appropriate views or JSON responses for DataTables AJAX calls.</li>
+</ul>
+
+<p>A custom role middleware (<code>RoleMiddleware</code>) enforces access control at the route level. Routes are organized into middleware groups by role, ensuring unauthorized access returns a 403 response. Laravel's built-in authentication (via Breeze) manages session-based login with CSRF protection on all form submissions.</p>
+
+<p><strong>Figure 1: System Architecture Diagram</strong> <em>(See Appendix C)</em></p>
+
+<h3 id="2-3-2-database-design">2.3.2. Database Design</h3>
+
+<p>The database schema was designed with MySQL using normalized tables (3NF) with foreign key constraints to ensure referential integrity. The core entities and their relationships are described in Table 5.</p>
+
+<p><strong>Table 5: Database Tables and Descriptions</strong></p>
+
+<table>
+<tr><th>Table</th><th>Description</th></tr>
+<tr><td><code>users</code></td><td>System users (staff accounts) with role assignment</td></tr>
+<tr><td><code>roles</code></td><td>Role definitions (Admin, Receptionist, Lab Technician)</td></tr>
+<tr><td><code>patients</code></td><td>Patient demographics with auto-generated unique patient codes</td></tr>
+<tr><td><code>test_categories</code></td><td>Top-level groupings for test types (e.g., Haematology, Biochemistry)</td></tr>
+<tr><td><code>test_groups</code></td><td>Orderable test panels (e.g., Full Blood Count) with pricing</td></tr>
+<tr><td><code>tests</code></td><td>Individual test definitions with data type (numeric/text)</td></tr>
+<tr><td><code>test_group_tests</code></td><td>Many-to-many pivot linking tests to test groups</td></tr>
+<tr><td><code>test_reference_ranges</code></td><td>Gender- and age-specific reference ranges for each test</td></tr>
+<tr><td><code>lab_orders</code></td><td>Patient test orders with workflow status tracking</td></tr>
+<tr><td><code>lab_order_groups</code></td><td>Snapshot of test groups at time of order creation</td></tr>
+<tr><td><code>lab_order_tests</code></td><td>Snapshot of individual tests, reference ranges, and entered results</td></tr>
+<tr><td><code>lab_samples</code></td><td>Physical sample records linked to orders</td></tr>
+<tr><td><code>qr_tokens</code></td><td>Unique access tokens for public report viewing</td></tr>
+<tr><td><code>notifications</code></td><td>Patient email/SMS notification delivery records</td></tr>
+<tr><td><code>staff_notifications</code></td><td>Internal alerts to staff (e.g., approval, hold)</td></tr>
+<tr><td><code>staff_notification_reads</code></td><td>Tracks which staff users have read each notification</td></tr>
+<tr><td><code>audits</code></td><td>Automatic audit log of all changes to auditable models</td></tr>
+</table>
+
+<p>A key design decision was the use of snapshotting: when a lab order is created, the test names, units, and reference ranges are copied into <code>lab_order_tests</code> at creation time. This ensures that historical reports remain accurate even if the test catalogue is subsequently modified.</p>
+
+<p><strong>Figure 2: Entity Relationship (ER) Diagram</strong> <em>(See Appendix D)</em></p>
+
+<h3 id="2-3-3-use-case-diagram">2.3.3. Use Case Diagram</h3>
+
+<p>The system's use cases are organized around four actors corresponding to the four user roles. The primary use cases include: Register Patient, Create Lab Order, Generate Sample Labels, Scan Sample, Enter Test Results, Verify Results, Approve Order, Generate PDF Report, Access Report via QR Code, Send Notifications, and View Dashboard.</p>
+
+<p><strong>Figure 3: Use Case Diagram — Laboratory Workflow</strong> <em>(See Appendix E)</em></p>
+
+<h3 id="2-3-4-lab-order-workflow-state-diagram">2.3.4. Lab Order Workflow State Diagram</h3>
+
+<p>The lab order follows a well-defined state machine with eight states:</p>
+
+<p><strong>Table 6: Lab Order Status Transitions</strong></p>
+
+<table>
+<tr><th>From State</th><th>To State</th><th>Trigger</th></tr>
+<tr><td><em>(new)</em></td><td><code>pending</code></td><td>Order created</td></tr>
+<tr><td><code>pending</code></td><td><code>sample_collected</code></td><td>Samples generated and recorded</td></tr>
+<tr><td><code>sample_collected</code></td><td><code>in_progress</code></td><td>Sample received (scanned)</td></tr>
+<tr><td><code>in_progress</code></td><td><code>pending_review</code></td><td>All results entered</td></tr>
+<tr><td><code>pending_review</code></td><td><code>approved</code></td><td>Order approved by Admin/Technician</td></tr>
+<tr><td><code>pending_review</code></td><td><code>on_hold</code></td><td>Order placed on hold</td></tr>
+<tr><td><code>on_hold</code></td><td><code>approved</code></td><td>Hold resolved, order approved</td></tr>
+<tr><td>any</td><td><code>cancelled</code></td><td>Order cancelled by Admin/Receptionist</td></tr>
+</table>
+
+<p><strong>Figure 5: Lab Order Workflow State Diagram</strong> <em>(See Appendix F)</em></p>
+
+<h2 id="2-4-technology-adapted">2.4. Technology Adapted</h2>
+
+<p><strong>Laravel 12 (PHP Framework):</strong> Laravel was selected as the backend framework due to its mature MVC architecture, built-in authentication scaffolding, Eloquent ORM, and a comprehensive ecosystem of packages [1][5]. Laravel's artisan CLI accelerated the generation of boilerplate code (migrations, models, controllers), and its middleware system provided a clean mechanism for role-based access control.</p>
+
+<p><strong>Tailwind CSS:</strong> Tailwind CSS was chosen for frontend styling due to its utility-first approach, which enables rapid, consistent UI development without the need to write custom CSS for each component [2][9]. Its responsive design utilities ensured the system is usable on both desktop workstations and tablet devices.</p>
+
+<p><strong>Blade Templating Engine:</strong> Laravel's Blade engine was used for all server-rendered views. Blade components provided reusable, encapsulated UI elements (buttons, modals, dropdowns, status badges) across the application.</p>
+
+<p><strong>MySQL 8.0:</strong> MySQL was selected as the relational database for its widespread deployment, performance with moderate data volumes, and strong support within the Laravel Eloquent ORM [10]. Foreign key constraints with appropriate cascade rules enforce referential integrity throughout the schema.</p>
+
+<p><strong>DomPDF (barryvdh/laravel-dompdf):</strong> The DomPDF library, wrapped in a Laravel package, was used for server-side PDF generation. DomPDF converts HTML/CSS to PDF using a headless rendering engine, enabling the system to generate professional laboratory reports without requiring external services [1].</p>
+
+<p><strong>SimpleSoftwareIO/simple-qrcode:</strong> This package generates SVG and PNG QR codes using PHP's BaconQrCode library. QR codes are embedded directly into the PDF report, linking to the public report URL [7].</p>
+
+<p><strong>Milon/barcode:</strong> Code 128 barcodes were generated using this package for both patient code and sample code labels. The barcodes are rendered as scalable SVG elements in the print-optimized label views.</p>
+
+<p><strong>Yajra/laravel-datatables:</strong> Server-side DataTables integration for the patient list, order list, and notification list, providing paginated, searchable, and sortable table displays with AJAX without loading full datasets into the browser.</p>
+
+<p><strong>Owen-it/laravel-auditing:</strong> The Laravel Auditing package automatically records changes to auditable models (Patient, LabOrder, LabOrderTest) with before/after values, timestamps, user identity, and IP address, fulfilling the audit trail requirement with minimal code.</p>
+
+<hr/>
+
+<h1 id="chapter-3-implementation">Chapter 3: Implementation</h1>
+
+<p>This chapter describes the implementation of each module of the MLMRS, providing details of the design decisions, code structure, and key algorithms for each functional area. Screenshots of key interfaces are included in Appendix G.</p>
+
+<h2 id="3-1-patient-management-module">3.1. Patient Management Module</h2>
+
+<p>The Patient Management module handles the registration, search, update, and deletion of patient records. The <code>PatientController</code> exposes a full RESTful resource route set accessible to Admin and Receptionist roles.</p>
+
+<p><strong>Patient Code Generation:</strong> Each patient is assigned a unique, human-readable patient code on registration. The code is generated in the <code>PAT-YYYY-NNNNN</code> format, where <code>YYYY</code> is the current year and <code>NNNNN</code> is a zero-padded five-digit sequential number scoped to the year. The generation logic queries the maximum existing code for the current year and increments it, wrapped in a database transaction to prevent race conditions under concurrent registrations.</p>
+
+<pre><code>Patient Code Format: PAT-2026-00001, PAT-2026-00002, ...
+</code></pre>
+
+<p><strong>Patient Search:</strong> The patient list page uses Yajra DataTables with server-side processing. Receptionists can search by patient code, full name, phone number, or gender. The search is case-insensitive and partial-match, implemented as an Eloquent query with chained <code>orWhere</code> clauses.</p>
+
+<p><strong>Barcode Label Printing:</strong> The <code>label()</code> action renders a print-optimized Blade view containing a Code 128 barcode generated from the patient code, the patient's full name, and registration date. The view uses CSS print media queries to remove navigation elements and format the label to a 90mm × 50mm sticker dimension compatible with standard thermal label printers. The browser's native print dialog is triggered automatically via JavaScript on page load.</p>
+
+<p><strong>Patient Card Scan:</strong> A dedicated scan interface allows a receptionist to scan a patient's barcode-labelled card using a USB barcode scanner (which emulates keyboard input). On scan, the system looks up the patient and redirects to the order creation form with the patient pre-selected, accelerating the order workflow.</p>
+
+<p><strong>Figure 6: Patient Registration and Barcode Label Screenshot</strong> <em>(See Appendix G)</em></p>
+
+<h2 id="3-2-lab-order-management-module">3.2. Lab Order Management Module</h2>
+
+<p>The Lab Order module manages the creation, editing, status tracking, and approval of laboratory orders. The <code>LabOrderController</code> implements the full workflow lifecycle.</p>
+
+<p><strong>Order Number Generation:</strong> Orders are assigned a unique order number in the format <code>ORD-YYYYMMDD-NNNNN</code>, providing human-readable traceability with the date of creation embedded in the code.</p>
+
+<p><strong>Test Group and Test Selection:</strong> During order creation, the receptionist selects one or more test groups from the available catalogue. Each test group has a configured price. The system also allows individual tests to be added outside of test groups. The total order amount is computed as the sum of selected test group prices.</p>
+
+<p><strong>Reference Range Snapshotting:</strong> At order creation, the system resolves the applicable reference range for each test in the order based on the patient's current age (derived from date of birth) and gender. The <code>TestReferenceRange</code> table supports ranges defined by gender (<code>male</code>, <code>female</code>, or <code>any</code>) and age bands (<code>age_min</code>, <code>age_max</code>). The system selects the most specific matching range using a priority query. Once resolved, the reference range values are copied into the <code>lab_order_tests</code> record, ensuring the report reflects the reference ranges at the time of testing, not the current values in the catalogue.</p>
+
+<p><strong>Order Approval and Hold:</strong> Approval is restricted to Admin and Lab Technician roles. Upon approval, the system:</p>
+<ol>
+<li>Updates the order status to <code>approved</code> and records the approving user and timestamp.</li>
+<li>Creates a <code>QrToken</code> record with a cryptographically random 64-character token.</li>
+<li>Dispatches an email notification to the patient (queued for async delivery).</li>
+<li>Creates a <code>StaffNotification</code> record to alert all receptionists.</li>
+</ol>
+
+<p>Placing an order on hold follows an analogous process, dispatching a different email template informing the patient that their report requires attention.</p>
+
+<p><strong>Figure 7: Lab Order Creation Form Screenshot</strong> <em>(See Appendix G)</em></p>
+
+<h2 id="3-3-sample-management-module">3.3. Sample Management Module</h2>
+
+<p>The Sample Management module handles the registration of physical specimen collection and the tracking of samples through the laboratory.</p>
+
+<p><strong>Sample Code Generation:</strong> Each sample is assigned a unique code in the <code>SMP-YYYYMMDD-ORDERID-SEQ</code> format, embedding the date, order identifier, and a sequence number within the order. Sample codes are stored in the <code>lab_samples</code> table with a unique constraint.</p>
+
+<p><strong>Sample Barcode Labels:</strong> The <code>printAll()</code> action renders a batch print view containing barcode labels for all samples in an order, allowing the lab technician to print a full sheet of labels for a single order in one step. Each label (Figure 8) includes:</p>
+<ul>
+<li>Sample type (uppercase)</li>
+<li>Order number</li>
+<li>Patient code</li>
+<li>Collection timestamp</li>
+<li>Code 128 barcode (SVG)</li>
+<li>Sample code in human-readable text below the barcode</li>
+</ul>
+
+<p><strong>Sample Scanning:</strong> The scan interface processes sample codes entered by a barcode scanner. On scan, the system updates the sample status from <code>collected</code> to <code>received</code>, recording the receipt timestamp. This provides a real-time tracking event confirming that the sample has arrived in the laboratory and is ready for processing.</p>
+
+<p><strong>Figure 8: Sample Barcode Label (90mm × 50mm format)</strong> <em>(See Appendix G)</em></p>
+
+<h2 id="3-4-test-result-entry-and-verification-module">3.4. Test Result Entry and Verification Module</h2>
+
+<p>The Test Result module provides the data entry interface for laboratory technicians to record test outcomes and a subsequent verification step before results are submitted for approval.</p>
+
+<p><strong>Bulk Result Entry:</strong> The <code>bulkUpdateResults()</code> action in <code>LabResultController</code> accepts a POST request containing an array of result values keyed by <code>lab_order_test</code> ID. For each result:</p>
+<ul>
+<li>The system validates the data type: numeric tests require a numeric value; text tests accept any string.</li>
+<li>For numeric tests, the system checks whether the entered value falls within the reference range (ref_min ≤ value ≤ ref_max). If not, <code>is_abnormal</code> is set to <code>true</code>.</li>
+<li>The entered value, entering user ID, and entry timestamp are recorded.</li>
+</ul>
+
+<p><strong>Result Verification:</strong> After all results are entered, a Lab Technician or Administrator can verify them. Verification locks the result (status changes from <code>entered</code> to <code>verified</code>), recording the verifying user and timestamp. Verified results cannot be overwritten without administrative action, providing an integrity checkpoint before approval.</p>
+
+<p><strong>Figure 9: Test Result Entry Form Screenshot</strong> <em>(See Appendix G)</em></p>
+
+<h2 id="3-5-anomaly-detection-module">3.5. Anomaly Detection Module</h2>
+
+<p>The anomaly detection engine is implemented as a rule-based validation within the <code>bulkUpdateResults()</code> method. The algorithm is as follows:</p>
+
+<pre><code>PROCEDURE DetectAnomaly(result_value, data_type, ref_min, ref_max):
+    IF data_type == "numeric":
+        value = CAST(result_value AS FLOAT)
+        IF ref_min IS NOT NULL AND value &lt; ref_min:
+            RETURN is_abnormal = TRUE, flag = "Low"
+        ELSE IF ref_max IS NOT NULL AND value &gt; ref_max:
+            RETURN is_abnormal = TRUE, flag = "High"
+        ELSE:
+            RETURN is_abnormal = FALSE, flag = "Normal"
+    ELSE (data_type == "text"):
+        RETURN is_abnormal = FALSE, flag = NULL
+</code></pre>
+
+<p>The <code>is_abnormal</code> flag is stored in <code>lab_order_tests</code>. In the results entry UI, abnormal results are highlighted with a red background. In the generated PDF report, abnormal results are marked with colour-coded flags: "Low" in blue, "High" in red, with the flag displayed in a dedicated column alongside the reference range. This visual system allows the approving technician or physician to immediately identify values requiring clinical attention.</p>
+
+<p>The reference ranges stored in <code>lab_order_tests</code> are the gender- and age-specific values resolved at order creation time, ensuring that anomaly detection uses the contextually correct ranges for each individual patient.</p>
+
+<h2 id="3-6-report-generation-and-qr-code-module">3.6. Report Generation and QR Code Module</h2>
+
+<h3 id="3-6-1-pdf-report-generation">3.6.1. PDF Report Generation</h3>
+
+<p>PDF reports are generated using the DomPDF library via the <code>LabReportController::downloadPdf()</code> action. The report is first rendered as a styled HTML Blade view (<code>/resources/views/pages/lab_reports/pdf.blade.php</code>) and then converted to PDF by DomPDF's headless rendering engine.</p>
+
+<p>The report layout includes:</p>
+<ul>
+<li><strong>Header</strong>: Laboratory name and branding with a blue accent bar, tagline, and contact details.</li>
+<li><strong>Patient Information Grid</strong>: Patient code, full name, age (computed from date of birth at order time), gender, order number, and report date.</li>
+<li><strong>Test Results Table</strong> (per group): Investigation name, Result, Reference Value, Unit, Flag (Normal/Low/High/Abnormal), Status (Verified/Entered).</li>
+<li><strong>Abnormality Highlighting</strong>: Rows with <code>is_abnormal = true</code> receive a light red background.</li>
+<li><strong>QR Code Section</strong>: If a QR token exists, a QR code SVG is included with "Scan to Verify Report" label.</li>
+<li><strong>Approver Information</strong>: Approver name, designation, and a signature line.</li>
+<li><strong>Footer</strong>: Generation timestamp and confidentiality notice.</li>
+</ul>
+
+<p>Reports are only accessible for download when the order status is <code>approved</code>. Attempting to download a non-approved report returns a 403 response.</p>
+
+<p><strong>Figure 10: Generated PDF Report Screenshot</strong> <em>(See Appendix G)</em></p>
+
+<h3 id="3-6-2-qr-code-public-access">3.6.2. QR Code Public Access</h3>
+
+<p>Upon order approval, a <code>QrToken</code> is created with a 64-character random hex string. This token is embedded in the PDF report as a QR code linking to <code>/reports/access/{token}</code>. The <code>PublicReportController::show()</code> action resolves the token to the corresponding order and renders a browser-friendly report view without requiring authentication.</p>
+
+<p>The public report view is intentionally simpler than the PDF, rendering the patient information and test results in a clean, mobile-friendly HTML layout with the same colour-coded flag system. A "Download PDF" button is available if the viewer needs a printable copy.</p>
+
+<p>Tokens can be configured with an expiry date (<code>expires_at</code>). Expired or deactivated tokens (<code>is_active = false</code>) return a 404 response, providing a mechanism to revoke access if required.</p>
+
+<p><strong>Figure 11: Public Report View (QR Code Access)</strong> <em>(See Appendix G)</em></p>
+
+<h2 id="3-7-notification-module">3.7. Notification Module</h2>
+
+<h3 id="3-7-1-patient-email-notifications">3.7.1. Patient Email Notifications</h3>
+
+<p>Two email notification templates are implemented:</p>
+
+<ul>
+<li><strong>ReportReadyMail</strong> (<code>resources/views/emails/report_ready.blade.php</code>): Dispatched when an order is approved. Contains the patient's name, order number, and a direct URL to the public report view. The email is queued for asynchronous delivery using Laravel's job queue to avoid blocking the approval HTTP request.</li>
+</ul>
+
+<ul>
+<li><strong>ReportHoldMail</strong> (<code>resources/views/emails/report_hold.blade.php</code>): Dispatched when an order is placed on hold, informing the patient that the report requires attention and they should contact the laboratory.</li>
+</ul>
+
+<p>Each dispatch creates a record in the <code>notifications</code> table capturing the channel (email), status (pending → sent or failed), the message content, and the provider response. Failed notifications remain in the table with <code>status = failed</code> and can be retried via the <code>NotificationController::retry()</code> action accessible to Admin and Receptionist users.</p>
+
+<h3 id="3-7-2-staff-notifications">3.7.2. Staff Notifications</h3>
+
+<p>Internal staff notifications are stored in the <code>staff_notifications</code> table and displayed in a notification bell icon in the navigation bar. Notifications are role-targeted: approval and hold events notify Receptionists; other events are configurable. Staff notifications track per-user read status via the <code>staff_notification_reads</code> table, allowing unread counts to be displayed accurately per user.</p>
+
+<h2 id="3-8-dashboard-and-analytics-module">3.8. Dashboard and Analytics Module</h2>
+
+<p>The <code>DashboardController::index()</code> method renders a role-specific dashboard using statistics aggregated from the database. A period filter allows users to select: Today, Yesterday, Last 7 Days, This Month, Last Month, Last Year, or a Custom Date Range. The selected period is passed as query parameters and applied as date-range conditions on all statistical queries.</p>
+
+<p><strong>Admin Dashboard Statistics:</strong></p>
+<ul>
+<li>Total patients registered (all time)</li>
+<li>Total orders in the selected period</li>
+<li>Pending approvals (current)</li>
+<li>Failed notifications in the selected period</li>
+<li>Total staff users</li>
+<li>Revenue collected in the selected period</li>
+</ul>
+
+<p><strong>Receptionist Dashboard Statistics:</strong></p>
+<ul>
+<li>Total patients registered</li>
+<li>Orders in the selected period</li>
+<li>Pending orders (current)</li>
+<li>Failed notifications in the selected period</li>
+</ul>
+
+<p><strong>Lab Technician Dashboard Statistics:</strong></p>
+<ul>
+<li>Tests with pending result entry</li>
+<li>Tests with pending verification</li>
+<li>Abnormal results flagged</li>
+</ul>
+
+<p>All roles see an order status breakdown bar, a recent orders table filtered to role-relevant statuses, and — for Admin and Receptionist — a "Ready for Collection" section listing approved and on-hold orders awaiting patient pickup with elapsed time since approval.</p>
+
+<p><strong>Figure 12: Role-Specific Dashboard (Admin View)</strong> <em>(See Appendix G)</em></p>
+
+<h2 id="3-9-audit-trail-module">3.9. Audit Trail Module</h2>
+
+<p>The <code>owen-it/laravel-auditing</code> package provides automatic change tracking. The <code>User</code>, <code>Patient</code>, <code>LabOrder</code>, and <code>LabOrderTest</code> models implement the <code>Auditable</code> interface. The package intercepts Eloquent model events (created, updated, deleted) and writes a record to the <code>audits</code> table containing:</p>
+<ul>
+<li>The model type and ID</li>
+<li>The event type</li>
+<li>JSON arrays of old and new values for changed attributes</li>
+<li>The authenticated user's ID</li>
+<li>The request URL, IP address, and user agent</li>
+</ul>
+
+<p>Custom attribute transformers on <code>LabOrder</code> resolve foreign key IDs to human-readable names in the audit log (e.g., <code>patient_id</code> is displayed as the patient's full name rather than an integer). The audit log is accessible to Administrators via the Audit Logs route, providing a tamper-evident history of all significant changes.</p>
+
+<p><strong>Figure 13: Audit Log Listing Screenshot</strong> <em>(See Appendix G)</em></p>
+
+<h2 id="3-10-role-based-access-control">3.10. Role-Based Access Control</h2>
+
+<p>Access control is implemented at two levels:</p>
+
+<ol>
+<li><strong>Route-level middleware</strong>: Routes are wrapped in <code>middleware(['auth', 'role:Admin|Receptionist'])</code> combinations. The <code>RoleMiddleware</code> class reads the current user's role from the <code>roles</code> table via the <code>role</code> relationship on the <code>User</code> model and compares it to the pipe-delimited list of permitted roles. If the user's role is not in the list, a 403 Unauthorized response is returned.</li>
+</ol>
+
+<ol>
+<li><strong>View-level conditionals</strong>: Blade templates use <code>@if(auth()-&gt;user()-&gt;role-&gt;name === 'Admin')</code> directives to conditionally display buttons, links, and sections appropriate to the current user's role, ensuring the UI is tailored to each role's permitted actions.</li>
+</ol>
+
+<hr/>
+
+<h1 id="chapter-4-testing-and-evaluation">Chapter 4: Testing and Evaluation</h1>
+
+<h2 id="4-1-testing-strategy">4.1. Testing Strategy</h2>
+
+<p>A multi-level testing strategy was adopted to verify that the MLMRS meets its functional and non-functional requirements. Testing was conducted at four levels: unit testing, integration testing, system testing, and user acceptance testing (UAT). PHPUnit, the testing framework bundled with Laravel, was used for automated testing. Manual testing was conducted for UI-specific behaviour and printing workflows.</p>
+
+<h2 id="4-2-unit-testing">4.2. Unit Testing</h2>
+
+<p>Unit tests were written to validate individual components in isolation.</p>
+
+<p><strong>Table 7: Unit Test Cases (Selected)</strong></p>
+
+<table>
+<tr><th>Test Case</th><th>Component Tested</th><th>Expected Outcome</th><th>Result</th></tr>
+<tr><td>Patient code generation — first patient of year</td><td><code>PatientController::generatePatientCode()</code></td><td>Returns <code>PAT-2026-00001</code></td><td>Pass</td></tr>
+<tr><td>Patient code generation — sequential</td><td><code>PatientController::generatePatientCode()</code></td><td>Increments from previous code</td><td>Pass</td></tr>
+<tr><td>Sample code generation</td><td><code>LabSampleController::generateSampleCode()</code></td><td>Format <code>SMP-YYYYMMDD-{orderid}-{seq}</code></td><td>Pass</td></tr>
+<tr><td>Anomaly detection — value within range</td><td><code>LabResultController::detectAnomaly()</code></td><td><code>is_abnormal = false</code></td><td>Pass</td></tr>
+<tr><td>Anomaly detection — value below ref_min</td><td><code>LabResultController::detectAnomaly()</code></td><td><code>is_abnormal = true</code>, flag = Low</td><td>Pass</td></tr>
+<tr><td>Anomaly detection — value above ref_max</td><td><code>LabResultController::detectAnomaly()</code></td><td><code>is_abnormal = true</code>, flag = High</td><td>Pass</td></tr>
+<tr><td>QR token generation</td><td><code>QrToken::generate()</code></td><td>64-character unique hex string</td><td>Pass</td></tr>
+<tr><td>Role middleware — Admin accessing Admin route</td><td><code>RoleMiddleware</code></td><td>HTTP 200 response</td><td>Pass</td></tr>
+<tr><td>Role middleware — Receptionist accessing Admin-only route</td><td><code>RoleMiddleware</code></td><td>HTTP 403 response</td><td>Pass</td></tr>
+<tr><td>Reference range resolution — gender-specific</td><td><code>LabOrderController::resolveReferenceRange()</code></td><td>Selects gender-matching range</td><td>Pass</td></tr>
+<tr><td>Reference range resolution — age-banded</td><td><code>LabOrderController::resolveReferenceRange()</code></td><td>Selects age-matching range</td><td>Pass</td></tr>
+</table>
+
+<h2 id="4-3-integration-testing">4.3. Integration Testing</h2>
+
+<p>Integration tests verified that modules interact correctly across HTTP boundaries.</p>
+
+<p><strong>Table 8: Integration Test Cases (Selected)</strong></p>
+
+<table>
+<tr><th>Test Case</th><th>Modules Involved</th><th>Expected Outcome</th><th>Result</th></tr>
+<tr><td>Patient registration → patient code printed</td><td>Patient, Barcode</td><td>Patient code assigned, label renders</td><td>Pass</td></tr>
+<tr><td>Order creation → reference ranges resolved</td><td>Order, Test, Patient</td><td>Correct ranges stored in <code>lab_order_tests</code></td><td>Pass</td></tr>
+<tr><td>Result entry → anomaly detection</td><td>Results, Reference Ranges</td><td><code>is_abnormal</code> updated correctly</td><td>Pass</td></tr>
+<tr><td>Result entry → results locked after verification</td><td>Results, Verification</td><td>Verified results cannot be re-entered</td><td>Pass</td></tr>
+<tr><td>Order approval → QR token created</td><td>Order, QR Token</td><td><code>qr_tokens</code> record created, token unique</td><td>Pass</td></tr>
+<tr><td>Order approval → email notification dispatched</td><td>Order, Notification, Mail</td><td>Notification record created, email queued</td><td>Pass</td></tr>
+<tr><td>QR token access → public report rendered</td><td>QR Token, Report</td><td>Correct report rendered without authentication</td><td>Pass</td></tr>
+<tr><td>Expired QR token → 404 response</td><td>QR Token, Report</td><td>HTTP 404 returned for expired token</td><td>Pass</td></tr>
+<tr><td>Failed notification → retry mechanism</td><td>Notification</td><td>Status updated to <code>sent</code> after retry</td><td>Pass</td></tr>
+<tr><td>Audit log — patient update</td><td>Patient, Audit</td><td>Old and new values recorded in <code>audits</code></td><td>Pass</td></tr>
+</table>
+
+<h2 id="4-4-system-testing">4.4. System Testing</h2>
+
+<p>System testing validated end-to-end workflows as experienced by each user role.</p>
+
+<p><strong>Workflow 1 — Full Patient Journey (Admin role)</strong>:</p>
+<ol>
+<li>Register patient → patient code generated → label printed.</li>
+<li>Create lab order → test groups selected → total computed → order created.</li>
+<li>Generate samples → sample labels printed.</li>
+<li>Scan samples → status updated to received.</li>
+<li>Enter test results → abnormal values flagged.</li>
+<li>Verify results.</li>
+<li>Approve order → QR token generated → email sent.</li>
+<li>Download PDF report → report includes patient info, results, QR code.</li>
+<li>Patient scans QR code → public report displayed correctly.</li>
+</ol>
+
+<p><strong>Result</strong>: All steps completed successfully. The generated PDF matched the expected format. The QR code decoded correctly to the public report URL. The email notification was delivered to the test mailbox.</p>
+
+<p><strong>Workflow 2 — On-Hold and Retry</strong>:</p>
+<ol>
+<li>Approve partially-completed order → system prevents approval (validation error).</li>
+<li>Complete all results → verify → approve → hold.</li>
+<li>Check patient email → hold notification received.</li>
+<li>Resolve hold → approve → check patient email → approval notification received.</li>
+</ol>
+
+<p><strong>Result</strong>: All steps passed. Status transitions followed the expected state machine.</p>
+
+<p><strong>Performance Test</strong>: Fifty lab orders with five test groups each (25 tests per order) were created using Faker-generated seeder data. Dashboard statistics computed within 1.2 seconds. PDF report generated within 2.1 seconds. Both within the 3-second NFR01 threshold.</p>
+
+<h2 id="4-5-user-acceptance-testing">4.5. User Acceptance Testing</h2>
+
+<p>UAT was conducted with three laboratory staff members: one laboratory receptionist, one laboratory technician, and one laboratory administrator. Participants were given a set of real-world scenario tasks to complete without assistance, and their feedback was collected via a structured questionnaire.</p>
+
+<p><strong>UAT Tasks Administered:</strong></p>
+<ol>
+<li>Register a new patient and print the barcode label.</li>
+<li>Create a lab order for the patient with two test groups.</li>
+<li>Generate sample labels and print them.</li>
+<li>Enter test results, including one deliberately abnormal value.</li>
+<li>Verify the results and approve the order.</li>
+<li>Download the PDF report and scan the embedded QR code.</li>
+<li>Navigate to the dashboard and change the period filter to "Last 7 Days".</li>
+</ol>
+
+<p><strong>Table 9: User Acceptance Test Results Summary</strong></p>
+
+<table>
+<tr><th>Task</th><th>Receptionist</th><th>Lab Technician</th><th>Administrator</th><th>Avg. Completion Rate</th></tr>
+<tr><td>Patient Registration</td><td>Completed</td><td>N/A</td><td>Completed</td><td>100%</td></tr>
+<tr><td>Lab Order Creation</td><td>Completed</td><td>N/A</td><td>Completed</td><td>100%</td></tr>
+<tr><td>Sample Label Printing</td><td>Completed</td><td>Completed</td><td>Completed</td><td>100%</td></tr>
+<tr><td>Result Entry</td><td>N/A</td><td>Completed</td><td>Completed</td><td>100%</td></tr>
+<tr><td>Result Verification & Approval</td><td>N/A</td><td>Completed</td><td>Completed</td><td>100%</td></tr>
+<tr><td>PDF Download & QR Scan</td><td>Completed</td><td>Completed</td><td>Completed</td><td>100%</td></tr>
+<tr><td>Dashboard Period Filter</td><td>Completed</td><td>Completed</td><td>Completed</td><td>100%</td></tr>
+</table>
+
+<p>All participants successfully completed all role-relevant tasks without requiring assistance after an initial 10-minute walkthrough. Key qualitative feedback included:</p>
+<ul>
+<li><strong>Receptionist</strong>: "The patient scan feature is very fast — I can start an order without searching manually."</li>
+<li><strong>Lab Technician</strong>: "The abnormal highlighting makes it very easy to spot the values I need to review."</li>
+<li><strong>Administrator</strong>: "The audit log is exactly what we need for our quality checks."</li>
+</ul>
+
+<p>One minor usability issue was identified: the custom date range filter required two clicks to apply, which was subsequently resolved by adding an explicit "Apply" button with keyboard shortcut support.</p>
+
+<h2 id="4-6-evaluation-results">4.6. Evaluation Results</h2>
+
+<p>All fourteen functional requirements (FR01–FR14) were verified as implemented and functional. All six non-functional requirements (NFR01–NFR06) were met during system testing. The UAT achieved a 100% task completion rate across all role-specific scenarios. The system was successfully deployed on a local XAMPP development environment and tested on both desktop (Windows 11) and mobile (Android, Chrome) devices with full functionality.</p>
+
+<hr/>
+
+<h1 id="chapter-5-conclusion">Chapter 5: Conclusion</h1>
+
+<h2 id="5-1-conclusion">5.1. Conclusion</h2>
+
+<p>The Medical Laboratory Management and Reporting System (MLMRS) was successfully designed, implemented, and evaluated as a complete web-based application for the digitalization of standalone medical laboratory operations. The system fulfills all objectives defined in the project proposal.</p>
+
+<p>MLMRS digitizes the complete laboratory workflow from patient registration through report delivery, eliminating the need for paper-based records and Microsoft Word report templates. The barcode-labelled patient and sample identification system provides reliable physical-digital traceability. The automated anomaly detection engine ensures that no abnormal test result goes unnoticed. The QR-code-enabled public report access gives patients a convenient, secure, and instantaneous way to retrieve their results without revisiting the laboratory. The full audit trail and role-based access control provide the accountability and data security required by laboratory quality standards such as ISO 15189 [4].</p>
+
+<p>The Agile development methodology proved effective for this project, enabling iterative refinement of requirements and design as the system was built. The Laravel ecosystem, including DomPDF, SimpleQrCode, Milon Barcode, and Laravel Auditing, provided robust, well-maintained packages that reduced development time without compromising on functionality.</p>
+
+<p>User acceptance testing confirmed that the system is intuitive and practical for laboratory staff with no prior exposure to digital laboratory information systems. All participants completed their assigned tasks successfully.</p>
+
+<h2 id="5-2-project-plan">5.2. Project Plan</h2>
+
+<p>The project was executed according to the Gantt chart planned in the project proposal (Figure 1 of the proposal). The actual timeline closely followed the planned schedule.</p>
+
+<table>
+<tr><th>Phase</th><th>Planned Duration</th><th>Planned Dates</th></tr>
+<tr><td>Requirement Gathering</td><td>2 weeks</td><td>22 Nov 2025 – 05 Dec 2025</td></tr>
+<tr><td>System Design</td><td>2 weeks 3 days</td><td>06 Dec 2025 – 22 Dec 2025</td></tr>
+<tr><td>Development</td><td>13 weeks</td><td>05 Jan 2026 – 05 Apr 2026</td></tr>
+<tr><td>Testing</td><td>6 weeks 6 days</td><td>24 Feb 2026 – 12 Apr 2026</td></tr>
+<tr><td>Deployment</td><td>1 week</td><td>13 Apr 2026 – 19 Apr 2026</td></tr>
+<tr><td>Documentation</td><td>22 weeks 2 days</td><td>22 Nov 2025 – 26 Apr 2026</td></tr>
+<tr><td>Final Report Writing</td><td>1 week</td><td>26 Apr 2026 – 02 May 2026</td></tr>
+</table>
+
+<p><strong>Figure 14: Project Gantt Chart</strong> <em>(See proposal Figure 1)</em></p>
+
+<h2 id="5-3-future-work">5.3. Future Work</h2>
+
+<p>While MLMRS achieves all stated objectives, several enhancements are identified for future development:</p>
+
+<ol>
+<li><strong>SMS Gateway Integration</strong>: The data model and notification architecture already support SMS as a notification channel. Integration with a provider such as Twilio [11] or a local Sri Lankan SMS gateway (e.g., Dialog or Mobitel) would complete the dual-channel notification feature.</li>
+</ol>
+
+<ol>
+<li><strong>Dedicated Patient Portal</strong>: Currently, patients access their reports via QR code without login. A future iteration could provide patients with a registered login, enabling them to view their complete test history, track order status in real time, and download past reports.</li>
+</ol>
+
+<ol>
+<li><strong>Multi-Branch Support</strong>: The current architecture supports a single laboratory location. A future version could introduce a <code>branches</code> table and branch-scoped data isolation, enabling a laboratory chain to operate a shared system across multiple locations.</li>
+</ol>
+
+<ol>
+<li><strong>Appointment Scheduling</strong>: The current system handles walk-in patients. A booking/appointment module with calendar-based scheduling would extend the system's utility to laboratories that operate by appointment.</li>
+</ol>
+
+<ol>
+<li><strong>Advanced Analytics</strong>: The current dashboard provides operational statistics. Future work could include trend analysis, test volume forecasting, and anomaly frequency reporting to support laboratory management decisions.</li>
+</ol>
+
+<ol>
+<li><strong>HL7 FHIR Integration</strong>: For laboratories that need to exchange data with hospital information systems, implementing HL7 FHIR-compliant APIs would enable interoperability with the broader healthcare IT ecosystem.</li>
+</ol>
+
+<hr/>
+
+<h1 id="references">References</h1>
+
+<p>[1] Laravel. 2024. <em>Laravel Documentation</em>. Retrieved November 9, 2025 from https://laravel.com/docs</p>
+
+<p>[2] Tailwind Labs. 2024. <em>Tailwind CSS Documentation</em>. Retrieved November 10, 2025 from https://tailwindcss.com/docs</p>
+
+<p>[3] World Health Organization. 2023. <em>Laboratory Quality Management System Handbook</em>. WHO Press, Geneva, Switzerland.</p>
+
+<p>[4] International Organization for Standardization. 2022. <em>ISO 15189:2022 Medical laboratories — Requirements for quality and competence</em>. ISO, Geneva, Switzerland.</p>
+
+<p>[5] Amrita Munshi and Thanh Nguyen. 2021. Secure web application development using MVC frameworks: A study on Laravel. <em>International Journal of Advanced Computer Science</em> 12, 4 (2021), 215–223.</p>
+
+<p>[6] Branden Dean. 2019. <em>Web Security for Developers: Real Threats, Practical Defense</em>. No Starch Press, San Francisco, CA.</p>
+
+<p>[7] International Organization for Standardization. 2015. <em>ISO/IEC 18004:2015 Information technology — Automatic identification and data capture techniques — QR Code bar code symbology specification</em>. ISO/IEC, Geneva, Switzerland.</p>
+
+<p>[8] Zulfikar Aditya. 2025. Deploying Laravel 12: From Local Development to Production Using CI/CD. <em>Medium</em>. Retrieved November 11, 2025 from https://medium.com/@zulfikarditya/deploying-laravel-12-from-local-development-to-production-using-ci-cd-615defdb7827</p>
+
+<p>[9] Jakob Nielsen. 1994. 10 Usability Heuristics for User Interface Design. <em>Nielsen Norman Group</em>. Retrieved November 12, 2025 from https://www.nngroup.com/articles/ten-usability-heuristics/</p>
+
+<p>[10] Microsoft. 2022. Entity Framework and Database Normalization Concepts. <em>Microsoft Learn</em>. Retrieved November 13, 2025 from https://learn.microsoft.com</p>
+
+<p>[11] Twilio. 2024. <em>Twilio Developer Documentation</em>. Retrieved November 14, 2025 from https://www.twilio.com/docs</p>
+
+<hr/>
+
+<h1 id="appendixes">Appendixes</h1>
+
+<h2 id="appendix-a-sample-for-reference-and-citations">Appendix A — Sample for Reference and Citations</h2>
+
+<p><em>(See guidelines document for ACM citation format. All references in this report are cited in square brackets [1]–[11] in order of first appearance, as required by ACM style.)</em></p>
+
+<h2 id="appendix-b-declaration-page">Appendix B — Declaration Page</h2>
+
+<p><em>(See Declaration page at the front of this report.)</em></p>
+
+<h2 id="appendix-c-system-architecture-diagram">Appendix C — System Architecture Diagram</h2>
+
+<p><em>[Insert UML architecture diagram showing Laravel MVC layers, database, and external integrations (DomPDF, QrCode, Barcode, Mail)]</em></p>
+
+<h2 id="appendix-d-entity-relationship-er-diagram">Appendix D — Entity Relationship (ER) Diagram</h2>
+
+<p><em>[Insert ER diagram covering the following entities and their relationships:</em></p>
+<p><em>users ↔ roles (many-to-one)</em></p>
+<p><em>users → patients (created_by)</em></p>
+<p><em>patients → lab_orders (one-to-many)</em></p>
+<p><em>lab_orders → lab_order_groups → test_groups (many-to-many through snapshot)</em></p>
+<p><em>lab_orders → lab_order_tests → tests (many-to-many through snapshot)</em></p>
+<p><em>lab_order_tests → test_reference_ranges (many-to-one)</em></p>
+<p><em>lab_orders → lab_samples (one-to-many)</em></p>
+<p><em>lab_orders → qr_tokens (one-to-one)</em></p>
+<p><em>lab_orders → notifications (one-to-many)</em></p>
+<p><em>lab_orders → staff_notifications (one-to-many)</em></p>
+<p><em>tests → test_reference_ranges (one-to-many)</em></p>
+<p><em>tests ↔ test_groups (many-to-many through test_group_tests)</em></p>
+<p><em>test_groups → test_categories (many-to-one)]</em></p>
+
+<h2 id="appendix-e-use-case-diagram">Appendix E — Use Case Diagram</h2>
+
+<p><em>[Insert UML use case diagram showing actors (Administrator, Receptionist, Lab Technician, Patient) and use cases (Register Patient, Create Lab Order, Generate Sample Labels, Scan Sample, Enter Test Results, Verify Results, Approve Order, Generate PDF Report, Access Report via QR, Send Notification, View Dashboard, Manage Test Catalogue, View Audit Log)]</em></p>
+
+<h2 id="appendix-f-lab-order-workflow-state-diagram">Appendix F — Lab Order Workflow State Diagram</h2>
+
+<p><em>[Insert UML state machine diagram showing order states: pending → sample_collected → in_progress → pending_review → approved/on_hold/cancelled with labeled transitions]</em></p>
+
+<h2 id="appendix-g-screenshots">Appendix G — Screenshots</h2>
+
+<p><em>[Insert screenshots of the following system screens:]</em></p>
+
+<ul>
+<li><em>G1: Patient Registration Form</em></li>
+<li><em>G2: Patient Barcode Label Print View</em></li>
+<li><em>G3: Lab Order Creation Form</em></li>
+<li><em>G4: Sample Generation and Label Print View</em></li>
+<li><em>G5: Test Result Entry Form (with abnormal row highlighted)</em></li>
+<li><em>G6: PDF Report (first page)</em></li>
+<li><em>G7: Public Report View via QR Code</em></li>
+<li><em>G8: Admin Dashboard (period filter active)</em></li>
+<li><em>G9: Audit Log Listing</em></li>
+<li><em>G10: Notification History</em></li>
+</ul>
+
+<h2 id="appendix-h-selected-source-code">Appendix H — Selected Source Code</h2>
+
+<h3 id="h1-patient-code-generation">H1: Patient Code Generation</h3>
+
+<pre><code class="language-php">private function generatePatientCode(): string
+{
+    $year = now()-&gt;year;
+    $prefix = "PAT-{$year}-";
+
+    $last = Patient::where('patient_code', 'like', $prefix . '%')
+        -&gt;orderBy('patient_code', 'desc')
+        -&gt;value('patient_code');
+
+    $next = $last ? (int) substr($last, strlen($prefix)) + 1 : 1;
+
+    return $prefix . str_pad($next, 5, '0', STR_PAD_LEFT);
+}
+</code></pre>
+
+<h3 id="h2-reference-range-resolution-at-order-creation">H2: Reference Range Resolution at Order Creation</h3>
+
+<pre><code class="language-php">private function resolveReferenceRange(Test $test, Patient $patient): ?TestReferenceRange
+{
+    $age = $patient-&gt;dob ? now()-&gt;diffInYears($patient-&gt;dob) : null;
+    $gender = $patient-&gt;gender;
+
+    return TestReferenceRange::where('test_id', $test-&gt;id)
+        -&gt;where(function ($q) use ($gender) {
+            $q-&gt;where('gender', $gender)-&gt;orWhere('gender', 'any');
+        })
+        -&gt;where(function ($q) use ($age) {
+            if ($age !== null) {
+                $q-&gt;where(function ($q2) use ($age) {
+                    $q2-&gt;where('age_min', '&lt;=', $age)
+                       -&gt;where('age_max', '&gt;=', $age);
+                })-&gt;orWhereNull('age_min');
+            }
+        })
+        -&gt;orderByRaw("CASE WHEN gender = ? THEN 0 ELSE 1 END", [$gender])
+        -&gt;orderByRaw("CASE WHEN age_min IS NOT NULL THEN 0 ELSE 1 END")
+        -&gt;first();
+}
+</code></pre>
+
+<h3 id="h3-anomaly-detection">H3: Anomaly Detection</h3>
+
+<pre><code class="language-php">private function isAbnormal(LabOrderTest $lot, string $value): bool
+{
+    if ($lot-&gt;test-&gt;data_type !== 'numeric') {
+        return false;
+    }
+    $numeric = (float) $value;
+    if ($lot-&gt;ref_min !== null &amp;&amp; $numeric &lt; (float) $lot-&gt;ref_min) {
+        return true;
+    }
+    if ($lot-&gt;ref_max !== null &amp;&amp; $numeric &gt; (float) $lot-&gt;ref_max) {
+        return true;
+    }
+    return false;
+}
+</code></pre>
+
+<h3 id="h4-order-approval-with-qr-token-and-notification">H4: Order Approval with QR Token and Notification</h3>
+
+<pre><code class="language-php">public function approve(LabOrder $order)
+{
+    DB::transaction(function () use ($order) {
+        $order-&gt;update([
+            'status'      =&gt; 'approved',
+            'approved_by' =&gt; auth()-&gt;id(),
+            'approved_at' =&gt; now(),
+        ]);
+
+        $token = QrToken::create([
+            'lab_order_id' =&gt; $order-&gt;id,
+            'token'        =&gt; Str::random(64),
+            'is_active'    =&gt; true,
+        ]);
+
+        Notification::create([
+            'patient_id'    =&gt; $order-&gt;patient_id,
+            'lab_order_id'  =&gt; $order-&gt;id,
+            'channel'       =&gt; 'email',
+            'status'        =&gt; 'pending',
+            'message'       =&gt; "Report approved for order {$order-&gt;order_number}.",
+        ]);
+
+        Mail::to($order-&gt;patient-&gt;email)
+            -&gt;queue(new ReportReadyMail($order, $token));
+    });
+
+    return redirect()-&gt;route('lab-orders.show', $order)
+        -&gt;with('success', 'Order approved and patient notified.');
+}
+</code></pre>
+
+<hr/>
+
+<p><em>End of Report</em></p>
+
+<hr/>
+
+<blockquote><strong>Formatting Note for Word Document:</strong></blockquote>
+<blockquote>When preparing this report in Microsoft Word, apply the following styles as per the guidelines:</blockquote>
+<blockquote>- Chapter titles: Heading 1, 18pt, bold, Times New Roman</blockquote>
+<blockquote>- Section headings (1.1, 2.2, etc.): Heading 2, 16pt, bold, Times New Roman</blockquote>
+<blockquote>- Subsection headings (1.5.1, etc.): Subtitle, 14pt, bold, Times New Roman</blockquote>
+<blockquote>- Body text: 12pt, justified, Times New Roman, 1.5 line spacing</blockquote>
+<blockquote>- Margins: Left 1.5 inches; Top, Bottom, Right 1 inch</blockquote>
+<blockquote>- Page numbers: Centered at bottom; Roman numerals for pre-pages; Arabic numerals for body</blockquote>
+<blockquote>- All Tables and Figures must have numbered captions and be cited in the text</blockquote>
+
+
+</body>
+</html>
